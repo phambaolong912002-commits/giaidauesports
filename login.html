@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Riot Games - Sign In</title>
+<!-- Google Fonts: Inter & Outfit for authentic esports feel -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Outfit:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            riot: {
+              red: '#EB0029',
+              redHover: '#cc0024',
+              dark: '#111111',
+              charcoal: '#1c1c1c',
+              border: 'rgba(255, 255, 255, 0.12)',
+              input: '#f2f2f2'
+            },
+            valBlue: '#00F0FF',
+            arcaneGlow: '#0ac8b9'
+          },
+          boxShadow: {
+            'riot-card': '0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 40px rgba(0, 0, 0, 0.6)',
+            'riot-glow': '0 0 25px rgba(235, 0, 41, 0.6)',
+            'btn-shadow': '0 4px 14px rgba(0, 0, 0, 0.3)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles: Background Composition & Interactive Effects -->
+<style data-purpose="background-layers">
+    /* Crisp single high-resolution wallpaper background */
+    .hero-bg-wrapper {
+      background-image: 
+        linear-gradient(to bottom, rgba(7, 9, 15, 0.4) 0%, rgba(7, 9, 15, 0.7) 100%),
+        url('https://lh3.googleusercontent.com/aida/AEtjO1WeXoBS-5wkrjfxlNAZaUK_5AzLcw-vVwsTjvJOf-g6r2Mae839FTTOWJ9eP2gnsUNN2IKeIROfAXSa3cW6SMTWN3QcrxqUq0TMgZ68ogSTpex5vArJNd7yziKYL0ujFbEqQwCGXIVpWsyssT1l4lafA3z4mxWj1GyU57SiwBScN09F2g1R_7K43Ncnh2_Hj7k1mimrsKJ1ofzCqvTZdLTPTih-WR1PquEmaxwITGoVqxTWW0ZNeKdrGCvd');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+  </style>
+<style data-purpose="input-and-card-styling">
+    /* Floating label modern smooth transitions */
+    .field-wrapper {
+      position: relative;
+    }
+    .field-input:focus ~ .field-label,
+    .field-input:not(:placeholder-shown) ~ .field-label {
+      transform: translateY(-0.85rem) scale(0.72);
+      color: #94a3b8;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .field-label {
+      transform-origin: left top;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    /* Sleek custom scroll & outline resets */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0px 1000px rgba(15, 23, 42, 0.9) inset;
+      -webkit-text-fill-color: #fff;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  </style>
+</head>
+<body class="h-full bg-[#07090f] text-gray-100 font-sans antialiased select-none overflow-x-hidden">
+<!-- BEGIN: MainContainer -->
+<div class="hero-bg-wrapper relative min-h-screen w-full flex flex-col justify-between items-center p-4 sm:p-6 md:p-8" data-purpose="page-wrapper">
+<!-- BEGIN: TopBar -->
+<!-- Official Riot Topbar Navigation -->
+<header class="w-full max-w-7xl flex items-center justify-between z-20" data-purpose="top-navigation-bar">
+<!-- Riot Games Official Brand Logo -->
+<a aria-label="Riot Games Home" class="group flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-riot-red/50 rounded-lg p-1 transition-transform active:scale-95" href="#">
+<div class="flex items-center text-white fill-current">
+<!-- Riot Fist Vector Icon -->
+<svg class="w-10 h-10 transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_0_12px_rgba(235,0,41,0.5)]" fill="none" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.6667 30.5556L33.3333 13.8889L35.5556 31.6667L24.4444 33.8889L25 43.3333L48.3333 38.3333L51.1111 58.8889L36.6667 61.1111L37.7778 70.5556L66.6667 63.8889L70 86.1111L18.8889 97.2222L11.6667 30.5556Z" fill="#EB0029"></path>
+<path d="M78.8889 13.8889L90.5556 46.1111L76.6667 48.8889L74.4444 33.3333L78.8889 13.8889Z" fill="#EB0029"></path>
+<path d="M57.7778 19.4444L72.2222 51.6667L59.4444 54.4444L54.4444 33.8889L57.7778 19.4444Z" fill="#EB0029"></path>
+<path d="M38.8889 25L53.3333 57.2222L41.6667 59.4444L36.1111 39.4444L38.8889 25Z" fill="#EB0029"></path>
+</svg>
+<!-- Riot Games Wordmark -->
+<div class="ml-2.5 flex flex-col tracking-tight drop-shadow-md">
+<span class="font-display font-black text-2xl md:text-3xl leading-none uppercase tracking-wider text-white">RIOT</span>
+<span class="font-sans font-bold text-[9px] md:text-[10px] tracking-[0.28em] text-white/80 uppercase">G A M E S</span>
+</div>
+</div>
+</a>
+<!-- Client Utility Controls (Language & Window Controls) -->
+<div class="flex items-center gap-2 sm:gap-3 text-white/80">
+<!-- Language Selector -->
+<button aria-label="Change language" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/50 hover:bg-black/70 border border-white/15 hover:border-white/30 text-xs font-semibold backdrop-blur-md transition-all text-white shadow-lg" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>EN</span>
+<svg class="w-3 h-3 text-white/60" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<!-- Mock Client Minimize & Close window buttons -->
+<div class="hidden sm:flex items-center gap-1 bg-black/50 border border-white/15 rounded-full px-2 py-1 backdrop-blur-md shadow-lg">
+<button aria-label="Minimize Window" class="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors text-white/60 hover:text-white" type="button">
+<svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M20 12H4" stroke-linecap="round" stroke-width="2.5"></path></svg>
+</button>
+<button aria-label="Close Window" class="w-6 h-6 rounded-full hover:bg-red-500/80 flex items-center justify-center transition-colors text-white/60 hover:text-white" type="button">
+<svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-width="2.5"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: CenteredAuthCard -->
+<!-- Sleek, High-Polish Glassmorphic Auth Card floating over wallpaper -->
+<main class="w-full max-w-[430px] my-auto z-20" data-purpose="authentication-card-container">
+<div class="relative bg-slate-950/75 backdrop-blur-2xl rounded-2xl p-8 sm:p-9 shadow-riot-card border border-white/10 transition-all duration-300">
+<!-- Header: Clean Typography & Subtle Branding -->
+<div class="text-center mb-6">
+<div class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-riot-red/15 border border-riot-red/30 mb-3 text-riot-red shadow-[0_0_20px_rgba(235,0,41,0.25)]">
+<svg class="w-6 h-6 fill-current" fill="none" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.6667 30.5556L33.3333 13.8889L35.5556 31.6667L24.4444 33.8889L25 43.3333L48.3333 38.3333L51.1111 58.8889L36.6667 61.1111L37.7778 70.5556L66.6667 63.8889L70 86.1111L18.8889 97.2222L11.6667 30.5556Z" fill="#EB0029"></path>
+<path d="M78.8889 13.8889L90.5556 46.1111L76.6667 48.8889L74.4444 33.3333L78.8889 13.8889Z" fill="#EB0029"></path>
+<path d="M57.7778 19.4444L72.2222 51.6667L59.4444 54.4444L54.4444 33.8889L57.7778 19.4444Z" fill="#EB0029"></path>
+<path d="M38.8889 25L53.3333 57.2222L41.6667 59.4444L36.1111 39.4444L38.8889 25Z" fill="#EB0029"></path>
+</svg>
+</div>
+<h1 class="text-3xl font-display font-extrabold text-white tracking-tight leading-none mb-2 drop-shadow-sm">
+        Đăng nhập
+      </h1>
+<p class="text-xs sm:text-sm font-medium text-white/60">
+        Một tài khoản cho Liên Minh, VALORANT &amp; hơn thế nữa
+      </p>
+</div>
+<!-- Auth Form -->
+<form class="space-y-4" data-purpose="sign-in-form" id="riot-signin-form" onsubmit="event.preventDefault();">
+<!-- USERNAME INPUT -->
+<div class="field-wrapper relative">
+<input autocomplete="username" class="field-input peer w-full pt-6 pb-2 px-4 bg-white/[0.06] hover:bg-white/[0.09] focus:bg-white/[0.12] text-white placeholder-transparent text-sm font-medium rounded-xl border border-white/15 focus:border-riot-red focus:ring-1 focus:ring-riot-red focus:outline-none transition-all duration-200" id="username" name="username" placeholder="TÊN ĐĂNG NHẬP" required="" type="text"/>
+<label class="pointer-events-none absolute left-4 top-2 text-[10px] font-bold uppercase tracking-wider text-white/50 peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-placeholder-shown:text-white/40 peer-focus:top-2 peer-focus:text-[10px] peer-focus:text-riot-red transition-all duration-200" for="username">
+          TÊN ĐĂNG NHẬP
+        </label>
+</div>
+<!-- PASSWORD INPUT -->
+<div class="field-wrapper relative">
+<input autocomplete="current-password" class="field-input peer w-full pt-6 pb-2 pl-4 pr-11 bg-white/[0.06] hover:bg-white/[0.09] focus:bg-white/[0.12] text-white placeholder-transparent text-sm font-medium rounded-xl border border-white/15 focus:border-riot-red focus:ring-1 focus:ring-riot-red focus:outline-none transition-all duration-200" id="password" name="password" placeholder="MẬT KHẨU" required="" type="password"/>
+<label class="pointer-events-none absolute left-4 top-2 text-[10px] font-bold uppercase tracking-wider text-white/50 peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-placeholder-shown:text-white/40 peer-focus:top-2 peer-focus:text-riot-red transition-all duration-200" for="password">
+          MẬT KHẨU
+        </label>
+<!-- Toggle Show/Hide Password Button -->
+<button aria-label="Toggle password visibility" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-1 transition-colors" id="toggle-password" type="button">
+<svg class="w-5 h-5" fill="none" id="eye-icon" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+<!-- SOCIAL AUTHENTICATION BUTTONS -->
+<div class="pt-1" data-purpose="social-login-grid">
+<div class="flex items-center justify-between gap-2">
+<!-- Facebook -->
+<button aria-label="Sign in with Facebook" class="flex-1 flex items-center justify-center h-10 bg-[#1877F2]/20 hover:bg-[#1877F2]/35 border border-[#1877F2]/40 text-[#1877F2] rounded-xl transition-all duration-150 active:scale-95 group" title="Facebook" type="button">
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
+<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+</svg>
+</button>
+<!-- Google -->
+<button aria-label="Sign in with Google" class="flex-1 flex items-center justify-center h-10 bg-white/5 hover:bg-white/10 border border-white/15 text-white rounded-xl transition-all duration-150 active:scale-95" title="Google" type="button">
+<svg class="w-4 h-4" viewbox="0 0 24 24">
+<path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z" fill="#4285F4"></path>
+<path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.25 21.27 7.31 24 12 24z" fill="#34A853"></path>
+<path d="M5.28 14.27a7.2 7.2 0 010-4.54V6.58H1.26a11.96 11.96 0 000 10.84l4.02-3.15z" fill="#FBBC05"></path>
+<path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.73 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
+</svg>
+</button>
+<!-- Apple -->
+<button aria-label="Sign in with Apple" class="flex-1 flex items-center justify-center h-10 bg-white/5 hover:bg-white/10 border border-white/15 text-white rounded-xl transition-all duration-150 active:scale-95" title="Apple" type="button">
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
+<path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.98.6-2.61 1.34-.56.64-1.04 1.7-0.91 2.72 1 .08 2-.48 2.6-1.21z"></path>
+</svg>
+</button>
+<!-- Xbox -->
+<button aria-label="Sign in with Xbox" class="flex-1 flex items-center justify-center h-10 bg-[#107C10]/20 hover:bg-[#107C10]/35 border border-[#107C10]/40 text-[#54c454] rounded-xl transition-all duration-150 active:scale-95" title="Xbox Live" type="button">
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
+<path d="M4.53 4.53c2.44-2.44 5.37-3.88 8.92-4.32C9.43 1.3 6.07 2.78 4.53 4.53zM12 0c-.82 0-1.62.06-2.4.18 3.55.44 6.48 1.88 8.92 4.32-1.54-1.75-4.9-3.23-8.92-4.32A12.06 12.06 0 0012 0zm-7.47 4.53C2.19 6.87.75 9.77.26 13.06c.64-2.73 2.07-5.06 4.27-7.26v-1.27zm14.94 0v1.27c2.2 2.2 3.63 4.53 4.27 7.26-.49-3.29-1.93-6.19-4.27-8.53zM12 6.55c-1.94 0-3.66.69-5.05 1.87 1.48 2.15 3.32 4.19 5.05 6.03 1.73-1.84 3.57-3.88 5.05-6.03C15.66 7.24 13.94 6.55 12 6.55zM2.87 13.88C1.51 16.48.97 19.33 1.25 22.25c2.4-1.21 4.79-2.58 6.74-4.24-2.22-1.07-4.04-2.46-5.12-4.13zm18.26 0c-1.08 1.67-2.9 3.06-5.12 4.13 1.95 1.66 4.34 3.03 6.74 4.24.28-2.92-.26-5.77-1.62-8.37zM12 15.6c-1.85 2.06-3.85 4.26-5.78 6.13 1.76.78 3.73 1.23 5.78 1.27 2.05-.04 4.02-.49 5.78-1.27-1.93-1.87-3.93-4.07-5.78-6.13z"></path>
+</svg>
+</button>
+<!-- PlayStation -->
+<button aria-label="Sign in with PlayStation" class="flex-1 flex items-center justify-center h-10 bg-[#003791]/20 hover:bg-[#003791]/35 border border-[#003791]/40 text-[#4c87e8] rounded-xl transition-all duration-150 active:scale-95" title="PlayStation Network" type="button">
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
+<path d="M8.94 3.5A3.48 3.48 0 005.5 6.94v8.12a.94.94 0 001.88 0V7.41a1.6 1.6 0 013.2 0v7.65a.94.94 0 001.88 0V6.94A3.48 3.48 0 008.94 3.5zm6.12 11.56a2.44 2.44 0 01-2.44-2.44.94.94 0 00-1.88 0 4.32 4.32 0 004.32 4.32h3.44a.94.94 0 000-1.88h-3.44zm3.44-4.88h-2.5a.94.94 0 000 1.88h2.5a.56.56 0 010 1.12.94.94 0 000 1.88 2.44 2.44 0 000-4.88zM4.06 18.5a.94.94 0 00-.94.94c0 1.34 3.97 2.06 8.88 2.06s8.88-.72 8.88-2.06a.94.94 0 00-1.88 0c0 .41-2.95 1.06-7 1.06s-7-.65-7-1.06a.94.94 0 00-.94-.94z"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- REMEMBER ME & STAY SIGNED IN -->
+<div class="flex items-center pt-2 pb-1">
+<label class="relative flex items-center gap-3 cursor-pointer group select-none">
+<input class="sr-only peer" id="stay-signed-in" name="stay-signed-in" type="checkbox"/>
+<!-- Custom designed checkbox box -->
+<div class="w-5 h-5 rounded-md border border-white/20 bg-white/5 peer-checked:bg-riot-red peer-checked:border-riot-red flex items-center justify-center transition-all duration-200 group-hover:border-white/40 peer-focus:ring-2 peer-focus:ring-riot-red/30">
+<svg class="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+</div>
+<span class="text-xs sm:text-sm font-medium text-white/70 group-hover:text-white transition-colors">
+            Ghi nhớ đăng nhập
+          </span>
+</label>
+</div>
+<!-- PRIMARY SUBMIT ACTION (Electric Red glowing Riot button) -->
+<div class="pt-4 flex justify-center">
+<button aria-label="Submit Sign In" class="group relative flex items-center justify-center w-16 h-16 rounded-2xl bg-riot-red hover:bg-riot-redHover text-white shadow-[0_0_30px_rgba(235,0,41,0.6)] hover:shadow-[0_0_45px_rgba(235,0,41,0.85)] hover:scale-105 active:scale-95 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-riot-red/40" type="submit">
+<!-- Forward Arrow -->
+<svg class="w-7 h-7 stroke-current stroke-[2.5] transform transition-transform group-hover:translate-x-1" fill="none" viewbox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</form>
+<!-- FOOTER LINKS -->
+<footer class="mt-6 pt-5 border-t border-white/10 flex flex-col items-center gap-2 text-center text-xs font-semibold tracking-wide" data-purpose="auth-card-footer">
+<a class="text-white/60 hover:text-white transition-colors py-0.5" href="#">
+        Quên mật khẩu?
+      </a>
+<a class="text-riot-red hover:text-red-400 font-bold transition-colors py-0.5" href="#">
+        Tạo tài khoản mới
+      </a>
+</footer>
+</div>
+</main>
+<!-- END: CenteredAuthCard -->
+<!-- BEGIN: ClientAppFooter -->
+<footer class="w-full max-w-7xl flex flex-col sm:flex-row items-center justify-between text-[11px] font-medium text-white/50 py-2 z-20 gap-2" data-purpose="client-bottom-info">
+<div>
+<span class="tracking-wider">V91.0.4 • RIOT CLIENT</span>
+</div>
+<div class="flex items-center gap-4 text-white/60">
+<a class="hover:text-white transition-colors" href="#">Điều khoản dịch vụ</a>
+<span>•</span>
+<a class="hover:text-white transition-colors" href="#">Chính sách bảo mật</a>
+<span>•</span>
+<a class="hover:text-white transition-colors" href="#">Hỗ trợ</a>
+</div>
+</footer>
+<!-- END: ClientAppFooter -->
+</div>
+<!-- END: MainContainer -->
+<!-- BEGIN: InteractiveScripts -->
+<!-- Toggle password visibility script -->
+<script data-purpose="password-visibility-toggle">
+    const togglePasswordBtn = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password');
+
+    if (togglePasswordBtn && passwordInput) {
+      togglePasswordBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        
+        // Toggle icon visual state
+        togglePasswordBtn.innerHTML = isPassword 
+          ? `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+            </svg>`
+          : `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>`;
+      });
+    }
+  </script>
+<!-- END: InteractiveScripts -->
+</body></html>

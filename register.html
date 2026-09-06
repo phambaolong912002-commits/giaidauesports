@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riot Client - Tạo Tài Khoản Mới</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Rajdhani', 'sans-serif'],
+          },
+          colors: {
+            riot: {
+              red: '#EB0029',
+              darkred: '#BC0021',
+            }
+          },
+          boxShadow: {
+            'glow-red': '0 0 25px -5px rgba(235, 0, 41, 0.5), 0 0 10px -2px rgba(235, 0, 41, 0.3)',
+            'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbar for inner steps if needed */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+    .glass-panel {
+      background: rgba(13, 17, 24, 0.78);
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    .input-field {
+      background: rgba(22, 27, 36, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.2s ease;
+    }
+    .input-field:focus-within {
+      border-color: #EB0029;
+      box-shadow: 0 0 0 2px rgba(235, 0, 41, 0.2);
+      background: rgba(27, 33, 44, 0.95);
+    }
+  </style>
+</head>
+<body class="h-full bg-[#07090e] text-white font-sans antialiased overflow-hidden select-none relative">
+
+  <!-- Background Wallpaper Container (Exact same image as login) -->
+  <div class="absolute inset-0 z-0 overflow-hidden">
+    <img 
+      src="https://lh3.googleusercontent.com/aida/AEtjO1WeXoBS-5wkrjfxlNAZaUK_5AzLcw-vVwsTjvJOf-g6r2Mae839FTTOWJ9eP2gnsUNN2IKeIROfAXSa3cW6SMTWN3QcrxqUq0TMgZ68ogSTpex5vArJNd7yziKYL0ujFbEqQwCGXIVpWsyssT1l4lafA3z4mxWj1GyU57SiwBScN09F2g1R_7K43Ncnh2_Hj7k1mimrsKJ1ofzCqvTZdLTPTih-WR1PquEmaxwITGoVqxTWW0ZNeKdrGCvd" 
+      alt="Cinematic Wallpaper" 
+      class="w-full h-full object-cover object-center scale-[1.02] transform filter brightness-[0.78] contrast-[1.05]"
+    />
+    <!-- Deep Vignette & Subtle Cyberpunk Ambient Overlays -->
+    <div class="absolute inset-0 bg-gradient-to-t from-[#06080d]/90 via-[#06080d]/35 to-[#06080d]/80 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-radial from-transparent via-[#06080d]/30 to-[#06080d]/90 pointer-events-none"></div>
+  </div>
+
+  <!-- Main Viewport Layer -->
+  <div class="relative z-10 h-full flex flex-col justify-between p-6 md:p-8">
+
+    <!-- Top Window Chrome / Header -->
+    <header class="flex items-center justify-between w-full">
+      <!-- Riot Games Official Logo -->
+      <div class="flex items-center gap-3 cursor-pointer group">
+        <svg class="w-8 h-8 text-riot-red fill-current transition-transform duration-200 group-hover:scale-105" viewBox="0 0 24 24">
+          <path d="M13.414 1.25L1.875 6.75v10.5l4.875 2.25v-8.25l6.664-3.15v-6.85zm1.586 0v6.85l7.125 3.375v-3.475l-7.125-6.75zm-6.664 12.1v8.4l6.664 2.25v-7.35l-6.664-3.3zm8.25 0v7.35l5.539-2.25v-8.4l-5.539 3.3z"/>
+        </svg>
+        <div class="flex flex-col">
+          <span class="font-display font-bold tracking-widest text-lg leading-tight uppercase text-white group-hover:text-riot-red transition-colors">RIOT</span>
+          <span class="font-display font-semibold tracking-widest text-[10px] leading-tight text-white/50 -mt-1 uppercase">GAMES</span>
+        </div>
+      </div>
+
+      <!-- Window Utility Controls -->
+      <div class="flex items-center gap-3">
+        <!-- Language Selector -->
+        <button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 text-xs font-semibold text-white/80 transition backdrop-blur-md">
+          <svg class="w-3.5 h-3.5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+          </svg>
+          <span>VI</span>
+          <svg class="w-3 h-3 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+
+        <!-- Window Minimize & Close -->
+        <div class="flex items-center gap-1.5 px-2 py-1 bg-black/30 rounded-full border border-white/10 backdrop-blur-md">
+          <button class="w-6 h-6 flex items-center justify-center rounded-full text-white/60 hover:text-white hover:bg-white/10 transition">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
+          </button>
+          <button class="w-6 h-6 flex items-center justify-center rounded-full text-white/60 hover:text-white hover:bg-riot-red/80 transition">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Center Signup Card -->
+    <main class="w-full flex items-center justify-center my-auto py-3">
+      <div class="glass-panel w-full max-w-[460px] rounded-3xl p-7 md:p-8 shadow-glass relative flex flex-col">
+        
+        <!-- Top Glow Accent Line -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-[2px] bg-gradient-to-r from-transparent via-riot-red to-transparent"></div>
+
+        <!-- Header Icon & Titles -->
+        <div class="text-center flex flex-col items-center mb-5">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-riot-red to-riot-darkred flex items-center justify-center shadow-glow-red mb-3">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" style="display:none;"/>
+              <!-- Riot Fist Icon / Sign up User + -->
+              <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+          <h1 class="text-2xl font-extrabold tracking-tight text-white uppercase">Tạo tài khoản</h1>
+          <p class="text-xs text-white/60 mt-1 font-medium">Bắt đầu hành trình trong Liên Minh, VALORANT &amp; hơn thế nữa</p>
+        </div>
+
+        <!-- Fast Social / Platform Registration Buttons -->
+        <div class="mb-4">
+          <div class="grid grid-cols-5 gap-2">
+            <!-- Facebook -->
+            <button title="Facebook" class="h-10 rounded-xl bg-[#1877F2]/20 hover:bg-[#1877F2]/30 border border-[#1877F2]/40 flex items-center justify-center transition group">
+              <svg class="w-4 h-4 fill-white transition group-hover:scale-110" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </button>
+            <!-- Google -->
+            <button title="Google" class="h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 flex items-center justify-center transition group">
+              <svg class="w-4 h-4 transition group-hover:scale-110" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+              </svg>
+            </button>
+            <!-- Apple -->
+            <button title="Apple" class="h-10 rounded-xl bg-black/40 hover:bg-black/60 border border-white/15 flex items-center justify-center transition group">
+              <svg class="w-4 h-4 fill-white transition group-hover:scale-110" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.98.6-2.61 1.34-.55.63-.99 1.66-.86 2.67 1 .08 2.02-.51 2.55-1.16z"/></svg>
+            </button>
+            <!-- Xbox -->
+            <button title="Xbox" class="h-10 rounded-xl bg-[#107C10]/20 hover:bg-[#107C10]/30 border border-[#107C10]/40 flex items-center justify-center transition group">
+              <svg class="w-4 h-4 fill-[#107C10] group-hover:fill-[#108c10] transition group-hover:scale-110" viewBox="0 0 24 24"><path d="M4.698 3.511a12.012 12.012 0 0 1 14.604 0C17.514 1.705 14.887.75 12 .75s-5.514.955-7.302 2.761zm13.123 15.35c1.884-1.87 3.054-4.444 3.054-7.29 0-1.782-.463-3.456-1.272-4.912-.132.222-.279.438-.44.646-1.527 1.985-3.693 4.298-6.088 6.549 1.83 1.815 3.513 3.483 4.746 5.007zm-11.642 0c1.233-1.524 2.916-3.192 4.746-5.007-2.395-2.251-4.561-4.564-6.088-6.549-.161-.208-.308-.424-.44-.646-.809 1.456-1.272 3.13-1.272 4.912 0 2.846 1.17 5.42 3.054 7.29zM12 23.25c2.887 0 5.514-.955 7.302-2.761-.955-.935-2.072-1.996-3.284-3.133-1.258 1.114-2.607 2.148-4.018 3.048-1.411-.9-2.76-1.934-4.018-3.048-1.212 1.137-2.329 2.198-3.284 3.133C6.486 22.295 9.113 23.25 12 23.25z"/></svg>
+            </button>
+            <!-- PlayStation -->
+            <button title="PlayStation" class="h-10 rounded-xl bg-[#003791]/20 hover:bg-[#003791]/30 border border-[#003791]/40 flex items-center justify-center transition group">
+              <svg class="w-4 h-4 fill-[#003791] group-hover:fill-[#0047b3] transition group-hover:scale-110" viewBox="0 0 24 24"><path d="M23.669 17.202c-.173.614-.854 1.107-1.896 1.408-1.042.302-2.368.423-3.82.355l4.894-2.348c.552.179.805.378.822.585zm-14.79-11.45c.805-.333 1.637-.478 2.454-.424v12.261c-.563-.105-1.127-.263-1.688-.475l-.014-.006c-.84-.316-1.579-.763-2.181-1.32-1.396-1.29-1.91-2.92-1.503-4.757.41-1.848 1.549-3.719 3.332-5.279zm14.15 7.64c-.031-.83-.435-1.565-1.159-2.127-.723-.562-1.69-.944-2.827-1.106v-2.03c0-.361-.295-.656-.656-.656h-2.164v10.457c1.78.291 3.541.22 5.093-.207 1.085-.298 1.761-.83 1.954-1.524.237-.847-.074-1.918-.241-2.807z"/></svg>
+            </button>
+          </div>
+
+          <!-- Divider -->
+          <div class="relative flex py-3 items-center">
+            <div class="flex-grow border-t border-white/10"></div>
+            <span class="flex-shrink mx-3 text-[10px] font-bold uppercase tracking-wider text-white/40">hoặc đăng ký bằng email</span>
+            <div class="flex-grow border-t border-white/10"></div>
+          </div>
+        </div>
+
+        <!-- Registration Form Inputs -->
+        <form class="space-y-2.5" onsubmit="event.preventDefault();">
+          <!-- Email Input -->
+          <div class="input-field rounded-xl px-3.5 py-2">
+            <label class="block text-[10px] font-bold text-white/50 tracking-wider uppercase">ĐỊA CHỈ EMAIL</label>
+            <input 
+              type="email" 
+              placeholder="name@example.com" 
+              class="w-full bg-transparent text-sm text-white placeholder-white/20 focus:outline-none font-medium mt-0.5"
+            />
+          </div>
+
+          <!-- Birthday (Birth Date) - Required by Riot Account System -->
+          <div class="input-field rounded-xl px-3.5 py-2">
+            <label class="block text-[10px] font-bold text-white/50 tracking-wider uppercase">NGÀY SINH (DD/MM/YYYY)</label>
+            <div class="grid grid-cols-3 gap-2 mt-0.5">
+              <input type="text" maxlength="2" placeholder="Ngày" class="bg-transparent text-sm text-white placeholder-white/20 focus:outline-none font-medium text-center border-r border-white/10 pr-2">
+              <input type="text" maxlength="2" placeholder="Tháng" class="bg-transparent text-sm text-white placeholder-white/20 focus:outline-none font-medium text-center border-r border-white/10 pr-2">
+              <input type="text" maxlength="4" placeholder="Năm" class="bg-transparent text-sm text-white placeholder-white/20 focus:outline-none font-medium text-center">
+            </div>
+          </div>
+
+          <!-- Username Input -->
+          <div class="input-field rounded-xl px-3.5 py-2">
+            <label class="block text-[10px] font-bold text-white/50 tracking-wider uppercase">TÊN ĐĂNG NHẬP RIOT</label>
+            <input 
+              type="text" 
+              placeholder="VD: NeonStriker#VN2" 
+              class="w-full bg-transparent text-sm text-white placeholder-white/20 focus:outline-none font-medium mt-0.5"
+            />
+          </div>
+
+          <!-- Password Input -->
+          <div class="input-field rounded-xl px-3.5 py-2">
+            <div class="flex items-center justify-between">
+              <label class="block text-[10px] font-bold text-white/50 tracking-wider uppercase">MẬT KHẨU</label>
+              <span class="text-[9px] text-emerald-400 font-semibold tracking-wide">Tối thiểu 8 ký tự</span>
+            </div>
+            <div class="flex items-center justify-between mt-0.5">
+              <input 
+                type="password" 
+                placeholder="••••••••••••" 
+                class="w-full bg-transparent text-sm text-white placeholder-white/20 focus:outline-none font-medium"
+              />
+              <button type="button" class="text-white/40 hover:text-white transition ml-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Checkbox Agreements -->
+          <div class="space-y-2 pt-1 pb-1 text-left">
+            <label class="flex items-start gap-2.5 cursor-pointer text-xs text-white/70 hover:text-white transition select-none">
+              <input type="checkbox" checked class="mt-0.5 w-3.5 h-3.5 rounded bg-[#161B24] border-white/20 text-riot-red focus:ring-0 focus:ring-offset-0 cursor-pointer accent-riot-red">
+              <span class="text-[11px] leading-tight text-white/70">Tôi đồng ý với <a href="#" class="text-white underline hover:text-riot-red">Điều khoản dịch vụ</a> và <a href="#" class="text-white underline hover:text-riot-red">Chính sách bảo mật</a> của Riot Games.</span>
+            </label>
+            <label class="flex items-start gap-2.5 cursor-pointer text-xs text-white/70 hover:text-white transition select-none">
+              <input type="checkbox" class="mt-0.5 w-3.5 h-3.5 rounded bg-[#161B24] border-white/20 text-riot-red focus:ring-0 focus:ring-offset-0 cursor-pointer accent-riot-red">
+              <span class="text-[11px] leading-tight text-white/50">Nhận tin tức cập nhật, sự kiện và ưu đãi độc quyền qua email (tùy chọn).</span>
+            </label>
+          </div>
+
+          <!-- Big Red Submit Button with Ambient Glow -->
+          <div class="pt-2 flex flex-col items-center">
+            <button 
+              type="submit" 
+              class="w-14 h-14 rounded-2xl bg-gradient-to-br from-riot-red to-riot-darkred flex items-center justify-center text-white shadow-glow-red hover:scale-105 active:scale-95 transition-all duration-200 group"
+            >
+              <svg class="w-6 h-6 stroke-current transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <!-- Switch to Sign in Link -->
+        <div class="mt-5 pt-3 border-t border-white/10 text-center">
+          <p class="text-xs text-white/60">
+            Đã có tài khoản Riot Games? 
+            <a href="#" class="text-riot-red font-bold hover:underline ml-1 uppercase tracking-wide">Đăng nhập ngay</a>
+          </p>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Bottom Footer Status -->
+    <footer class="flex items-center justify-between w-full text-[11px] text-white/40 font-medium">
+      <div>V91.0.4 • RIOT CLIENT</div>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-white/80 transition">Điều khoản dịch vụ</a>
+        <span>•</span>
+        <a href="#" class="hover:text-white/80 transition">Chính sách bảo mật</a>
+        <span>•</span>
+        <a href="#" class="hover:text-white/80 transition">Hỗ trợ</a>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>
