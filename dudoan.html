@@ -1,327 +1,600 @@
-<!DOCTYPE html><html class="dark" lang="vi"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Dự Đoán VCT 2026 - Pick'Ems | VALORANT Champions Tour</title>
-<!-- Tailwind CSS CDN with Forms & Container Queries -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Tailwind Configuration -->
-<script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            'valorant-red': '#ff4655',
-            'valorant-dark': '#0f141a',
-            'valorant-black': '#090a0d',
-            'valorant-gray': '#7e838b',
-            'vct-cyan': '#00f3ff',
-            'vct-purple': '#8a2be2',
+<!doctype html>
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dự Đoán VCT 2026 - Pick'Ems | VALORANT Champions Tour</title>
+    <!-- Tailwind CSS CDN with Forms & Container Queries -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Configuration -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "valorant-red": "#ff4655",
+              "valorant-dark": "#0f141a",
+              "valorant-black": "#090a0d",
+              "valorant-gray": "#7e838b",
+              "vct-cyan": "#00f3ff",
+              "vct-purple": "#8a2be2",
+            },
+            fontFamily: {
+              sans: [
+                "Inter",
+                "system-ui",
+                "-apple-system",
+                "Segoe UI",
+                "Roboto",
+                "sans-serif",
+              ],
+              display: ["Impact", "Tungsten", "Montserrat", "sans-serif"],
+            },
           },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
-            display: ['Impact', 'Tungsten', 'Montserrat', 'sans-serif'],
-          }
-        }
+        },
+      };
+    </script>
+    <!-- Custom Styles for Riot & VCT Aesthetic -->
+    <style data-purpose="custom-typography">
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,700;0,800;0,900;1,800&family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600;700&display=swap");
+
+      .font-brand {
+        font-family: "Montserrat", sans-serif;
+        letter-spacing: -0.02em;
       }
-    }
-  </script>
-<!-- Custom Styles for Riot & VCT Aesthetic -->
-<style data-purpose="custom-typography">
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,700;0,800;0,900;1,800&family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
-    
-    .font-brand {
-      font-family: 'Montserrat', sans-serif;
-      letter-spacing: -0.02em;
-    }
 
-    .font-gaming {
-      font-family: 'Rajdhani', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-  </style>
-<style data-purpose="custom-effects">
-    /* Subtle background grid & glowing gradients */
-    .bg-cyber-radial {
-      background: radial-gradient(circle at 50% 30%, #1e293b 0%, #08090b 80%);
-    }
+      .font-gaming {
+        font-family: "Rajdhani", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    </style>
+    <style data-purpose="custom-effects">
+      /* Subtle background grid & glowing gradients */
+      .bg-cyber-radial {
+        background: radial-gradient(circle at 50% 30%, #1e293b 0%, #08090b 80%);
+      }
 
-    .active-card-glow {
-      box-shadow: 0 0 20px -5px rgba(255, 70, 85, 0.45);
-    }
+      .active-card-glow {
+        box-shadow: 0 0 20px -5px rgba(255, 70, 85, 0.45);
+      }
 
-    /* Laser atmospheric bar patterns */
-    .purple-lights-pattern {
-      background-image: 
-        radial-gradient(ellipse at 50% -20%, rgba(139, 92, 246, 0.35) 0%, transparent 70%),
-        repeating-linear-gradient(90deg, rgba(168, 85, 247, 0.06) 0px, rgba(168, 85, 247, 0.06) 2px, transparent 2px, transparent 40px);
-    }
+      /* Laser atmospheric bar patterns */
+      .purple-lights-pattern {
+        background-image:
+          radial-gradient(
+            ellipse at 50% -20%,
+            rgba(139, 92, 246, 0.35) 0%,
+            transparent 70%
+          ),
+          repeating-linear-gradient(
+            90deg,
+            rgba(168, 85, 247, 0.06) 0px,
+            rgba(168, 85, 247, 0.06) 2px,
+            transparent 2px,
+            transparent 40px
+          );
+      }
 
-    .blue-lights-pattern {
-      background-image: 
-        radial-gradient(ellipse at 50% -20%, rgba(59, 130, 246, 0.35) 0%, transparent 70%),
-        repeating-linear-gradient(90deg, rgba(56, 189, 248, 0.06) 0px, rgba(56, 189, 248, 0.06) 2px, transparent 2px, transparent 40px);
-    }
+      .blue-lights-pattern {
+        background-image:
+          radial-gradient(
+            ellipse at 50% -20%,
+            rgba(59, 130, 246, 0.35) 0%,
+            transparent 70%
+          ),
+          repeating-linear-gradient(
+            90deg,
+            rgba(56, 189, 248, 0.06) 0px,
+            rgba(56, 189, 248, 0.06) 2px,
+            transparent 2px,
+            transparent 40px
+          );
+      }
 
-    .active-shanghai-pattern {
-      background-image: 
-        radial-gradient(circle at 80% 50%, rgba(255, 70, 85, 0.12) 0%, transparent 60%),
-        linear-gradient(135deg, rgba(20, 24, 33, 0.9) 0%, rgba(12, 14, 19, 0.95) 100%);
-    }
-  </style>
-</head>
-<body class="bg-[#090a0d] text-white min-h-screen font-sans selection:bg-[#ff4655] selection:text-white flex flex-col justify-between">
-<!-- BEGIN: MainHeader -->
-<!-- Top global navigation reproducing IMAGE_5 / IMAGE_1 header design -->
-<header class="w-full bg-[#0d1015] border-b border-[#20242e] sticky top-0 z-50">
-<div class="max-w-[1600px] mx-auto px-4 sm:px-6 h-16 sm:h-[68px] flex items-center justify-between">
-<!-- Brand Group (Riot + VCT) -->
-<div class="flex items-center space-x-4">
-<!-- Riot Games Logo with Chevron Dropdown -->
-<a class="flex items-center space-x-1.5 py-1 px-1.5 rounded hover:opacity-90 transition-opacity" data-purpose="riot-home-link" href="index.html">
-<svg class="w-6 h-6 fill-white" viewBox="0 0 24 24">
-<path d="M13.784 4.092l-4.717 2.148 1.48 3.52 3.237-1.474v9.645l-5.698 2.593v-7.391l2.46-1.12-1.481-3.521-4.184 1.905v12.288l8.9-4.05v-14.538zm7.422 6.541l-2.07-.942-5.352 2.436v4.618l5.352-2.436v2.327l-5.352 2.437v3.298l7.422-3.377v-8.361z"></path>
-</svg>
-<span class="font-extrabold tracking-wider text-sm hidden sm:inline font-brand">RIOT GAMES</span>
-<svg class="w-3.5 h-3.5 text-zinc-400 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</a>
-<!-- Divider Line -->
-<span class="h-6 w-[1px] bg-zinc-700/60 hidden sm:block"></span>
-<!-- VCT Brand Portal -->
-<a class="flex items-center space-x-2" data-purpose="vct-esports-branding" href="index.html">
-<!-- VCT Spark Logo -->
-<div class="relative w-6 h-6 flex items-center justify-center">
-<svg class="w-5 h-5 fill-[#ff4655]" viewBox="0 0 100 100">
-<polygon points="50,5 95,50 80,50 50,20 20,50 5,50"></polygon>
-<polygon points="50,95 95,50 80,50 50,80 20,50 5,50"></polygon>
-</svg>
-</div>
-<div class="flex flex-col">
-<div class="flex items-center space-x-1.5 leading-none">
-<span class="font-black text-sm tracking-tight text-white uppercase font-brand">DAUTRUONGESPORTS</span>
-<span class="text-[10px] bg-[#ff4655]/20 text-[#ff4655] border border-[#ff4655]/50 px-1 py-0.2 rounded font-bold">VCT</span>
-</div>
-<span class="text-[9px] uppercase tracking-widest text-zinc-400 font-bold mt-0.5">CHAMPIONS TOUR</span>
-</div>
-</a>
-</div>
-<!-- Navigation Links (Vietnamese Esports Menu) -->
-<nav class="hidden lg:flex items-center space-x-6 text-xs font-bold tracking-wider uppercase font-gaming">
-<a class="text-zinc-400 hover:text-white transition-colors py-5" href="index.html">Trang Chủ</a>
-<a class="text-zinc-400 hover:text-white transition-colors flex items-center space-x-1 py-5" href="xephangsucmanh.html">
-<span class="">Sự Kiện &amp; Bảng Xếp Hạng</span>
-<svg class="w-3 h-3 text-zinc-400 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</a>
-<a class="text-zinc-400 hover:text-white transition-colors py-5" href="xephangsucmanh.html">Xếp Hạng Sức Mạnh</a>
-<!-- Active Nav Indicator for Pick'Ems / Dự Đoán -->
-<a class="text-white relative py-5 font-extrabold" data-purpose="active-nav-link" href="dudoan.html">
-<span class="">Dự Đoán</span>
-<span class="absolute bottom-0 left-0 w-full h-[3px] bg-[#ff4655] shadow-[0_-2px_8px_rgba(255,70,85,0.7)]"></span>
-</a>
-<a class="text-zinc-400 hover:text-white transition-colors py-5" href="tintuc.html">Tin Tức</a>
-</nav>
-<!-- Right Action Group -->
-<div class="flex items-center space-x-3">
-<!-- Language selector -->
-<button aria-label="Thay đổi ngôn ngữ" class="p-2 text-zinc-400 hover:text-white transition-colors rounded-full hover:bg-zinc-800/50">
-<svg class="w-5 h-5 stroke-current fill-none" stroke-width="1.8" viewBox="0 0 24 24">
-<circle cx="12" cy="12" r="10"></circle>
-<path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-</svg>
-</button>
-<!-- Red Login CTA -->
-<button class="bg-[#ff4655] hover:bg-[#e03b49] active:scale-95 text-white font-bold text-xs uppercase px-5 py-2.5 rounded transition-all duration-150 tracking-wider shadow-lg shadow-[#ff4655]/20 font-brand">
-          Đăng Nhập
-        </button>
-</div>
-</div>
-</header>
-<!-- END: MainHeader -->
-<!-- BEGIN: HeroPickEmsBanner -->
-<!-- Pick'Ems Hero Section with Glowing Sova Eye & Crosshair Aesthetic -->
-<section class="relative w-full bg-[#0a0d14] overflow-hidden border-b border-[#1f242e] pt-14 pb-16" data-purpose="pickems-hero-banner">
-<!-- Atmospheric agent artwork backdrop overlay -->
-<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlU51Mz-xfmdL8jPAWu5Fx0y1xD6wihSq7VclUUgDPoXJrygvwNNPvpxW9VP5tYv_cWEZGM9Xf100o81Kr2e6plJ0JZBopnYrcvfz5aDC0zEPSeLHmxlN4NADLNThBFCiChVsIDUasquTx9WdWX9wtvowh3z7VHnhrE95yvDb_tnrFQbohnpwv-mw8RAh_winjD78dyE1u46TwUOPyUafxhjfTc6hdpmJanSvZtUQHiE7TMZS7tn5RGQ" alt="VALORANT Pick'Ems Banner" class="w-full h-full object-cover object-center opacity-70"><div class="absolute inset-0 bg-gradient-to-b from-[#090a0d]/60 via-[#0a0d14]/40 to-[#090a0d]"></div><div class="absolute inset-0 bg-radial from-transparent via-[#090a0d]/30 to-[#090a0d]/80"></div></div>
-<!-- Center Stage Logo & AWS Tagline -->
-<div class="relative z-10 max-w-5xl mx-auto px-4 flex flex-col items-center justify-center text-center">
-<!-- PICK'EMS Brand Display -->
-<div class="flex items-center justify-center space-x-3 sm:space-x-4">
-<span class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter text-white font-brand uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
-          PICK
-        </span>
-<!-- Valorant Red/White Spark Symbol -->
-<div class="flex items-center justify-center px-1">
-<svg class="w-7 h-7 sm:w-10 sm:h-10 text-[#ff4655] fill-current drop-shadow-[0_0_10px_rgba(255,70,85,0.7)]" viewBox="0 0 24 24">
-<path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"></path>
-</svg>
-</div>
-<span class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter text-white font-brand uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
-          EMS
-        </span>
-</div>
-<!-- "powered by aws" lockup -->
-<div class="flex items-center space-x-1.5 mt-2 opacity-90">
-<span class="text-[11px] sm:text-xs text-zinc-300 font-medium tracking-wide">powered by</span>
-<div class="flex items-center pl-0.5">
-<!-- AWS SVG Mini Logo -->
-<svg class="w-8 h-4 fill-white" viewBox="0 0 60 36">
-<path d="M18.8 23.3c-1.8 1.4-4.2 2.2-6.8 2.2-5.7 0-9.8-4.2-9.8-10.4 0-6.4 4.3-10.8 10.3-10.8 2.5 0 4.7.7 6.3 2l-1.8 3.1c-1.3-.9-2.9-1.5-4.5-1.5-4.1 0-6.6 3-6.6 7.2 0 4.1 2.5 7.1 6.5 7.1 1.7 0 3.3-.6 4.7-1.6l1.7 2.7zm9.6 1.8h-3.6v-20h3.6v20zm17.9 0h-3.6l-4.4-14.7-4.4 14.7h-3.6l-5.6-20h3.8l3.7 14.8 4.3-14.8h3.6l4.3 14.8 3.7-14.8h3.8l-5.7 20z"></path>
-<path d="M14.2 32.5c8.3 4.2 19.3 4.2 27.6 0 .4-.2.8.2.5.6-3.8 4.3-11.4 6.7-19.1 4.7-4-.9-7.5-3.1-9.5-4.8-.3-.2 0-.6.5-.5z" fill="#ff9900"></path>
-</svg>
-</div>
-</div>
-</div>
-</section>
-<!-- END: HeroPickEmsBanner -->
-<!-- BEGIN: MainContent -->
-<main class="flex-grow w-full max-w-6xl mx-auto px-4 sm:px-6 py-8" data-purpose="pickems-events-list">
-<!-- Section Header bar with title and rewards action button -->
-<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-<div class="flex items-center space-x-3">
-<div class="w-1.5 h-6 bg-[#ff4655] rounded-full"></div>
-<h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white font-brand">Sự Kiện 2026</h1>
-</div>
-<!-- Gold/Amber Pill Incentive Badge -->
-<a class="inline-flex items-center space-x-2 text-xs font-semibold px-4 py-2 rounded-full border border-amber-500/50 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 hover:border-amber-400 transition-all duration-200 shadow-sm" data-purpose="rewards-callout" href="tournament-register.html">
-<span class="">Chọn đội thắng &amp; nhận phần thưởng!</span>
-<svg class="w-4 h-4 text-amber-400 stroke-current fill-none stroke-2" viewBox="0 0 24 24">
-<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</a>
-</div>
-<!-- Events List Container -->
-<div class="space-y-4">
-<!-- Event 1: Champions Shanghai (Active / Đang Hoạt Động) -->
-<div class="relative group cursor-pointer overflow-hidden rounded-xl border border-[#ff4655] active-card-glow active-shanghai-pattern p-6 sm:p-7 transition-all duration-300 hover:border-red-400 hover:scale-[1.006]" data-purpose="event-card-active">
-<!-- Subtle Top Corner Tech Accent -->
-<div class="absolute top-0 right-0 w-16 h-16 pointer-events-none opacity-20">
-<div class="absolute top-0 right-0 w-full h-[2px] bg-[#ff4655]"></div>
-<div class="absolute top-0 right-0 w-[2px] h-full bg-[#ff4655]"></div>
-</div>
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-<!-- Left side: Status badge, Title & Dates -->
-<div class="space-y-4">
-<!-- Active Status Badge -->
-<div class="inline-flex items-center space-x-2 bg-[#ff4655]/15 border border-[#ff4655]/60 px-3 py-1 rounded-full">
-<span class="w-2 h-2 rounded-full bg-[#ff4655] animate-ping"></span>
-<span class="text-[11px] font-bold tracking-wider text-[#ff6370] uppercase font-gaming">
-                🔴 ĐANG HOẠT ĐỘNG
-              </span>
-</div>
-<div>
-<h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-wide font-brand group-hover:text-red-100 transition-colors">
-                Champions Shanghai
-              </h2>
-<p class="text-sm text-zinc-400 font-medium mt-1 tracking-wider">
-                10/9/26 – 7/10/26
-              </p>
-</div>
-</div>
-<!-- Right side: Action Navigation Arrow Button -->
-<div class="flex items-center self-end md:self-center">
-<button aria-label="Tham gia Champions Shanghai" class="w-11 h-11 rounded-full bg-white/5 border border-white/10 group-hover:border-[#ff4655] group-hover:bg-[#ff4655] group-hover:text-white text-zinc-300 flex items-center justify-center transition-all duration-200 transform group-hover:translate-x-1">
-<svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
-<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</button>
-</div>
-</div>
-</div>
-<!-- Event 2: Masters Santiago (Finished / Đã Kết Thúc) -->
-<div class="relative group cursor-pointer overflow-hidden rounded-xl border border-purple-500/30 bg-[#0e111a] purple-lights-pattern p-6 sm:p-7 transition-all duration-300 hover:border-purple-500/60" data-purpose="event-card-finished">
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-<!-- Status & Title -->
-<div class="space-y-4">
-<!-- Finished / Locked Badge -->
-<div class="inline-flex items-center space-x-1.5 bg-zinc-800/80 border border-zinc-700/80 px-3 py-1 rounded-full">
-<svg class="w-3.5 h-3.5 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
-<path clip-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" fill-rule="evenodd"></path>
-</svg>
-<span class="text-[11px] font-bold tracking-wider text-zinc-300 uppercase font-gaming">
-                ĐÃ KẾT THÚC
-              </span>
-</div>
-<div>
-<h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-wide font-brand">
-                Masters Santiago
-              </h2>
-<p class="text-sm text-zinc-400 font-medium mt-1 tracking-wider">
-                19/2/26 – 6/3/26
-              </p>
-</div>
-</div>
-<!-- Right side: Enter / View Details Arrow -->
-<div class="flex items-center self-end md:self-center">
-<button aria-label="Xem kết quả Masters Santiago" class="w-11 h-11 rounded-full bg-white/5 border border-white/10 group-hover:border-purple-400 group-hover:bg-purple-600/30 text-zinc-400 group-hover:text-white flex items-center justify-center transition-all duration-200 transform group-hover:translate-x-1">
-<svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
-<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</button>
-</div>
-</div>
-</div>
-<!-- Event 3: Masters London (Finished / Đã Kết Thúc) -->
-<div class="relative group cursor-pointer overflow-hidden rounded-xl border border-blue-500/30 bg-[#0c101b] blue-lights-pattern p-6 sm:p-7 transition-all duration-300 hover:border-blue-500/60" data-purpose="event-card-finished">
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-<!-- Status & Title -->
-<div class="space-y-4">
-<!-- Finished / Locked Badge -->
-<div class="inline-flex items-center space-x-1.5 bg-zinc-800/80 border border-zinc-700/80 px-3 py-1 rounded-full">
-<svg class="w-3.5 h-3.5 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
-<path clip-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" fill-rule="evenodd"></path>
-</svg>
-<span class="text-[11px] font-bold tracking-wider text-zinc-300 uppercase font-gaming">
-                ĐÃ KẾT THÚC
-              </span>
-</div>
-<div>
-<h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-wide font-brand">
-                Masters London
-              </h2>
-<p class="text-sm text-zinc-400 font-medium mt-1 tracking-wider">
-                27/5/26 – 12/6/26
-              </p>
-</div>
-</div>
-<!-- Right side: Enter / View Details Arrow -->
-<div class="flex items-center self-end md:self-center">
-<button aria-label="Xem kết quả Masters London" class="w-11 h-11 rounded-full bg-white/5 border border-white/10 group-hover:border-blue-400 group-hover:bg-blue-600/30 text-zinc-400 group-hover:text-white flex items-center justify-center transition-all duration-200 transform group-hover:translate-x-1">
-<svg class="w-5 h-5 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
-<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</button>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- END: MainContent -->
-<!-- BEGIN: MainFooter -->
-<!-- Footer according to Riot Games VALORANT Esports specifications -->
-<footer class="w-full bg-[#07090c] border-t border-[#181c25] mt-12 py-8 text-zinc-500 text-xs">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-<!-- Brand & Copyright Notice -->
-<div class="flex items-center space-x-4">
-<svg class="w-6 h-6 fill-zinc-400" viewBox="0 0 24 24">
-<path d="M13.784 4.092l-4.717 2.148 1.48 3.52 3.237-1.474v9.645l-5.698 2.593v-7.391l2.46-1.12-1.481-3.521-4.184 1.905v12.288l8.9-4.05v-14.538zm7.422 6.541l-2.07-.942-5.352 2.436v4.618l5.352-2.436v2.327l-5.352 2.437v3.298l7.422-3.377v-8.361z"></path>
-</svg>
-<p class="">© 2026 Riot Games, Inc. VALORANT, Champions Tour và các biểu trưng liên quan là thương hiệu của Riot Games, Inc.</p>
-</div>
-<!-- Legal Links -->
-<div class="flex flex-wrap items-center gap-5">
-<a class="hover:text-zinc-300 transition-colors" href="#">Điều khoản dịch vụ</a>
-<a class="hover:text-zinc-300 transition-colors" href="#">Chính sách bảo mật</a>
-<a class="hover:text-zinc-300 transition-colors" href="#">Tùy chọn Cookie</a>
-<a class="hover:text-zinc-300 transition-colors" href="#">Hỗ trợ</a>
-</div>
-</div>
-</footer>
-<!-- END: MainFooter -->
-<a href="dudoan.html" class="nav-link active">Dự đoán</a>
-
-</body></html>
+      .active-shanghai-pattern {
+        background-image:
+          radial-gradient(
+            circle at 80% 50%,
+            rgba(255, 70, 85, 0.12) 0%,
+            transparent 60%
+          ),
+          linear-gradient(
+            135deg,
+            rgba(20, 24, 33, 0.9) 0%,
+            rgba(12, 14, 19, 0.95) 100%
+          );
+      }
+    </style>
+  </head>
+  <body
+    class="bg-[#090a0d] text-white min-h-screen font-sans selection:bg-[#ff4655] selection:text-white flex flex-col justify-between"
+  >
+    <!-- BEGIN: MainHeader -->
+    <!-- Top global navigation reproducing IMAGE_5 / IMAGE_1 header design -->
+    <header
+      class="w-full bg-[#0d1015] border-b border-[#20242e] sticky top-0 z-50"
+    >
+      <div
+        class="max-w-[1600px] mx-auto px-4 sm:px-6 h-16 sm:h-[68px] flex items-center justify-between"
+      >
+        <!-- Brand Group (Riot + VCT) -->
+        <div class="flex items-center space-x-4">
+          <!-- Riot Games Logo with Chevron Dropdown -->
+          <a
+            class="flex items-center space-x-1.5 py-1 px-1.5 rounded hover:opacity-90 transition-opacity"
+            data-purpose="riot-home-link"
+            href="index.html"
+          >
+            <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24">
+              <path
+                d="M13.784 4.092l-4.717 2.148 1.48 3.52 3.237-1.474v9.645l-5.698 2.593v-7.391l2.46-1.12-1.481-3.521-4.184 1.905v12.288l8.9-4.05v-14.538zm7.422 6.541l-2.07-.942-5.352 2.436v4.618l5.352-2.436v2.327l-5.352 2.437v3.298l7.422-3.377v-8.361z"
+              ></path>
+            </svg>
+            <span
+              class="font-extrabold tracking-wider text-sm hidden sm:inline font-brand"
+              >RIOT GAMES</span
+            >
+            <svg
+              class="w-3.5 h-3.5 text-zinc-400 stroke-current stroke-2 fill-none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </a>
+          <!-- Divider Line -->
+          <span class="h-6 w-[1px] bg-zinc-700/60 hidden sm:block"></span>
+          <!-- VCT Brand Portal -->
+          <a
+            class="flex items-center space-x-2"
+            data-purpose="vct-esports-branding"
+            href="index.html"
+          >
+            <!-- VCT Spark Logo -->
+            <div class="relative w-6 h-6 flex items-center justify-center">
+              <svg class="w-5 h-5 fill-[#ff4655]" viewBox="0 0 100 100">
+                <polygon points="50,5 95,50 80,50 50,20 20,50 5,50"></polygon>
+                <polygon points="50,95 95,50 80,50 50,80 20,50 5,50"></polygon>
+              </svg>
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center space-x-1.5 leading-none">
+                <span
+                  class="font-black text-sm tracking-tight text-white uppercase font-brand"
+                  >DAUTRUONGESPORTS</span
+                >
+                <span
+                  class="text-[10px] bg-[#ff4655]/20 text-[#ff4655] border border-[#ff4655]/50 px-1 py-0.2 rounded font-bold"
+                  >VCT</span
+                >
+              </div>
+              <span
+                class="text-[9px] uppercase tracking-widest text-zinc-400 font-bold mt-0.5"
+                >CHAMPIONS TOUR</span
+              >
+            </div>
+          </a>
+        </div>
+        <!-- Navigation Links (Vietnamese Esports Menu) -->
+        <nav
+          class="hidden lg:flex items-center space-x-6 text-xs font-bold tracking-wider uppercase font-gaming"
+        >
+          <a
+            class="text-zinc-400 hover:text-white transition-colors py-5"
+            href="index.html"
+            >Trang Chủ</a
+          >
+          <a
+            class="text-zinc-400 hover:text-white transition-colors flex items-center space-x-1 py-5"
+            href="xephangsucmanh.html"
+          >
+            <span class="">Sự Kiện &amp; Bảng Xếp Hạng</span>
+            <svg
+              class="w-3 h-3 text-zinc-400 stroke-current stroke-2 fill-none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </a>
+          <a
+            class="text-zinc-400 hover:text-white transition-colors py-5"
+            href="xephangsucmanh.html"
+            >Xếp Hạng Sức Mạnh</a
+          >
+          <!-- Active Nav Indicator for Pick'Ems / Dự Đoán -->
+          <a
+            class="text-white relative py-5 font-extrabold"
+            data-purpose="active-nav-link"
+            href="dudoan.html"
+          >
+            <span class="">Dự Đoán</span>
+            <span
+              class="absolute bottom-0 left-0 w-full h-[3px] bg-[#ff4655] shadow-[0_-2px_8px_rgba(255,70,85,0.7)]"
+            ></span>
+          </a>
+          <a
+            class="text-zinc-400 hover:text-white transition-colors py-5"
+            href="tintuc.html"
+            >Tin Tức</a
+          >
+        </nav>
+        <!-- Right Action Group -->
+        <div class="flex items-center space-x-3">
+          <!-- Language selector -->
+          <button
+            aria-label="Thay đổi ngôn ngữ"
+            class="p-2 text-zinc-400 hover:text-white transition-colors rounded-full hover:bg-zinc-800/50"
+          >
+            <svg
+              class="w-5 h-5 stroke-current fill-none"
+              stroke-width="1.8"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <path
+                d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              ></path>
+            </svg>
+          </button>
+          <!-- Red Login CTA -->
+          <button
+            class="bg-[#ff4655] hover:bg-[#e03b49] active:scale-95 text-white font-bold text-xs uppercase px-5 py-2.5 rounded transition-all duration-150 tracking-wider shadow-lg shadow-[#ff4655]/20 font-brand"
+          >
+            Đăng Nhập
+          </button>
+        </div>
+      </div>
+    </header>
+    <!-- END: MainHeader -->
+    <!-- BEGIN: HeroPickEmsBanner -->
+    <!-- Pick'Ems Hero Section with Glowing Sova Eye & Crosshair Aesthetic -->
+    <section
+      class="relative w-full bg-[#0a0d14] overflow-hidden border-b border-[#1f242e] pt-14 pb-16"
+      data-purpose="pickems-hero-banner"
+    >
+      <!-- Atmospheric agent artwork backdrop overlay -->
+      <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlU51Mz-xfmdL8jPAWu5Fx0y1xD6wihSq7VclUUgDPoXJrygvwNNPvpxW9VP5tYv_cWEZGM9Xf100o81Kr2e6plJ0JZBopnYrcvfz5aDC0zEPSeLHmxlN4NADLNThBFCiChVsIDUasquTx9WdWX9wtvowh3z7VHnhrE95yvDb_tnrFQbohnpwv-mw8RAh_winjD78dyE1u46TwUOPyUafxhjfTc6hdpmJanSvZtUQHiE7TMZS7tn5RGQ"
+          alt="VALORANT Pick'Ems Banner"
+          class="w-full h-full object-cover object-center opacity-70"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-[#090a0d]/60 via-[#0a0d14]/40 to-[#090a0d]"
+        ></div>
+        <div
+          class="absolute inset-0 bg-radial from-transparent via-[#090a0d]/30 to-[#090a0d]/80"
+        ></div>
+      </div>
+      <!-- Center Stage Logo & AWS Tagline -->
+      <div
+        class="relative z-10 max-w-5xl mx-auto px-4 flex flex-col items-center justify-center text-center"
+      >
+        <!-- PICK'EMS Brand Display -->
+        <div class="flex items-center justify-center space-x-3 sm:space-x-4">
+          <span
+            class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter text-white font-brand uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]"
+          >
+            PICK
+          </span>
+          <!-- Valorant Red/White Spark Symbol -->
+          <div class="flex items-center justify-center px-1">
+            <svg
+              class="w-7 h-7 sm:w-10 sm:h-10 text-[#ff4655] fill-current drop-shadow-[0_0_10px_rgba(255,70,85,0.7)]"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"></path>
+            </svg>
+          </div>
+          <span
+            class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter text-white font-brand uppercase drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]"
+          >
+            EMS
+          </span>
+        </div>
+        <!-- "powered by aws" lockup -->
+        <div class="flex items-center space-x-1.5 mt-2 opacity-90">
+          <span
+            class="text-[11px] sm:text-xs text-zinc-300 font-medium tracking-wide"
+            >powered by</span
+          >
+          <div class="flex items-center pl-0.5">
+            <!-- AWS SVG Mini Logo -->
+            <svg class="w-8 h-4 fill-white" viewBox="0 0 60 36">
+              <path
+                d="M18.8 23.3c-1.8 1.4-4.2 2.2-6.8 2.2-5.7 0-9.8-4.2-9.8-10.4 0-6.4 4.3-10.8 10.3-10.8 2.5 0 4.7.7 6.3 2l-1.8 3.1c-1.3-.9-2.9-1.5-4.5-1.5-4.1 0-6.6 3-6.6 7.2 0 4.1 2.5 7.1 6.5 7.1 1.7 0 3.3-.6 4.7-1.6l1.7 2.7zm9.6 1.8h-3.6v-20h3.6v20zm17.9 0h-3.6l-4.4-14.7-4.4 14.7h-3.6l-5.6-20h3.8l3.7 14.8 4.3-14.8h3.6l4.3 14.8 3.7-14.8h3.8l-5.7 20z"
+              ></path>
+              <path
+                d="M14.2 32.5c8.3 4.2 19.3 4.2 27.6 0 .4-.2.8.2.5.6-3.8 4.3-11.4 6.7-19.1 4.7-4-.9-7.5-3.1-9.5-4.8-.3-.2 0-.6.5-.5z"
+                fill="#ff9900"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: HeroPickEmsBanner -->
+    <!-- BEGIN: MainContent -->
+    <main
+      class="flex-grow w-full max-w-6xl mx-auto px-4 sm:px-6 py-8"
+      data-purpose="pickems-events-list"
+    >
+      <!-- Section Header bar with title and rewards action button -->
+      <div
+        class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6"
+      >
+        <div class="flex items-center space-x-3">
+          <div class="w-1.5 h-6 bg-[#ff4655] rounded-full"></div>
+          <h1
+            class="text-2xl sm:text-3xl font-bold tracking-tight text-white font-brand"
+          >
+            Sự Kiện 2026
+          </h1>
+        </div>
+        <!-- Gold/Amber Pill Incentive Badge -->
+        <a
+          class="inline-flex items-center space-x-2 text-xs font-semibold px-4 py-2 rounded-full border border-amber-500/50 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 hover:border-amber-400 transition-all duration-200 shadow-sm"
+          data-purpose="rewards-callout"
+          href="tournament-register.html"
+        >
+          <span class="">Chọn đội thắng &amp; nhận phần thưởng!</span>
+          <svg
+            class="w-4 h-4 text-amber-400 stroke-current fill-none stroke-2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+        </a>
+      </div>
+      <!-- Events List Container -->
+      <div class="space-y-4">
+        <!-- Event 1: Champions Shanghai (Active / Đang Hoạt Động) -->
+        <div
+          class="relative group cursor-pointer overflow-hidden rounded-xl border border-[#ff4655] active-card-glow active-shanghai-pattern p-6 sm:p-7 transition-all duration-300 hover:border-red-400 hover:scale-[1.006]"
+          data-purpose="event-card-active"
+        >
+          <!-- Subtle Top Corner Tech Accent -->
+          <div
+            class="absolute top-0 right-0 w-16 h-16 pointer-events-none opacity-20"
+          >
+            <div
+              class="absolute top-0 right-0 w-full h-[2px] bg-[#ff4655]"
+            ></div>
+            <div
+              class="absolute top-0 right-0 w-[2px] h-full bg-[#ff4655]"
+            ></div>
+          </div>
+          <div
+            class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10"
+          >
+            <!-- Left side: Status badge, Title & Dates -->
+            <div class="space-y-4">
+              <!-- Active Status Badge -->
+              <div
+                class="inline-flex items-center space-x-2 bg-[#ff4655]/15 border border-[#ff4655]/60 px-3 py-1 rounded-full"
+              >
+                <span
+                  class="w-2 h-2 rounded-full bg-[#ff4655] animate-ping"
+                ></span>
+                <span
+                  class="text-[11px] font-bold tracking-wider text-[#ff6370] uppercase font-gaming"
+                >
+                  🔴 ĐANG HOẠT ĐỘNG
+                </span>
+              </div>
+              <div>
+                <h2
+                  class="text-2xl sm:text-3xl font-extrabold text-white tracking-wide font-brand group-hover:text-red-100 transition-colors"
+                >
+                  Champions Shanghai
+                </h2>
+                <p
+                  class="text-sm text-zinc-400 font-medium mt-1 tracking-wider"
+                >
+                  10/9/26 – 7/10/26
+                </p>
+              </div>
+            </div>
+            <!-- Right side: Action Navigation Arrow Button -->
+            <div class="flex items-center self-end md:self-center">
+              <button
+                aria-label="Tham gia Champions Shanghai"
+                class="w-11 h-11 rounded-full bg-white/5 border border-white/10 group-hover:border-[#ff4655] group-hover:bg-[#ff4655] group-hover:text-white text-zinc-300 flex items-center justify-center transition-all duration-200 transform group-hover:translate-x-1"
+              >
+                <svg
+                  class="w-5 h-5 stroke-current stroke-2 fill-none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Event 2: Masters Santiago (Finished / Đã Kết Thúc) -->
+        <div
+          class="relative group cursor-pointer overflow-hidden rounded-xl border border-purple-500/30 bg-[#0e111a] purple-lights-pattern p-6 sm:p-7 transition-all duration-300 hover:border-purple-500/60"
+          data-purpose="event-card-finished"
+        >
+          <div
+            class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10"
+          >
+            <!-- Status & Title -->
+            <div class="space-y-4">
+              <!-- Finished / Locked Badge -->
+              <div
+                class="inline-flex items-center space-x-1.5 bg-zinc-800/80 border border-zinc-700/80 px-3 py-1 rounded-full"
+              >
+                <svg
+                  class="w-3.5 h-3.5 text-zinc-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    fill-rule="evenodd"
+                  ></path>
+                </svg>
+                <span
+                  class="text-[11px] font-bold tracking-wider text-zinc-300 uppercase font-gaming"
+                >
+                  ĐÃ KẾT THÚC
+                </span>
+              </div>
+              <div>
+                <h2
+                  class="text-2xl sm:text-3xl font-extrabold text-white tracking-wide font-brand"
+                >
+                  Masters Santiago
+                </h2>
+                <p
+                  class="text-sm text-zinc-400 font-medium mt-1 tracking-wider"
+                >
+                  19/2/26 – 6/3/26
+                </p>
+              </div>
+            </div>
+            <!-- Right side: Enter / View Details Arrow -->
+            <div class="flex items-center self-end md:self-center">
+              <button
+                aria-label="Xem kết quả Masters Santiago"
+                class="w-11 h-11 rounded-full bg-white/5 border border-white/10 group-hover:border-purple-400 group-hover:bg-purple-600/30 text-zinc-400 group-hover:text-white flex items-center justify-center transition-all duration-200 transform group-hover:translate-x-1"
+              >
+                <svg
+                  class="w-5 h-5 stroke-current stroke-2 fill-none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Event 3: Masters London (Finished / Đã Kết Thúc) -->
+        <div
+          class="relative group cursor-pointer overflow-hidden rounded-xl border border-blue-500/30 bg-[#0c101b] blue-lights-pattern p-6 sm:p-7 transition-all duration-300 hover:border-blue-500/60"
+          data-purpose="event-card-finished"
+        >
+          <div
+            class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10"
+          >
+            <!-- Status & Title -->
+            <div class="space-y-4">
+              <!-- Finished / Locked Badge -->
+              <div
+                class="inline-flex items-center space-x-1.5 bg-zinc-800/80 border border-zinc-700/80 px-3 py-1 rounded-full"
+              >
+                <svg
+                  class="w-3.5 h-3.5 text-zinc-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    fill-rule="evenodd"
+                  ></path>
+                </svg>
+                <span
+                  class="text-[11px] font-bold tracking-wider text-zinc-300 uppercase font-gaming"
+                >
+                  ĐÃ KẾT THÚC
+                </span>
+              </div>
+              <div>
+                <h2
+                  class="text-2xl sm:text-3xl font-extrabold text-white tracking-wide font-brand"
+                >
+                  Masters London
+                </h2>
+                <p
+                  class="text-sm text-zinc-400 font-medium mt-1 tracking-wider"
+                >
+                  27/5/26 – 12/6/26
+                </p>
+              </div>
+            </div>
+            <!-- Right side: Enter / View Details Arrow -->
+            <div class="flex items-center self-end md:self-center">
+              <button
+                aria-label="Xem kết quả Masters London"
+                class="w-11 h-11 rounded-full bg-white/5 border border-white/10 group-hover:border-blue-400 group-hover:bg-blue-600/30 text-zinc-400 group-hover:text-white flex items-center justify-center transition-all duration-200 transform group-hover:translate-x-1"
+              >
+                <svg
+                  class="w-5 h-5 stroke-current stroke-2 fill-none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- END: MainContent -->
+    <!-- BEGIN: MainFooter -->
+    <!-- Footer according to Riot Games VALORANT Esports specifications -->
+    <footer
+      class="w-full bg-[#07090c] border-t border-[#181c25] mt-12 py-8 text-zinc-500 text-xs"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6"
+      >
+        <!-- Brand & Copyright Notice -->
+        <div class="flex items-center space-x-4">
+          <svg class="w-6 h-6 fill-zinc-400" viewBox="0 0 24 24">
+            <path
+              d="M13.784 4.092l-4.717 2.148 1.48 3.52 3.237-1.474v9.645l-5.698 2.593v-7.391l2.46-1.12-1.481-3.521-4.184 1.905v12.288l8.9-4.05v-14.538zm7.422 6.541l-2.07-.942-5.352 2.436v4.618l5.352-2.436v2.327l-5.352 2.437v3.298l7.422-3.377v-8.361z"
+            ></path>
+          </svg>
+          <p class="">
+            © 2026 Riot Games, Inc. VALORANT, Champions Tour và các biểu trưng
+            liên quan là thương hiệu của Riot Games, Inc.
+          </p>
+        </div>
+        <!-- Legal Links -->
+        <div class="flex flex-wrap items-center gap-5">
+          <a class="hover:text-zinc-300 transition-colors" href="#"
+            >Điều khoản dịch vụ</a
+          >
+          <a class="hover:text-zinc-300 transition-colors" href="#"
+            >Chính sách bảo mật</a
+          >
+          <a class="hover:text-zinc-300 transition-colors" href="#"
+            >Tùy chọn Cookie</a
+          >
+          <a class="hover:text-zinc-300 transition-colors" href="#">Hỗ trợ</a>
+        </div>
+      </div>
+    </footer>
+    <!-- END: MainFooter -->
+    <a href="dudoan.html" class="nav-link active">Dự đoán</a>
+  </body>
+</html>

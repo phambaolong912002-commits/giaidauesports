@@ -424,10 +424,7 @@
             <div
               class="flex items-center bg-[#1c1c22] border border-[#2d2d38] rounded-md px-2.5 py-1 text-sm font-semibold"
             >
-              <button
-                class="text-gray-400 hover:text-white px-1.5 py-0.5 transition-colors"
-                title="Ngày trước"
-              >
+             <button id="btn-prev-day" title="Ngày trước" class="text-gray-400 hover:text-white px-1.5 py-0.5 transition-colors">
                 <svg
                   class="w-4 h-4"
                   fill="none"
@@ -442,11 +439,9 @@
                   ></path>
                 </svg>
               </button>
-              <span class="px-2.5 text-xs text-gray-200">Hôm nay</span>
-              <button
-                class="text-gray-400 hover:text-white px-1.5 py-0.5 transition-colors"
-                title="Ngày sau"
-              >
+            <span id="current-date-display" class="px-2.5 text-xs text-gray-200">Hôm nay</span>
+             
+              <button id="btn-next-day" class="text-gray-400 hover:text-white px-1.5 py-0.5 transition-colors" title="Ngày sau"> ...
                 <svg
                   class="w-4 h-4"
                   fill="none"
@@ -496,6 +491,7 @@
               </svg>
             </button>
           </div>
+          <div id="matches-container" class="bg-[#111113] rounded-lg p-4">
           <!-- Right Settings Gear Icon -->
           <button
             class="text-gray-400 hover:text-white p-1 rounded transition-colors"
@@ -1414,6 +1410,54 @@
         if (loggedIn) showAccountMenu();
       })();
     </script>
-    <script src="main.js"></script>
+    <script src="main.js">
+
+    </script>
+    <!-- Dán đoạn này ngay trên thẻ </body> -->
+<script>
+    // Dữ liệu mẫu tạm thời
+    let currentDayOffset = 0;
+
+    const dateDisplay = document.getElementById('current-date-display');
+    const matchesContainer = document.getElementById('matches-container');
+    const btnPrev = document.getElementById('btn-prev-day');
+    const btnNext = document.getElementById('btn-next-day');
+
+    // Lưu lại giao diện gốc của trận GE vs NS
+    const matchHTMLTemplate = matchesContainer.innerHTML; 
+
+    function updateDateText() {
+        if (currentDayOffset === 0) dateDisplay.textContent = "Hôm nay";
+        else if (currentDayOffset === -1) dateDisplay.textContent = "Hôm qua";
+        else if (currentDayOffset === 1) dateDisplay.textContent = "Ngày mai";
+        else {
+            const date = new Date();
+            date.setDate(date.getDate() + currentDayOffset);
+            dateDisplay.textContent = date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
+        }
+    }
+
+    function renderMatches() {
+        if (currentDayOffset === 0) {
+             // Trả lại giao diện trận đấu nếu là Hôm nay
+             matchesContainer.innerHTML = matchHTMLTemplate; 
+        } else {
+             // Hiện thông báo trống cho các ngày khác
+             matchesContainer.innerHTML = `<div class="flex items-center justify-center h-40 text-gray-500">Không có trận đấu nào trong ngày này.</div>`;
+        }
+    }
+
+    function changeDay(offset) {
+        currentDayOffset += offset;
+        updateDateText();
+        renderMatches();
+    }
+
+    btnPrev.addEventListener('click', () => changeDay(-1));
+    btnNext.addEventListener('click', () => changeDay(1));
+</script>
   </body>
+
+
+  
 </html>

@@ -16,27 +16,54 @@
 
 /* Hiệu ứng live pulsing badge và glow cho banner */
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.35; transform: scale(1.2); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.2);
+  }
 }
 .pulse-indicator {
   animation: pulse-dot 1.8s infinite ease-in-out;
 }
 .hero-pattern {
-  background: radial-gradient(circle at 50% 30%, rgba(30, 41, 69, 0.45) 0%, rgba(13, 14, 18, 0.96) 80%);
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(30, 41, 69, 0.45) 0%,
+    rgba(13, 14, 18, 0.96) 80%
+  );
 }
 
 /* Hiệu ứng chạy chữ cho Banner */
 @keyframes marquee {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 .animate-marquee {
   animation: marquee 25s linear infinite;
 }
 .mask-gradient {
-  mask-image: linear-gradient(to right, transparent, white 8%, white 92%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, white 8%, white 92%, transparent);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    white 8%,
+    white 92%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    white 8%,
+    white 92%,
+    transparent
+  );
 }
 .navbar {
   position: relative; /* Hoặc sticky / fixed tùy bạn */
@@ -131,4 +158,80 @@
 .nav-link.active {
   color: #ff4655;
   border-bottom: 2px solid #ff4655;
+}
+/* CSS cho thanh điều hướng ngày */
+.date-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #1c1c1f; /* Màu nền tối */
+    padding: 10px 20px;
+    border-radius: 8px;
+    width: fit-content;
+    color: white;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.nav-btn:hover {
+    color: white;
+}
+
+#current-date-display {
+    font-weight: bold;
+    min-width: 100px;
+    text-align: center;
+}
+
+/* CSS cho thẻ trận đấu */
+.match-card {
+    background-color: #111113;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    color: white;
+    position: relative;
+}
+
+.match-header {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.match-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+.score-section .score {
+    font-size: 40px;
+    margin: 10px 0;
+}
+
+.live-badge {
+    background-color: #ff4655;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.text-red {
+    color: #ff4655;
+    font-weight: bold;
 }

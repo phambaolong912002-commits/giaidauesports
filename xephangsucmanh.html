@@ -1,746 +1,1462 @@
-<!DOCTYPE html><html lang="vi" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Global Power Rankings powered by AWS - VALORANT Champions Tour</title>
-<!-- Load Tailwind CSS v3 with forms and container plugins -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              red: '#FF4655',
-              darkRed: '#D63845',
-              bgDark: '#0B0E13',
-              cardBg: '#11151C',
-              cardBorder: '#202632',
-              rowBg: '#131822',
-              textMuted: '#8491A5',
-              tagGold: '#CA8A04',
-              tagGoldBorder: '#854D0E',
-            }
+<!doctype html>
+<html lang="vi" style="">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>
+      Global Power Rankings powered by AWS - VALORANT Champions Tour
+    </title>
+    <!-- Load Tailwind CSS v3 with forms and container plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                red: "#FF4655",
+                darkRed: "#D63845",
+                bgDark: "#0B0E13",
+                cardBg: "#11151C",
+                cardBorder: "#202632",
+                rowBg: "#131822",
+                textMuted: "#8491A5",
+                tagGold: "#CA8A04",
+                tagGoldBorder: "#854D0E",
+              },
+            },
+            fontFamily: {
+              sans: [
+                "Inter",
+                "system-ui",
+                "-apple-system",
+                "Segoe UI",
+                "Roboto",
+                "sans-serif",
+              ],
+            },
           },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
-          }
-        }
+        },
+      };
+    </script>
+    <style data-purpose="custom-typography-glow">
+      body {
+        background-color: #0b0e13;
+        color: #e6e8ea;
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
       }
-    }
-  </script>
-<style data-purpose="custom-typography-glow">
-    body {
-      background-color: #0b0e13;
-      color: #E6E8EA;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    }
-    .hero-glow-bg {
-      background: radial-gradient(circle at 65% 50%, rgba(217, 119, 6, 0.22) 0%, rgba(239, 68, 68, 0.12) 35%, rgba(11, 14, 19, 0.98) 75%),
-                  linear-gradient(180deg, rgba(17, 21, 28, 0.6) 0%, #0b0e13 100%);
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #2A3241;
-      border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #11151C;
-    }
-  </style>
-</head>
-<body class="min-h-screen flex flex-col bg-[#0b0e13] text-[#e6e8ea] antialiased selection:bg-[#ff4655] selection:text-white">
-<!-- BEGIN: TopNavigationBar -->
-<header class="w-full bg-[#05070a] border-b border-[#151921] sticky top-0 z-50">
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-<!-- Brand Logos and Primary Navigation Links -->
-<div class="flex items-center space-x-5 lg:space-x-7">
-<!-- Brand Group: Riot Games & DAUTRUONGESPORTS -->
-<div class="flex items-center space-x-4 pr-1">
-<!-- Riot Games Fist Icon + Wordmark with Caret -->
-<a class="flex items-center space-x-1.5 hover:opacity-80 transition-opacity text-white group" href="index.html" title="Riot Games">
-<!-- Riot Games Fist SVG -->
-<svg class="w-4 h-4 fill-white shrink-0" viewBox="0 0 24 24">
-<path d="M2.5 4.5l4.2 2.8 1.4-1.4L4.8 3.5 2.5 4.5zm5.7 3.8l2.9 2-1 2.2-2.8-1.9.9-2.3zm3.8 2.6l2.9 2-1 2.2-2.8-1.9.9-2.3zm4.8-5.7l-4.5 3.1 1.2 2.8 3.6-2.5 1.5 1.5-3.3 2.3 1.2 2.7 5.1-3.5L20 8.5l-3.2-3.3zm-13.6 7l1.7 5.7 4.1.8 1.8-3.9-3.8-2.6-3.8z"></path>
-</svg>
-<span class="font-extrabold text-[12px] tracking-wider uppercase text-white font-sans">RIOT GAMES</span>
-<svg class="w-3 h-3 text-white/70 group-hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</a>
-<!-- Subtle vertical divider -->
-<div class="h-5 w-[1px] bg-[#222834]"></div>
-<!-- Tour Section: VCT Logo + DAUTRUONGESPORTS + VCT Pill + Subtitle -->
-<div class="flex items-center space-x-2.5">
-<!-- Red VCT Spark -->
-<a class="flex items-center group shrink-0" href="index.html" title="VALORANT Champions Tour">
-<svg class="w-4 h-5 fill-[#ff4655] group-hover:scale-105 transition-transform" viewBox="0 0 32 36">
-<path d="M16 0L0 18l3 3.5L16 6.8l13 14.7 3-3.5L16 0zm-8.8 24.5L16 14.2l8.8 10.3L30 21.2 16 5 2 21.2l5.2 3.3zm8.8-4.5l-4.5 5.2 4.5 5.3 4.5-5.3-4.5-5.2z"></path>
-</svg>
-</a>
-<div class="flex flex-col justify-center leading-none">
-<div class="flex items-center space-x-1.5">
-<span class="text-white font-black text-[13px] tracking-tight uppercase">DAUTRUONGESPORTS</span>
-<span class="border border-[#e11d48] text-[#ff4655] text-[9px] font-bold px-1 py-0.2 rounded tracking-tighter scale-90 inline-flex items-center justify-center">VCT</span>
-</div>
-<span class="text-[9px] text-[#8e98a8] tracking-[0.16em] uppercase font-semibold mt-0.5">CHAMPIONS TOUR</span>
-</div>
-</div>
-</div>
-<!-- Desktop Navigation Items (Vietnamese) -->
-<nav aria-label="Main Navigation" class="hidden md:flex items-center space-x-6 text-[12px] tracking-wide font-bold uppercase">
-<!-- TRANG CHỦ with red bottom indicator -->
-<a class="text-white border-[#ff4655] pb-0.5 pt-0.5 tracking-wide" href="index.html">TRANG CHỦ</a>
-<!-- SỰ KIỆN & BẢNG XẾP HẠNG with chevron -->
-<div class="relative group">
-<button class="text-[#96a0b2] hover:text-white transition-colors duration-150 flex items-center gap-1 py-1 uppercase tracking-wide">
-<span class="">SỰ KIỆN &amp; BẢNG XẾP HẠNG</span>
-<svg class="w-3 h-3 text-[#96a0b2] group-hover:text-white transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</button>
-</div>
-<!-- XẾP HẠNG SỨC MẠNH -->
-<a class="text-white border-[#ff4655] pb-0.5 pt-0.5 tracking-wide" href="xephangsucmanh.html">XẾP HẠNG SỨC MẠNH</a>
-<!-- DỰ ĐOÁN -->
-<a class="text-[#96a0b2] hover:text-white transition-colors duration-150 py-1 tracking-wide" href="dudoan.html">DỰ ĐOÁN</a>
-<!-- TIN TỨC -->
-<a class="text-[#96a0b2] hover:text-white transition-colors duration-150 py-1 tracking-wide" href="tintuc.html">TIN TỨC</a>
-</nav>
-</div>
-<!-- Right Control Action Buttons -->
-<div class="flex items-center space-x-3.5">
-<!-- Language / Globe Button -->
-<button aria-label="Chọn Ngôn Ngữ" class="text-[#96a0b2] hover:text-white p-1 rounded transition-colors" type="button">
-<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<circle cx="12" cy="12" r="9" stroke-width="1.8"></circle>
-<path d="M3.6 9h16.8M3.6 15h16.8M12 3a14.5 14.5 0 010 18M12 3a14.5 14.5 0 000 18" stroke-width="1.8"></path>
-</svg>
-</button>
-<!-- Red Login Button in Vietnamese -->
-<button class="bg-[#ff4655] hover:bg-[#d63845] active:scale-95 text-white font-bold text-[11px] tracking-wider uppercase px-4 py-1.5 rounded transition duration-150" type="button">
-          ĐĂNG NHẬP
-        </button>
-</div>
-</div>
-</header>
-<!-- END: TopNavigationBar -->
-<!-- BEGIN: HeroBanner -->
-<section class="relative w-full border-b border-[#1b222d] overflow-hidden bg-[#05070a]">
-  <div class="max-w-[1440px] mx-auto relative">
-    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUEjPpPWwZCtwogtiASz3D_pSDK8gH3_KlahOAoY1AIL3968Jh-JAyaHeoipRevQlVtp_rdYRUgV-G2iWWEAuRa8q-Zjyjsw7gxF9oVejQS1aVy48izUyIJhephXzbgBuZpSPmpoA2f419egOH8KTajah2O4LcaV0BpbrM0dJEjC5c3q5V3ac1nZRR4qlBcddsbP_kPpW-WIlDfV60doHihuTNPFUgiPwfjgamNVt5Vjw05-uZqdThBcfNJX-s8Ka-p_Y" alt="Global Power Rankings powered by AWS" class="w-full h-auto block object-cover">
-    <h1 class="sr-only">Global Power Rankings powered by aws</h1>
-  </div>
-</section>
-<!-- END: HeroBanner -->
-<!-- BEGIN: MainContent -->
-<main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-1">
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-<!-- LEFT COLUMN: Main Rankings Table (~70% = 8 cols on desktop / 8.5 equivalent) -->
-<section aria-label="Bảng Xếp Hạng Đội Tuyển" class="lg:col-span-8 flex flex-col space-y-3">
-<!-- Filter Header Bar -->
-<div class="bg-[#12161f] border border-[#1d232e] rounded-t-md p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs">
-<div class="flex items-baseline space-x-3">
-<!-- Dropdown: Hiện Tại -->
-<div class="relative inline-flex items-center font-bold text-white text-sm cursor-pointer hover:text-gray-200">
-<span class="">Hiện Tại</span>
-<svg class="w-3.5 h-3.5 ml-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
-</svg>
-</div>
-<!-- Update Timestamp -->
-<span class="text-[#7c889b] text-[11px]">Đã cập nhật: 10:00 SA 7/9/26</span>
-</div>
-<!-- Secondary Tournament / Event Filters -->
-<div class="flex items-center space-x-2">
-<button class="bg-[#191f2b] hover:bg-[#232b3c] border border-[#273042] text-gray-300 px-3 py-1 rounded text-xs inline-flex items-center gap-1.5 transition">
-<span class="">Giải Đấu</span>
-<svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-<button class="bg-[#191f2b] hover:bg-[#232b3c] border border-[#273042] text-gray-300 px-3 py-1 rounded text-xs inline-flex items-center gap-1.5 transition">
-<span class="">Sự Kiện</span>
-<svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-</div>
-</div>
-<!-- Table Container -->
-<div class="bg-[#12161f] border border-[#1d232e] border-t-0 rounded-b-md overflow-x-auto custom-scrollbar">
-<table class="w-full text-left border-collapse min-w-[620px]">
-<thead>
-<tr class="border-b border-[#1d232e] text-[11px] uppercase tracking-wider text-[#69768a] bg-[#0e1219]">
-<th class="py-2.5 px-3 w-16 text-center font-medium" scope="col">
-<div class="flex items-center justify-center space-x-0.5">
-<span class="">#</span>
-<svg class="w-2.5 h-2.5 text-[#69768a]" fill="currentColor" viewBox="0 0 20 20">
-<path d="M5 10l5-5 5 5H5z"></path>
-</svg>
-</div>
-</th>
-<th class="py-2.5 px-3 font-medium" scope="col">Đội Tuyển</th>
-<th class="py-2.5 px-3 font-medium text-center" scope="col">Điểm</th>
-<th class="py-2.5 px-3 font-medium text-center" scope="col">
-<div class="flex items-center justify-center space-x-1">
-<span class="">T / B</span>
-<svg class="w-2.5 h-2.5 text-[#69768a]" fill="currentColor" viewBox="0 0 20 20">
-<path d="M5 8l5-5 5 5H5zm0 4l5 5 5-5H5z"></path>
-</svg>
-</div>
-</th>
-<th class="py-2.5 px-3 font-medium text-center" scope="col">Các Sự Kiện Quốc Tế</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-[#181e2b] text-xs"><!-- ROW 1: LEVIATÁN -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">1</span>
-      <span class="w-7 h-5 rounded bg-[#1f242d] text-[#64748b] text-[11px] font-mono flex items-center justify-center">-</span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded-full bg-[#1b2b3a] border border-[#2b4c6b] flex items-center justify-center p-1 shrink-0">
-        <svg class="w-full h-full fill-[#38bdf8]" viewBox="0 0 24 24"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 3.5l5 3.1v6.8l-5 3.1-5-3.1V8.6l5-3.1z"></path></svg>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">Leviatán Esports</div>
-        <div class="text-[10px] text-[#718096]">VCT Americas</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1486 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">20-10 <span class="text-[10px] text-[#64748b]">(.667)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a220a] text-[#fbbf24] border border-[#854d0e] flex items-center gap-1">
-        <span class="">✻</span> Hạng nhất
-      </span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 2: GLOBAL ESPORTS -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">2</span>
-      <span class="w-7 h-5 rounded bg-[#122b19] text-emerald-400 text-[10px] font-bold flex items-center justify-center gap-0.5">
-        <svg class="w-2.5 h-2.5 fill-emerald-400" viewBox="0 0 24 24"><path d="M12 4l-8 8h16z"></path></svg> 3
-      </span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded-full bg-[#201d2d] border border-[#4f46e5] flex items-center justify-center p-0.5 shrink-0">
-        <span class="text-[8px] font-black tracking-tighter text-[#818cf8]">GLOBAL</span>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">GLOBAL ESPORTS</div>
-        <div class="text-[10px] text-[#718096]">VCT Pacific</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1455 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">16-12 <span class="text-[10px] text-[#64748b]">(.571)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1">
-        <span class="">✻</span> Hạng 10
-      </span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 3: 100 THIEVES -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">3</span>
-      <span class="w-7 h-5 rounded bg-[#2a1315] text-rose-400 text-[10px] font-bold flex items-center justify-center gap-0.5">
-        <svg class="w-2.5 h-2.5 fill-rose-400" viewBox="0 0 24 24"><path d="M12 20l8-8H4z"></path></svg> 2
-      </span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded-full bg-[#2a1315] border border-[#ef4444] flex items-center justify-center p-0.5 shrink-0">
-        <span class="text-[9px] font-black italic tracking-tighter text-white">100T</span>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">100 Thieves</div>
-        <div class="text-[10px] text-[#718096]">VCT Americas</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1449 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">17-8 <span class="text-[10px] text-[#64748b]">(.680)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 4: PAPER REX -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">4</span>
-      <span class="w-7 h-5 rounded bg-[#1f242d] text-[#64748b] text-[11px] font-mono flex items-center justify-center">-</span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded-full bg-[#1e2029] border border-[#d946ef] flex items-center justify-center p-0.5 shrink-0">
-        <span class="text-[9px] font-black text-[#f472b6]">PRX</span>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">Paper Rex</div>
-        <div class="text-[10px] text-[#718096]">VCT Pacific</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1433 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">26-11 <span class="text-[10px] text-[#64748b]">(.703)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1">
-        <span class="">✻</span> Hạng nhì
-      </span>
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1">
-        <span class="">✻</span> Hạng nhì
-      </span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 5: NONGSHIM REDFORCE -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">5</span>
-      <span class="w-7 h-5 rounded bg-[#2a1315] text-rose-400 text-[10px] font-bold flex items-center justify-center gap-0.5">
-        <svg class="w-2.5 h-2.5 fill-rose-400" viewBox="0 0 24 24"><path d="M12 20l8-8H4z"></path></svg> 2
-      </span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded bg-[#2b1616] border border-[#dc2626] flex items-center justify-center p-0.5 shrink-0">
-        <span class="text-[9px] font-black text-rose-500 uppercase">NS</span>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">NONGSHIM REDFORCE</div>
-        <div class="text-[10px] text-[#718096]">VCT Pacific</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1410 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">17-8 <span class="text-[10px] text-[#64748b]">(.680)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a220a] text-[#fbbf24] border border-[#854d0e] flex items-center gap-1">
-        <span class="">✻</span> Hạng nhất
-      </span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 6: T1 -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">6</span>
-      <span class="w-7 h-5 rounded bg-[#1f242d] text-[#64748b] text-[11px] font-mono flex items-center justify-center">-</span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded-full bg-[#26161c] border border-[#e11d48] flex items-center justify-center p-0.5 shrink-0">
-        <span class="text-[10px] font-black text-rose-500">T1</span>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">T1</div>
-        <div class="text-[10px] text-[#718096]">VCT Pacific</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1402 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">20-9 <span class="text-[10px] text-[#64748b]">(.690)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1">
-        <span class="">✻</span> Hạng 10
-      </span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 7: LOUD -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">7</span>
-      <span class="w-7 h-5 rounded bg-[#122b19] text-emerald-400 text-[10px] font-bold flex items-center justify-center gap-0.5">
-        <svg class="w-2.5 h-2.5 fill-emerald-400" viewBox="0 0 24 24"><path d="M12 4l-8 8h16z"></path></svg> 3
-      </span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded-full bg-[#122b19] border border-[#22c55e] flex items-center justify-center p-1 shrink-0">
-        <svg class="w-3.5 h-3.5 fill-[#22c55e]" viewBox="0 0 24 24"><path d="M4 2v20l17-10L4 2z"></path></svg>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">LOUD</div>
-        <div class="text-[10px] text-[#718096]">VCT Americas</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1396 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">10-10 <span class="text-[10px] text-[#64748b]">(.500)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 8: NRG -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">8</span>
-      <span class="w-7 h-5 rounded bg-[#2a1315] text-rose-400 text-[10px] font-bold flex items-center justify-center gap-0.5">
-        <svg class="w-2.5 h-2.5 fill-rose-400" viewBox="0 0 24 24"><path d="M12 20l8-8H4z"></path></svg> 1
-      </span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded bg-[#1f242d] border border-[#4b5563] flex items-center justify-center p-0.5 shrink-0">
-        <span class="text-[9px] font-black text-gray-200 tracking-tighter">NRG</span>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">NRG</div>
-        <div class="text-[10px] text-[#718096]">VCT Americas</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1393 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">21-12 <span class="text-[10px] text-[#64748b]">(.636)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#2a1b12] text-[#ea580c] border border-[#854d0e] flex items-center gap-1">
-        <span class="">✻</span> Hạng ba
-      </span>
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1">
-        <span class="">✻</span> Hạng 9
-      </span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 9: KARMINE CORP -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">9</span>
-      <span class="w-7 h-5 rounded bg-[#2a1315] text-rose-400 text-[10px] font-bold flex items-center justify-center gap-0.5">
-        <svg class="w-2.5 h-2.5 fill-rose-400" viewBox="0 0 24 24"><path d="M12 20l8-8H4z"></path></svg> 1
-      </span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded-full bg-[#1b2b3a] border border-[#38bdf8] flex items-center justify-center p-0.5 shrink-0">
-        <span class="text-[9px] font-black text-[#38bdf8]">KC</span>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">Karmine Corp</div>
-        <div class="text-[10px] text-[#718096]">VCT EMEA</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1384 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">8-9 <span class="text-[10px] text-[#64748b]">(.471)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 10: TEAM LIQUID -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">10</span>
-      <span class="w-7 h-5 rounded bg-[#2a1315] text-rose-400 text-[10px] font-bold flex items-center justify-center gap-0.5">
-        <svg class="w-2.5 h-2.5 fill-rose-400" viewBox="0 0 24 24"><path d="M12 20l8-8H4z"></path></svg> 1
-      </span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded-full bg-[#1b2b3a] border border-[#2b4c6b] flex items-center justify-center p-0.5 shrink-0">
-        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5v-3h-2v3H9v-5h6v5h-2zm0-7h-2V7h2v2.5z"></path></svg>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">Team Liquid</div>
-        <div class="text-[10px] text-[#718096]">VCT EMEA</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1381 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">18-11 <span class="text-[10px] text-[#64748b]">(.621)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1">
-        <span class="">✻</span> Hạng 9
-      </span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 11: TEAM VITALITY -->
-<tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">11</span>
-      <span class="w-7 h-5 rounded bg-[#1f242d] text-[#64748b] text-[11px] font-mono flex items-center justify-center">-</span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded-full bg-[#2a220a] border border-[#fbbf24] flex items-center justify-center p-0.5 shrink-0">
-        <span class="text-[9px] font-black text-[#fbbf24]">VIT</span>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">Team Vitality</div>
-        <div class="text-[10px] text-[#718096]">VCT EMEA</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1356 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">16-12 <span class="text-[10px] text-[#64748b]">(.571)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1">
-        <span class="">✻</span> Hạng 4
-      </span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr>
-<!-- ROW 12: G2 ESPORTS -->
-<tr class="hover:bg-[#151b26] transition-colors">
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-2">
-      <span class="font-extrabold text-white text-sm w-4 text-center">12</span>
-      <span class="w-7 h-5 rounded bg-[#1f242d] text-[#64748b] text-[11px] font-mono flex items-center justify-center">-</span>
-    </div>
-  </td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-7 h-7 rounded-full bg-[#1f242d] border border-gray-400 flex items-center justify-center p-0.5 shrink-0">
-        <span class="text-[9px] font-black text-white">G2</span>
-      </div>
-      <div>
-        <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">G2 Esports</div>
-        <div class="text-[10px] text-[#718096]">VCT Americas</div>
-      </div>
-    </div>
-  </td>
-  <td class="py-3.5 px-3 font-bold text-white">1334 <span class="text-[10px] font-normal text-gray-400">đ</span></td>
-  <td class="py-3.5 px-3 text-center text-[#94a3b8]">23-13 <span class="text-[10px] text-[#64748b]">(.639)</span></td>
-  <td class="py-3.5 px-3">
-    <div class="flex items-center space-x-1.5">
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1">
-        <span class="">✻</span> Hạng 4
-      </span>
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1">
-        <span class="">✻</span> Hạng 8
-      </span>
-      <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
-    </div>
-  </td>
-</tr></tbody>
-</table>
-</div>
-</section>
-<!-- RIGHT COLUMN: Explanatory Sidebar & Regional Rankings (~30%) -->
-<aside aria-label="Thông Tin Chi Tiết" class="lg:col-span-4 flex flex-col space-y-4">
-<!-- Card 1: What is Global Power Rankings -->
-<div class="bg-[#12161f] border border-[#1e2532] rounded-md p-4 flex flex-col space-y-3">
-<!-- Card Title -->
-<h2 class="text-sm font-bold text-white">Global Power Rankings là gì?</h2>
-<!-- Explanation Paragraph -->
-<p class="text-[11px] leading-relaxed text-[#8d9ab0]">
-            Bảng Xếp Hạng Sức Mạnh Toàn Cầu là bậc xếp hạng sức mạnh các đội tuyển trong giải đấu Hạng 1. Bậc này được tính toán dựa trên sự kết hợp giữa các điểm số sau:
-          </p>
-<!-- Nested Subcard: Team Performance Metrics -->
-<div class="bg-[#0b0e14] border border-[#1b222f] rounded p-3 space-y-2.5">
-<div class="text-[11px] font-bold text-white uppercase tracking-wider">
-              Thành Tích Của Đội
+      .hero-glow-bg {
+        background:
+          radial-gradient(
+            circle at 65% 50%,
+            rgba(217, 119, 6, 0.22) 0%,
+            rgba(239, 68, 68, 0.12) 35%,
+            rgba(11, 14, 19, 0.98) 75%
+          ),
+          linear-gradient(180deg, rgba(17, 21, 28, 0.6) 0%, #0b0e13 100%);
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #2a3241;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #11151c;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen flex flex-col bg-[#0b0e13] text-[#e6e8ea] antialiased selection:bg-[#ff4655] selection:text-white"
+  >
+    <!-- BEGIN: TopNavigationBar -->
+    <header
+      class="w-full bg-[#05070a] border-b border-[#151921] sticky top-0 z-50"
+    >
+      <div
+        class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between"
+      >
+        <!-- Brand Logos and Primary Navigation Links -->
+        <div class="flex items-center space-x-5 lg:space-x-7">
+          <!-- Brand Group: Riot Games & DAUTRUONGESPORTS -->
+          <div class="flex items-center space-x-4 pr-1">
+            <!-- Riot Games Fist Icon + Wordmark with Caret -->
+            <a
+              class="flex items-center space-x-1.5 hover:opacity-80 transition-opacity text-white group"
+              href="index.html"
+              title="Riot Games"
+            >
+              <!-- Riot Games Fist SVG -->
+              <svg class="w-4 h-4 fill-white shrink-0" viewBox="0 0 24 24">
+                <path
+                  d="M2.5 4.5l4.2 2.8 1.4-1.4L4.8 3.5 2.5 4.5zm5.7 3.8l2.9 2-1 2.2-2.8-1.9.9-2.3zm3.8 2.6l2.9 2-1 2.2-2.8-1.9.9-2.3zm4.8-5.7l-4.5 3.1 1.2 2.8 3.6-2.5 1.5 1.5-3.3 2.3 1.2 2.7 5.1-3.5L20 8.5l-3.2-3.3zm-13.6 7l1.7 5.7 4.1.8 1.8-3.9-3.8-2.6-3.8z"
+                ></path>
+              </svg>
+              <span
+                class="font-extrabold text-[12px] tracking-wider uppercase text-white font-sans"
+                >RIOT GAMES</span
+              >
+              <svg
+                class="w-3 h-3 text-white/70 group-hover:text-white transition-colors"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+            </a>
+            <!-- Subtle vertical divider -->
+            <div class="h-5 w-[1px] bg-[#222834]"></div>
+            <!-- Tour Section: VCT Logo + DAUTRUONGESPORTS + VCT Pill + Subtitle -->
+            <div class="flex items-center space-x-2.5">
+              <!-- Red VCT Spark -->
+              <a
+                class="flex items-center group shrink-0"
+                href="index.html"
+                title="VALORANT Champions Tour"
+              >
+                <svg
+                  class="w-4 h-5 fill-[#ff4655] group-hover:scale-105 transition-transform"
+                  viewBox="0 0 32 36"
+                >
+                  <path
+                    d="M16 0L0 18l3 3.5L16 6.8l13 14.7 3-3.5L16 0zm-8.8 24.5L16 14.2l8.8 10.3L30 21.2 16 5 2 21.2l5.2 3.3zm8.8-4.5l-4.5 5.2 4.5 5.3 4.5-5.3-4.5-5.2z"
+                  ></path>
+                </svg>
+              </a>
+              <div class="flex flex-col justify-center leading-none">
+                <div class="flex items-center space-x-1.5">
+                  <span
+                    class="text-white font-black text-[13px] tracking-tight uppercase"
+                    >DAUTRUONGESPORTS</span
+                  >
+                  <span
+                    class="border border-[#e11d48] text-[#ff4655] text-[9px] font-bold px-1 py-0.2 rounded tracking-tighter scale-90 inline-flex items-center justify-center"
+                    >VCT</span
+                  >
+                </div>
+                <span
+                  class="text-[9px] text-[#8e98a8] tracking-[0.16em] uppercase font-semibold mt-0.5"
+                  >CHAMPIONS TOUR</span
+                >
+              </div>
             </div>
-<!-- Metric Item 1 -->
-<div class="flex items-start space-x-2.5 pt-1">
-<div class="text-[#8d9ab0] mt-0.5 shrink-0">
-<!-- Competency Context Icon -->
-<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M4 6h16M4 12h8m-8 6h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<div>
-<div class="text-[11px] font-medium text-gray-200">Bối Cảnh Thi Đấu</div>
-<div class="text-[10px] text-[#69768a] leading-tight">Ví dụ: Vòng Playoffs Champions &gt; Mùa Giải Chính</div>
-</div>
-</div>
-<!-- Metric Item 2 -->
-<div class="flex items-start space-x-2.5">
-<div class="text-[#8d9ab0] mt-0.5 shrink-0">
-<!-- Recent form pulse icon -->
-<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<div>
-<div class="text-[11px] font-medium text-gray-200">Thành Tích Gần Đây</div>
-<div class="text-[10px] text-[#69768a] leading-tight">Những trận đấu gần đây của các đội có mức độ quan trọng cao hơn</div>
-</div>
-</div>
-<!-- Metric Item 3 -->
-<div class="flex items-start space-x-2.5">
-<div class="text-[#8d9ab0] mt-0.5 shrink-0">
-<!-- Margin of victory icon -->
-<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<div>
-<div class="text-[11px] font-medium text-gray-200">Biên Độ Chiến Thắng</div>
-<div class="text-[10px] text-[#69768a] leading-tight">Thắng / Thua trên Bản Đồ</div>
-</div>
-</div>
-<!-- Metric Item 4 -->
-<div class="flex items-start space-x-2.5">
-<div class="text-[#8d9ab0] mt-0.5 shrink-0">
-<!-- Opponent Strength Dumbbell icon -->
-<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M3 6h18M6 18h12M9 6v12m6-12v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<div>
-<div class="text-[11px] font-medium text-gray-200">Sức Mạnh Của Đối Thủ</div>
-<div class="text-[10px] text-[#69768a] leading-tight">Sự khác biệt về Điểm Sức Mạnh</div>
-</div>
-</div>
-<!-- Expand / Plus icon center aligned -->
-<div class="pt-1 flex justify-center">
-<button class="text-[#64748b] hover:text-white transition-colors" title="Xem thêm chi tiết">
-<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-</div>
-</div>
-</div>
-<!-- Card 2: Regional Power Points -->
-<div class="bg-[#12161f] border border-[#1e2532] rounded-md p-4 flex flex-col space-y-3">
-<h2 class="text-xs font-bold text-white uppercase tracking-wider">
-            Điểm Sức Mạnh Khu Vực
-          </h2>
-<div class="space-y-2.5 pt-1 text-xs">
-<!-- Region: Americas -->
-<div class="flex items-center justify-between">
-<div class="flex items-center space-x-2.5">
-<!-- Orange Shield Icon -->
-<div class="w-5 h-5 flex items-center justify-center">
-<svg class="w-4 h-4 fill-[#ea580c]" viewBox="0 0 24 24">
-<path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"></path>
-</svg>
-</div>
-<span class="font-semibold text-gray-200 text-[11px] tracking-wide">VCT AMERICAS</span>
-</div>
-<span class="font-bold text-white text-[12px]">1476</span>
-</div>
-<!-- Region: Pacific -->
-<div class="flex items-center justify-between">
-<div class="flex items-center space-x-2.5">
-<!-- Cyan Swirl Icon -->
-<div class="w-5 h-5 flex items-center justify-center">
-<svg class="w-4 h-4 text-[#06b6d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
-</svg>
-</div>
-<span class="font-semibold text-gray-200 text-[11px] tracking-wide">VCT PACIFIC</span>
-</div>
-<span class="font-bold text-white text-[12px]">1475</span>
-</div>
-<!-- Region: EMEA -->
-<div class="flex items-center justify-between">
-<div class="flex items-center space-x-2.5">
-<!-- Lime Green Cross Icon -->
-<div class="w-5 h-5 flex items-center justify-center">
-<svg class="w-4 h-4 fill-[#84cc16]" viewBox="0 0 24 24">
-<path d="M19 10.5h-5.5V5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v5.5H5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h5.5V19c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-5.5H19c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5z"></path>
-</svg>
-</div>
-<span class="font-semibold text-gray-200 text-[11px] tracking-wide">VCT EMEA</span>
-</div>
-<span class="font-bold text-white text-[12px]">1386</span>
-</div>
-<!-- Region: CN -->
-<div class="flex items-center justify-between">
-<div class="flex items-center space-x-2.5">
-<!-- Red Starburst Icon -->
-<div class="w-5 h-5 flex items-center justify-center">
-<svg class="w-4 h-4 fill-[#ef4444]" viewBox="0 0 24 24">
-<path d="M12 2l2.4 6.8H21l-5.6 4.3 2.1 6.9-5.5-4.2-5.5 4.2 2.1-6.9L3 8.8h6.6L12 2z"></path>
-</svg>
-</div>
-<span class="font-semibold text-gray-200 text-[11px] tracking-wide">VCT CN</span>
-</div>
-<span class="font-bold text-white text-[12px]">1263</span>
-</div>
-</div>
-</div>
-</aside>
-</div>
-</main>
-<!-- END: MainContent -->
-<!-- BEGIN: MainFooter -->
-<footer class="w-full bg-[#0a0d12] border-t border-[#1a202c] py-6 mt-8">
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between text-[#616e83] text-[11px] gap-3">
-<div class="flex items-center space-x-4">
-<span class="">© 2026 Riot Games, Inc. VALORANT, Champions Tour và các logo liên quan là thương hiệu của Riot Games.</span>
-</div>
-<div class="flex items-center space-x-4">
-<a class="hover:text-white transition-colors" href="index.html">Về Trang Chủ</a>
-<span class="">•</span>
-<a class="hover:text-white transition-colors" href="#">Điều Khoản Dịch Vụ</a>
-<span class="">•</span>
-<a class="hover:text-white transition-colors" href="#">Chính Sách Quyền Riêng Tư</a>
-</div>
-</div>
-</footer>
-<!-- END: MainFooter -->
-
-
-</body></html>
+          </div>
+          <!-- Desktop Navigation Items (Vietnamese) -->
+          <nav
+            aria-label="Main Navigation"
+            class="hidden md:flex items-center space-x-6 text-[12px] tracking-wide font-bold uppercase"
+          >
+            <!-- TRANG CHỦ with red bottom indicator -->
+            <a
+              class="text-white border-[#ff4655] pb-0.5 pt-0.5 tracking-wide"
+              href="index.html"
+              >TRANG CHỦ</a
+            >
+            <!-- SỰ KIỆN & BẢNG XẾP HẠNG with chevron -->
+            <div class="relative group">
+              <button
+                class="text-[#96a0b2] hover:text-white transition-colors duration-150 flex items-center gap-1 py-1 uppercase tracking-wide"
+              >
+                <span class="">SỰ KIỆN &amp; BẢNG XẾP HẠNG</span>
+                <svg
+                  class="w-3 h-3 text-[#96a0b2] group-hover:text-white transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <!-- XẾP HẠNG SỨC MẠNH -->
+            <a
+              class="text-white border-[#ff4655] pb-0.5 pt-0.5 tracking-wide"
+              href="xephangsucmanh.html"
+              >XẾP HẠNG SỨC MẠNH</a
+            >
+            <!-- DỰ ĐOÁN -->
+            <a
+              class="text-[#96a0b2] hover:text-white transition-colors duration-150 py-1 tracking-wide"
+              href="dudoan.html"
+              >DỰ ĐOÁN</a
+            >
+            <!-- TIN TỨC -->
+            <a
+              class="text-[#96a0b2] hover:text-white transition-colors duration-150 py-1 tracking-wide"
+              href="tintuc.html"
+              >TIN TỨC</a
+            >
+          </nav>
+        </div>
+        <!-- Right Control Action Buttons -->
+        <div class="flex items-center space-x-3.5">
+          <!-- Language / Globe Button -->
+          <button
+            aria-label="Chọn Ngôn Ngữ"
+            class="text-[#96a0b2] hover:text-white p-1 rounded transition-colors"
+            type="button"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="9" stroke-width="1.8"></circle>
+              <path
+                d="M3.6 9h16.8M3.6 15h16.8M12 3a14.5 14.5 0 010 18M12 3a14.5 14.5 0 000 18"
+                stroke-width="1.8"
+              ></path>
+            </svg>
+          </button>
+          <!-- Red Login Button in Vietnamese -->
+          <button
+            class="bg-[#ff4655] hover:bg-[#d63845] active:scale-95 text-white font-bold text-[11px] tracking-wider uppercase px-4 py-1.5 rounded transition duration-150"
+            type="button"
+          >
+            ĐĂNG NHẬP
+          </button>
+        </div>
+      </div>
+    </header>
+    <!-- END: TopNavigationBar -->
+    <!-- BEGIN: HeroBanner -->
+    <section
+      class="relative w-full border-b border-[#1b222d] overflow-hidden bg-[#05070a]"
+    >
+      <div class="max-w-[1440px] mx-auto relative">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUEjPpPWwZCtwogtiASz3D_pSDK8gH3_KlahOAoY1AIL3968Jh-JAyaHeoipRevQlVtp_rdYRUgV-G2iWWEAuRa8q-Zjyjsw7gxF9oVejQS1aVy48izUyIJhephXzbgBuZpSPmpoA2f419egOH8KTajah2O4LcaV0BpbrM0dJEjC5c3q5V3ac1nZRR4qlBcddsbP_kPpW-WIlDfV60doHihuTNPFUgiPwfjgamNVt5Vjw05-uZqdThBcfNJX-s8Ka-p_Y"
+          alt="Global Power Rankings powered by AWS"
+          class="w-full h-auto block object-cover"
+        />
+        <h1 class="sr-only">Global Power Rankings powered by aws</h1>
+      </div>
+    </section>
+    <!-- END: HeroBanner -->
+    <!-- BEGIN: MainContent -->
+    <main
+      class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-1"
+    >
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        <!-- LEFT COLUMN: Main Rankings Table (~70% = 8 cols on desktop / 8.5 equivalent) -->
+        <section
+          aria-label="Bảng Xếp Hạng Đội Tuyển"
+          class="lg:col-span-8 flex flex-col space-y-3"
+        >
+          <!-- Filter Header Bar -->
+          <div
+            class="bg-[#12161f] border border-[#1d232e] rounded-t-md p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs"
+          >
+            <div class="flex items-baseline space-x-3">
+              <!-- Dropdown: Hiện Tại -->
+              <div
+                class="relative inline-flex items-center font-bold text-white text-sm cursor-pointer hover:text-gray-200"
+              >
+                <span class="">Hiện Tại</span>
+                <svg
+                  class="w-3.5 h-3.5 ml-1 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.5"
+                  ></path>
+                </svg>
+              </div>
+              <!-- Update Timestamp -->
+              <span class="text-[#7c889b] text-[11px]"
+                >Đã cập nhật: 10:00 SA 7/9/26</span
+              >
+            </div>
+            <!-- Secondary Tournament / Event Filters -->
+            <div class="flex items-center space-x-2">
+              <button
+                class="bg-[#191f2b] hover:bg-[#232b3c] border border-[#273042] text-gray-300 px-3 py-1 rounded text-xs inline-flex items-center gap-1.5 transition"
+              >
+                <span class="">Giải Đấu</span>
+                <svg
+                  class="w-3 h-3 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  ></path>
+                </svg>
+              </button>
+              <button
+                class="bg-[#191f2b] hover:bg-[#232b3c] border border-[#273042] text-gray-300 px-3 py-1 rounded text-xs inline-flex items-center gap-1.5 transition"
+              >
+                <span class="">Sự Kiện</span>
+                <svg
+                  class="w-3 h-3 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <!-- Table Container -->
+          <div
+            class="bg-[#12161f] border border-[#1d232e] border-t-0 rounded-b-md overflow-x-auto custom-scrollbar"
+          >
+            <table class="w-full text-left border-collapse min-w-[620px]">
+              <thead>
+                <tr
+                  class="border-b border-[#1d232e] text-[11px] uppercase tracking-wider text-[#69768a] bg-[#0e1219]"
+                >
+                  <th
+                    class="py-2.5 px-3 w-16 text-center font-medium"
+                    scope="col"
+                  >
+                    <div class="flex items-center justify-center space-x-0.5">
+                      <span class="">#</span>
+                      <svg
+                        class="w-2.5 h-2.5 text-[#69768a]"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M5 10l5-5 5 5H5z"></path>
+                      </svg>
+                    </div>
+                  </th>
+                  <th class="py-2.5 px-3 font-medium" scope="col">Đội Tuyển</th>
+                  <th class="py-2.5 px-3 font-medium text-center" scope="col">
+                    Điểm
+                  </th>
+                  <th class="py-2.5 px-3 font-medium text-center" scope="col">
+                    <div class="flex items-center justify-center space-x-1">
+                      <span class="">T / B</span>
+                      <svg
+                        class="w-2.5 h-2.5 text-[#69768a]"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M5 8l5-5 5 5H5zm0 4l5 5 5-5H5z"></path>
+                      </svg>
+                    </div>
+                  </th>
+                  <th class="py-2.5 px-3 font-medium text-center" scope="col">
+                    Các Sự Kiện Quốc Tế
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[#181e2b] text-xs">
+                <!-- ROW 1: LEVIATÁN -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >1</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#1f242d] text-[#64748b] text-[11px] font-mono flex items-center justify-center"
+                        >-</span
+                      >
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded-full bg-[#1b2b3a] border border-[#2b4c6b] flex items-center justify-center p-1 shrink-0"
+                      >
+                        <svg
+                          class="w-full h-full fill-[#38bdf8]"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 3.5l5 3.1v6.8l-5 3.1-5-3.1V8.6l5-3.1z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          Leviatán Esports
+                        </div>
+                        <div class="text-[10px] text-[#718096]">
+                          VCT Americas
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1486
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    20-10 <span class="text-[10px] text-[#64748b]">(.667)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a220a] text-[#fbbf24] border border-[#854d0e] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng nhất
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 2: GLOBAL ESPORTS -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >2</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#122b19] text-emerald-400 text-[10px] font-bold flex items-center justify-center gap-0.5"
+                      >
+                        <svg
+                          class="w-2.5 h-2.5 fill-emerald-400"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 4l-8 8h16z"></path>
+                        </svg>
+                        3
+                      </span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded-full bg-[#201d2d] border border-[#4f46e5] flex items-center justify-center p-0.5 shrink-0"
+                      >
+                        <span
+                          class="text-[8px] font-black tracking-tighter text-[#818cf8]"
+                          >GLOBAL</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          GLOBAL ESPORTS
+                        </div>
+                        <div class="text-[10px] text-[#718096]">
+                          VCT Pacific
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1455
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    16-12 <span class="text-[10px] text-[#64748b]">(.571)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng 10
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 3: 100 THIEVES -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >3</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#2a1315] text-rose-400 text-[10px] font-bold flex items-center justify-center gap-0.5"
+                      >
+                        <svg
+                          class="w-2.5 h-2.5 fill-rose-400"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 20l8-8H4z"></path>
+                        </svg>
+                        2
+                      </span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded-full bg-[#2a1315] border border-[#ef4444] flex items-center justify-center p-0.5 shrink-0"
+                      >
+                        <span
+                          class="text-[9px] font-black italic tracking-tighter text-white"
+                          >100T</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          100 Thieves
+                        </div>
+                        <div class="text-[10px] text-[#718096]">
+                          VCT Americas
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1449
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    17-8 <span class="text-[10px] text-[#64748b]">(.680)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 4: PAPER REX -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >4</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#1f242d] text-[#64748b] text-[11px] font-mono flex items-center justify-center"
+                        >-</span
+                      >
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded-full bg-[#1e2029] border border-[#d946ef] flex items-center justify-center p-0.5 shrink-0"
+                      >
+                        <span class="text-[9px] font-black text-[#f472b6]"
+                          >PRX</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          Paper Rex
+                        </div>
+                        <div class="text-[10px] text-[#718096]">
+                          VCT Pacific
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1433
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    26-11 <span class="text-[10px] text-[#64748b]">(.703)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng nhì
+                      </span>
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng nhì
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 5: NONGSHIM REDFORCE -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >5</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#2a1315] text-rose-400 text-[10px] font-bold flex items-center justify-center gap-0.5"
+                      >
+                        <svg
+                          class="w-2.5 h-2.5 fill-rose-400"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 20l8-8H4z"></path>
+                        </svg>
+                        2
+                      </span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded bg-[#2b1616] border border-[#dc2626] flex items-center justify-center p-0.5 shrink-0"
+                      >
+                        <span
+                          class="text-[9px] font-black text-rose-500 uppercase"
+                          >NS</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          NONGSHIM REDFORCE
+                        </div>
+                        <div class="text-[10px] text-[#718096]">
+                          VCT Pacific
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1410
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    17-8 <span class="text-[10px] text-[#64748b]">(.680)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a220a] text-[#fbbf24] border border-[#854d0e] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng nhất
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 6: T1 -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >6</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#1f242d] text-[#64748b] text-[11px] font-mono flex items-center justify-center"
+                        >-</span
+                      >
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded-full bg-[#26161c] border border-[#e11d48] flex items-center justify-center p-0.5 shrink-0"
+                      >
+                        <span class="text-[10px] font-black text-rose-500"
+                          >T1</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          T1
+                        </div>
+                        <div class="text-[10px] text-[#718096]">
+                          VCT Pacific
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1402
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    20-9 <span class="text-[10px] text-[#64748b]">(.690)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng 10
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 7: LOUD -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >7</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#122b19] text-emerald-400 text-[10px] font-bold flex items-center justify-center gap-0.5"
+                      >
+                        <svg
+                          class="w-2.5 h-2.5 fill-emerald-400"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 4l-8 8h16z"></path>
+                        </svg>
+                        3
+                      </span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded-full bg-[#122b19] border border-[#22c55e] flex items-center justify-center p-1 shrink-0"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5 fill-[#22c55e]"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M4 2v20l17-10L4 2z"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          LOUD
+                        </div>
+                        <div class="text-[10px] text-[#718096]">
+                          VCT Americas
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1396
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    10-10 <span class="text-[10px] text-[#64748b]">(.500)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 8: NRG -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >8</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#2a1315] text-rose-400 text-[10px] font-bold flex items-center justify-center gap-0.5"
+                      >
+                        <svg
+                          class="w-2.5 h-2.5 fill-rose-400"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 20l8-8H4z"></path>
+                        </svg>
+                        1
+                      </span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded bg-[#1f242d] border border-[#4b5563] flex items-center justify-center p-0.5 shrink-0"
+                      >
+                        <span
+                          class="text-[9px] font-black text-gray-200 tracking-tighter"
+                          >NRG</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          NRG
+                        </div>
+                        <div class="text-[10px] text-[#718096]">
+                          VCT Americas
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1393
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    21-12 <span class="text-[10px] text-[#64748b]">(.636)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#2a1b12] text-[#ea580c] border border-[#854d0e] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng ba
+                      </span>
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng 9
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 9: KARMINE CORP -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >9</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#2a1315] text-rose-400 text-[10px] font-bold flex items-center justify-center gap-0.5"
+                      >
+                        <svg
+                          class="w-2.5 h-2.5 fill-rose-400"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 20l8-8H4z"></path>
+                        </svg>
+                        1
+                      </span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded-full bg-[#1b2b3a] border border-[#38bdf8] flex items-center justify-center p-0.5 shrink-0"
+                      >
+                        <span class="text-[9px] font-black text-[#38bdf8]"
+                          >KC</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          Karmine Corp
+                        </div>
+                        <div class="text-[10px] text-[#718096]">VCT EMEA</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1384
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    8-9 <span class="text-[10px] text-[#64748b]">(.471)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 10: TEAM LIQUID -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >10</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#2a1315] text-rose-400 text-[10px] font-bold flex items-center justify-center gap-0.5"
+                      >
+                        <svg
+                          class="w-2.5 h-2.5 fill-rose-400"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 20l8-8H4z"></path>
+                        </svg>
+                        1
+                      </span>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded-full bg-[#1b2b3a] border border-[#2b4c6b] flex items-center justify-center p-0.5 shrink-0"
+                      >
+                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24">
+                          <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5v-3h-2v3H9v-5h6v5h-2zm0-7h-2V7h2v2.5z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          Team Liquid
+                        </div>
+                        <div class="text-[10px] text-[#718096]">VCT EMEA</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1381
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    18-11 <span class="text-[10px] text-[#64748b]">(.621)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng 9
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 11: TEAM VITALITY -->
+                <tr
+                  class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
+                >
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >11</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#1f242d] text-[#64748b] text-[11px] font-mono flex items-center justify-center"
+                        >-</span
+                      >
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded-full bg-[#2a220a] border border-[#fbbf24] flex items-center justify-center p-0.5 shrink-0"
+                      >
+                        <span class="text-[9px] font-black text-[#fbbf24]"
+                          >VIT</span
+                        >
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          Team Vitality
+                        </div>
+                        <div class="text-[10px] text-[#718096]">VCT EMEA</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1356
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    16-12 <span class="text-[10px] text-[#64748b]">(.571)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng 4
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <!-- ROW 12: G2 ESPORTS -->
+                <tr class="hover:bg-[#151b26] transition-colors">
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="font-extrabold text-white text-sm w-4 text-center"
+                        >12</span
+                      >
+                      <span
+                        class="w-7 h-5 rounded bg-[#1f242d] text-[#64748b] text-[11px] font-mono flex items-center justify-center"
+                        >-</span
+                      >
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-7 h-7 rounded-full bg-[#1f242d] border border-gray-400 flex items-center justify-center p-0.5 shrink-0"
+                      >
+                        <span class="text-[9px] font-black text-white">G2</span>
+                      </div>
+                      <div>
+                        <div
+                          class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs"
+                        >
+                          G2 Esports
+                        </div>
+                        <div class="text-[10px] text-[#718096]">
+                          VCT Americas
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-3 font-bold text-white">
+                    1334
+                    <span class="text-[10px] font-normal text-gray-400">đ</span>
+                  </td>
+                  <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                    23-13 <span class="text-[10px] text-[#64748b]">(.639)</span>
+                  </td>
+                  <td class="py-3.5 px-3">
+                    <div class="flex items-center space-x-1.5">
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng 4
+                      </span>
+                      <span
+                        class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#1e2029] text-[#818cf8] border border-[#374151] flex items-center gap-1"
+                      >
+                        <span class="">✻</span> Hạng 8
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono"
+                        >✻</span
+                      >
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <!-- RIGHT COLUMN: Explanatory Sidebar & Regional Rankings (~30%) -->
+        <aside
+          aria-label="Thông Tin Chi Tiết"
+          class="lg:col-span-4 flex flex-col space-y-4"
+        >
+          <!-- Card 1: What is Global Power Rankings -->
+          <div
+            class="bg-[#12161f] border border-[#1e2532] rounded-md p-4 flex flex-col space-y-3"
+          >
+            <!-- Card Title -->
+            <h2 class="text-sm font-bold text-white">
+              Global Power Rankings là gì?
+            </h2>
+            <!-- Explanation Paragraph -->
+            <p class="text-[11px] leading-relaxed text-[#8d9ab0]">
+              Bảng Xếp Hạng Sức Mạnh Toàn Cầu là bậc xếp hạng sức mạnh các đội
+              tuyển trong giải đấu Hạng 1. Bậc này được tính toán dựa trên sự
+              kết hợp giữa các điểm số sau:
+            </p>
+            <!-- Nested Subcard: Team Performance Metrics -->
+            <div
+              class="bg-[#0b0e14] border border-[#1b222f] rounded p-3 space-y-2.5"
+            >
+              <div
+                class="text-[11px] font-bold text-white uppercase tracking-wider"
+              >
+                Thành Tích Của Đội
+              </div>
+              <!-- Metric Item 1 -->
+              <div class="flex items-start space-x-2.5 pt-1">
+                <div class="text-[#8d9ab0] mt-0.5 shrink-0">
+                  <!-- Competency Context Icon -->
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M4 6h16M4 12h8m-8 6h16"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-[11px] font-medium text-gray-200">
+                    Bối Cảnh Thi Đấu
+                  </div>
+                  <div class="text-[10px] text-[#69768a] leading-tight">
+                    Ví dụ: Vòng Playoffs Champions &gt; Mùa Giải Chính
+                  </div>
+                </div>
+              </div>
+              <!-- Metric Item 2 -->
+              <div class="flex items-start space-x-2.5">
+                <div class="text-[#8d9ab0] mt-0.5 shrink-0">
+                  <!-- Recent form pulse icon -->
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-[11px] font-medium text-gray-200">
+                    Thành Tích Gần Đây
+                  </div>
+                  <div class="text-[10px] text-[#69768a] leading-tight">
+                    Những trận đấu gần đây của các đội có mức độ quan trọng cao
+                    hơn
+                  </div>
+                </div>
+              </div>
+              <!-- Metric Item 3 -->
+              <div class="flex items-start space-x-2.5">
+                <div class="text-[#8d9ab0] mt-0.5 shrink-0">
+                  <!-- Margin of victory icon -->
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-[11px] font-medium text-gray-200">
+                    Biên Độ Chiến Thắng
+                  </div>
+                  <div class="text-[10px] text-[#69768a] leading-tight">
+                    Thắng / Thua trên Bản Đồ
+                  </div>
+                </div>
+              </div>
+              <!-- Metric Item 4 -->
+              <div class="flex items-start space-x-2.5">
+                <div class="text-[#8d9ab0] mt-0.5 shrink-0">
+                  <!-- Opponent Strength Dumbbell icon -->
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M3 6h18M6 18h12M9 6v12m6-12v12"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-[11px] font-medium text-gray-200">
+                    Sức Mạnh Của Đối Thủ
+                  </div>
+                  <div class="text-[10px] text-[#69768a] leading-tight">
+                    Sự khác biệt về Điểm Sức Mạnh
+                  </div>
+                </div>
+              </div>
+              <!-- Expand / Plus icon center aligned -->
+              <div class="pt-1 flex justify-center">
+                <button
+                  class="text-[#64748b] hover:text-white transition-colors"
+                  title="Xem thêm chi tiết"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 4v16m8-8H4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2: Regional Power Points -->
+          <div
+            class="bg-[#12161f] border border-[#1e2532] rounded-md p-4 flex flex-col space-y-3"
+          >
+            <h2 class="text-xs font-bold text-white uppercase tracking-wider">
+              Điểm Sức Mạnh Khu Vực
+            </h2>
+            <div class="space-y-2.5 pt-1 text-xs">
+              <!-- Region: Americas -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                  <!-- Orange Shield Icon -->
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <svg class="w-4 h-4 fill-[#ea580c]" viewBox="0 0 24 24">
+                      <path
+                        d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <span
+                    class="font-semibold text-gray-200 text-[11px] tracking-wide"
+                    >VCT AMERICAS</span
+                  >
+                </div>
+                <span class="font-bold text-white text-[12px]">1476</span>
+              </div>
+              <!-- Region: Pacific -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                  <!-- Cyan Swirl Icon -->
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <svg
+                      class="w-4 h-4 text-[#06b6d4]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2.5"
+                      ></path>
+                    </svg>
+                  </div>
+                  <span
+                    class="font-semibold text-gray-200 text-[11px] tracking-wide"
+                    >VCT PACIFIC</span
+                  >
+                </div>
+                <span class="font-bold text-white text-[12px]">1475</span>
+              </div>
+              <!-- Region: EMEA -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                  <!-- Lime Green Cross Icon -->
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <svg class="w-4 h-4 fill-[#84cc16]" viewBox="0 0 24 24">
+                      <path
+                        d="M19 10.5h-5.5V5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v5.5H5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h5.5V19c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-5.5H19c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <span
+                    class="font-semibold text-gray-200 text-[11px] tracking-wide"
+                    >VCT EMEA</span
+                  >
+                </div>
+                <span class="font-bold text-white text-[12px]">1386</span>
+              </div>
+              <!-- Region: CN -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                  <!-- Red Starburst Icon -->
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <svg class="w-4 h-4 fill-[#ef4444]" viewBox="0 0 24 24">
+                      <path
+                        d="M12 2l2.4 6.8H21l-5.6 4.3 2.1 6.9-5.5-4.2-5.5 4.2 2.1-6.9L3 8.8h6.6L12 2z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <span
+                    class="font-semibold text-gray-200 text-[11px] tracking-wide"
+                    >VCT CN</span
+                  >
+                </div>
+                <span class="font-bold text-white text-[12px]">1263</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+    <!-- END: MainContent -->
+    <!-- BEGIN: MainFooter -->
+    <footer class="w-full bg-[#0a0d12] border-t border-[#1a202c] py-6 mt-8">
+      <div
+        class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between text-[#616e83] text-[11px] gap-3"
+      >
+        <div class="flex items-center space-x-4">
+          <span class=""
+            >© 2026 Riot Games, Inc. VALORANT, Champions Tour và các logo liên
+            quan là thương hiệu của Riot Games.</span
+          >
+        </div>
+        <div class="flex items-center space-x-4">
+          <a class="hover:text-white transition-colors" href="index.html"
+            >Về Trang Chủ</a
+          >
+          <span class="">•</span>
+          <a class="hover:text-white transition-colors" href="#"
+            >Điều Khoản Dịch Vụ</a
+          >
+          <span class="">•</span>
+          <a class="hover:text-white transition-colors" href="#"
+            >Chính Sách Quyền Riêng Tư</a
+          >
+        </div>
+      </div>
+    </footer>
+    <!-- END: MainFooter -->
+  </body>
+</html>

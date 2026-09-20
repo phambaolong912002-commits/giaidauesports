@@ -1,83 +1,213 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Đăng ký thi đấu - DauTruongEsports</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    body { background: radial-gradient(circle at 50% 0%, #1b2235 0, #07090f 55%); }
-    .team-form-card { background: rgba(15, 20, 32, .94); }
-    .team-form input, .team-form select, .team-form textarea {
-      color: #fff;
-      background: #0b1120;
-      border-color: #374151;
-      caret-color: #ff4655;
-    }
-    .team-form input::placeholder, .team-form textarea::placeholder { color: #94a3b8; opacity: 1; }
-    .team-form input:focus, .team-form select:focus, .team-form textarea:focus {
-      color: #fff;
-      border-color: #ff4655;
-      box-shadow: 0 0 0 2px rgba(255,70,85,.25);
-      outline: none;
-    }
-    .team-form select option { color: #fff; background: #0b1120; }
-    .success-panel { display: none; }
-    .success-check { width: 76px; height: 76px; border-radius: 9999px; display: grid; place-items: center; margin: 0 auto 1.25rem; color: #fff; background: #16a34a; box-shadow: 0 0 0 10px rgba(22,163,74,.14), 0 0 28px rgba(22,163,74,.35); font-size: 2.25rem; font-weight: 800; }
-  </style>
-</head>
-<body class="min-h-screen bg-gray-950 text-white font-sans">
-  <main class="max-w-3xl mx-auto px-5 py-10">
-    <a href="index.html" class="text-sm text-gray-400 hover:text-white">← Về trang chủ</a>
-    <section class="team-form-card mt-6 rounded-2xl border border-gray-800 p-6 md:p-10 shadow-2xl">
-      <p class="text-xs font-bold uppercase tracking-widest text-red-400">VCT DauTruongEsports 2026</p>
-      <h1 class="mt-2 text-3xl font-extrabold">Đăng ký thi đấu</h1>
-      <p class="mt-2 text-sm text-gray-400">Đây là form đăng ký đội tuyển tham gia giải, tách biệt với tài khoản đăng nhập.</p>
-      <form id="teamForm" class="team-form mt-8 grid gap-5 md:grid-cols-2" novalidate>
-        <label class="text-sm font-semibold">Tên đội
-          <input name="team" required class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3" placeholder="DauTruong Phoenix">
-        </label>
-        <label class="text-sm font-semibold">Tên đội trưởng
-          <input name="captain" required class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3" placeholder="Nguyễn Văn A">
-        </label>
-        <label class="text-sm font-semibold">Email liên hệ
-          <input name="email" type="email" required class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3" placeholder="team@example.com">
-        </label>
-        <label class="text-sm font-semibold">Số điện thoại
-          <input name="phone" type="tel" required class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3" placeholder="09xxxxxxxx">
-        </label>
-        <label class="text-sm font-semibold md:col-span-2">Khu vực thi đấu
-          <select name="region" required class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3">
-            <option value="">Chọn khu vực</option><option>Việt Nam</option><option>Đông Nam Á</option><option>Quốc tế</option>
-          </select>
-        </label>
-        <label class="text-sm font-semibold md:col-span-2">Danh sách thành viên (mỗi người một dòng)
-          <textarea name="players" required rows="5" class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3" placeholder="Player 1&#10;Player 2&#10;Player 3&#10;Player 4&#10;Player 5"></textarea>
-        </label>
-        <label class="md:col-span-2 flex gap-2 text-sm text-gray-300"><input name="agreement" type="checkbox" required class="mt-1 accent-red-500"> Tôi xác nhận thông tin đội là chính xác và đồng ý điều lệ giải.</label>
-        <button type="submit" class="md:col-span-2 rounded-lg bg-red-500 py-3 font-bold uppercase tracking-wider hover:bg-red-600">Gửi đăng ký đội</button>
-        <p id="teamStatus" class="md:col-span-2 text-center text-sm" role="status"></p>
-      </form>
-      <div id="successPanel" class="success-panel py-8 text-center" role="status" aria-live="polite">
-        <div class="success-check" aria-hidden="true">✓</div>
-        <h2 class="text-2xl font-extrabold text-white">Cảm ơn bạn đã đăng ký!</h2>
-        <p class="mx-auto mt-3 max-w-lg text-gray-300">Ban tổ chức đã nhận được thông tin đội tuyển. Ban tổ chức sẽ sớm liên hệ lại với bạn qua email hoặc số điện thoại đã cung cấp.</p>
-        <a href="index.html" class="mt-7 inline-block rounded-lg bg-red-500 px-6 py-3 font-bold uppercase tracking-wider hover:bg-red-600">Về trang chủ</a>
-      </div>
-    </section>
-  </main>
-  <script>
-    document.getElementById('teamForm').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const form = event.currentTarget;
-      const status = document.getElementById('teamStatus');
-      if (!form.checkValidity()) { form.reportValidity(); status.textContent = 'Vui lòng điền đủ thông tin.'; status.className = 'md:col-span-2 text-center text-sm text-red-400'; return; }
-      const data = Object.fromEntries(new FormData(form));
-      data.submittedAt = new Date().toISOString();
-      localStorage.setItem('vctTournamentApplication', JSON.stringify(data));
-      form.classList.add('hidden');
-      document.getElementById('successPanel').style.display = 'block';
-    });
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng ký thi đấu - DauTruongEsports</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: radial-gradient(circle at 50% 0%, #1b2235 0, #07090f 55%);
+      }
+      .team-form-card {
+        background: rgba(15, 20, 32, 0.94);
+      }
+      .team-form input,
+      .team-form select,
+      .team-form textarea {
+        color: #fff;
+        background: #0b1120;
+        border-color: #374151;
+        caret-color: #ff4655;
+      }
+      .team-form input::placeholder,
+      .team-form textarea::placeholder {
+        color: #94a3b8;
+        opacity: 1;
+      }
+      .team-form input:focus,
+      .team-form select:focus,
+      .team-form textarea:focus {
+        color: #fff;
+        border-color: #ff4655;
+        box-shadow: 0 0 0 2px rgba(255, 70, 85, 0.25);
+        outline: none;
+      }
+      .team-form select option {
+        color: #fff;
+        background: #0b1120;
+      }
+      .success-panel {
+        display: none;
+      }
+      .success-check {
+        width: 76px;
+        height: 76px;
+        border-radius: 9999px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 1.25rem;
+        color: #fff;
+        background: #16a34a;
+        box-shadow:
+          0 0 0 10px rgba(22, 163, 74, 0.14),
+          0 0 28px rgba(22, 163, 74, 0.35);
+        font-size: 2.25rem;
+        font-weight: 800;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gray-950 text-white font-sans">
+    <main class="max-w-3xl mx-auto px-5 py-10">
+      <a href="index.html" class="text-sm text-gray-400 hover:text-white"
+        >← Về trang chủ</a
+      >
+      <section
+        class="team-form-card mt-6 rounded-2xl border border-gray-800 p-6 md:p-10 shadow-2xl"
+      >
+        <p class="text-xs font-bold uppercase tracking-widest text-red-400">
+          VCT DauTruongEsports 2026
+        </p>
+        <h1 class="mt-2 text-3xl font-extrabold">Đăng ký thi đấu</h1>
+        <p class="mt-2 text-sm text-gray-400">
+          Đây là form đăng ký đội tuyển tham gia giải, tách biệt với tài khoản
+          đăng nhập.
+        </p>
+        <form
+          id="teamForm"
+          class="team-form mt-8 grid gap-5 md:grid-cols-2"
+          novalidate
+        >
+          <label class="text-sm font-semibold"
+            >Tên đội
+            <input
+              name="team"
+              required
+              class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3"
+              placeholder="DauTruong Phoenix"
+            />
+          </label>
+          <label class="text-sm font-semibold"
+            >Tên đội trưởng
+            <input
+              name="captain"
+              required
+              class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3"
+              placeholder="Nguyễn Văn A"
+            />
+          </label>
+          <label class="text-sm font-semibold"
+            >Email liên hệ
+            <input
+              name="email"
+              type="email"
+              required
+              class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3"
+              placeholder="team@example.com"
+            />
+          </label>
+          <label class="text-sm font-semibold"
+            >Số điện thoại
+            <input
+              name="phone"
+              type="tel"
+              required
+              class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3"
+              placeholder="09xxxxxxxx"
+            />
+          </label>
+          <label class="text-sm font-semibold md:col-span-2"
+            >Khu vực thi đấu
+            <select
+              name="region"
+              required
+              class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3"
+            >
+              <option value="">Chọn khu vực</option>
+              <option>Việt Nam</option>
+              <option>Đông Nam Á</option>
+              <option>Quốc tế</option>
+            </select>
+          </label>
+          <label class="text-sm font-semibold md:col-span-2"
+            >Danh sách thành viên (mỗi người một dòng)
+            <textarea
+              name="players"
+              required
+              rows="5"
+              class="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3"
+              placeholder="Player 1&#10;Player 2&#10;Player 3&#10;Player 4&#10;Player 5"
+            ></textarea>
+          </label>
+          <label class="md:col-span-2 flex gap-2 text-sm text-gray-300"
+            ><input
+              name="agreement"
+              type="checkbox"
+              required
+              class="mt-1 accent-red-500"
+            />
+            Tôi xác nhận thông tin đội là chính xác và đồng ý điều lệ
+            giải.</label
+          >
+          <button
+            type="submit"
+            class="md:col-span-2 rounded-lg bg-red-500 py-3 font-bold uppercase tracking-wider hover:bg-red-600"
+          >
+            Gửi đăng ký đội
+          </button>
+          <p
+            id="teamStatus"
+            class="md:col-span-2 text-center text-sm"
+            role="status"
+          ></p>
+        </form>
+        <div
+          id="successPanel"
+          class="success-panel py-8 text-center"
+          role="status"
+          aria-live="polite"
+        >
+          <div class="success-check" aria-hidden="true">✓</div>
+          <h2 class="text-2xl font-extrabold text-white">
+            Cảm ơn bạn đã đăng ký!
+          </h2>
+          <p class="mx-auto mt-3 max-w-lg text-gray-300">
+            Ban tổ chức đã nhận được thông tin đội tuyển. Ban tổ chức sẽ sớm
+            liên hệ lại với bạn qua email hoặc số điện thoại đã cung cấp.
+          </p>
+          <a
+            href="index.html"
+            class="mt-7 inline-block rounded-lg bg-red-500 px-6 py-3 font-bold uppercase tracking-wider hover:bg-red-600"
+            >Về trang chủ</a
+          >
+        </div>
+      </section>
+    </main>
+    <script>
+      document
+        .getElementById("teamForm")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+          const form = event.currentTarget;
+          const status = document.getElementById("teamStatus");
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            status.textContent = "Vui lòng điền đủ thông tin.";
+            status.className = "md:col-span-2 text-center text-sm text-red-400";
+            return;
+          }
+          const data = Object.fromEntries(new FormData(form));
+          data.submittedAt = new Date().toISOString();
+          localStorage.setItem(
+            "vctTournamentApplication",
+            JSON.stringify(data),
+          );
+          form.classList.add("hidden");
+          document.getElementById("successPanel").style.display = "block";
+        });
+    </script>
+  </body>
 </html>

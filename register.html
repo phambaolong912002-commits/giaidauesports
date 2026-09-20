@@ -1,144 +1,385 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi" class="h-full">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tạo tài khoản - Đấu Trường Esports</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script>
-    tailwind.config = { theme: { extend: {
-      fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
-      colors: { riot: { red: '#ff4655', dark: '#080a10' } }
-    }}};
-  </script>
-  <style>
-    .hero-bg { background: radial-gradient(circle at 50% 15%, rgba(45,55,85,.35), transparent 45%), #07090f; }
-    .auth-card { background: rgba(10,14,24,.88); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,.1); }
-    .field { background: #151b26 !important; border: 1px solid rgba(255,255,255,.18); color: #f8fafc !important; -webkit-text-fill-color: #f8fafc !important; caret-color: #ff4655; opacity: 1 !important; color-scheme: dark; }
-    .field::placeholder { color: rgba(255,255,255,.55) !important; opacity: 1; }
-    .password-field { position: relative; }
-    .password-field .field { padding-right: 3rem; }
-    .password-toggle { position: absolute; right: .75rem; bottom: .7rem; color: rgba(255,255,255,.55); }
-    .password-toggle:hover { color: #fff; }
-    .field:focus { border-color: #ff4655; box-shadow: 0 0 0 2px rgba(255,70,85,.2); outline: none; }
-    .field:-webkit-autofill { -webkit-text-fill-color: #fff !important; -webkit-box-shadow: 0 0 0 1000px #151b26 inset; }
-    input[type="password"].field { color: #f8fafc !important; -webkit-text-fill-color: #f8fafc !important; background: #151b26 !important; letter-spacing: .08em; }
-    input[type="password"].field::placeholder { color: #aab4c3 !important; -webkit-text-fill-color: #aab4c3 !important; letter-spacing: normal; }
-  </style>
-</head>
-<body class="min-h-full hero-bg text-white font-sans antialiased">
-  <div class="min-h-screen flex flex-col px-5 py-6 md:px-10">
-    <header class="w-full max-w-7xl mx-auto flex justify-between items-center">
-      <a href="index.html" class="font-display font-extrabold tracking-widest text-xl hover:text-[#ff4655]">RIOT <span class="text-[#ff4655]">GAMES</span></a>
-      <a href="login.html" class="text-sm text-white/60 hover:text-white">Đã có tài khoản? <strong class="text-[#ff4655]">Đăng nhập</strong></a>
-    </header>
-    <main class="w-full max-w-[430px] mx-auto my-auto py-8">
-      <section class="auth-card rounded-2xl p-7 sm:p-9 shadow-2xl">
-        <div class="text-center mb-7">
-          <div class="mx-auto mb-4 w-12 h-12 rounded-xl bg-[#ff4655]/15 border border-[#ff4655]/40 flex items-center justify-center text-[#ff4655] text-2xl">+</div>
-          <h1 class="font-display text-3xl font-extrabold">Tạo tài khoản</h1>
-          <p class="text-sm text-white/55 mt-2">Tài khoản dùng để đăng nhập và quản lý hồ sơ esports</p>
-        </div>
-
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-5">
-          <button type="button" data-provider="google" class="oauth-btn field rounded-lg py-3 text-xs font-semibold hover:bg-white/10">Google</button>
-          <button type="button" data-provider="facebook" class="oauth-btn field rounded-lg py-3 text-xs font-semibold hover:bg-white/10">Facebook</button>
-          <button type="button" data-provider="apple" class="oauth-btn field rounded-lg py-3 text-xs font-semibold hover:bg-white/10">Apple</button>
-          <button type="button" data-provider="azure" class="oauth-btn field rounded-lg py-3 text-xs font-semibold hover:bg-white/10">Microsoft</button>
-          <button type="button" data-provider="unsupported-playstation" class="oauth-btn field rounded-lg py-3 text-xs font-semibold hover:bg-white/10">PSN</button>
-        </div>
-        <div class="flex items-center gap-3 mb-5 text-[11px] uppercase tracking-widest text-white/35"><span class="h-px bg-white/10 flex-1"></span>hoặc email<span class="h-px bg-white/10 flex-1"></span></div>
-
-        <form id="registerForm" class="space-y-4" novalidate>
-          <label class="block text-xs font-bold uppercase tracking-wider text-white/55">Email
-            <input id="email" name="email" type="email" autocomplete="email" required class="field mt-2 w-full rounded-lg px-4 py-3 text-sm text-white" placeholder="name@example.com">
-          </label>
-          <label class="block text-xs font-bold uppercase tracking-wider text-white/55">Tên đăng nhập
-            <input id="username" name="username" type="text" autocomplete="username" minlength="3" required class="field mt-2 w-full rounded-lg px-4 py-3 text-sm text-white" placeholder="Ví dụ: player_vn">
-          </label>
-          <label class="password-field block text-xs font-bold uppercase tracking-wider text-white/55">Mật khẩu
-            <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required class="field mt-2 w-full rounded-lg px-4 py-3 text-sm text-white" placeholder="Tối thiểu 8 ký tự">
-            <button type="button" class="password-toggle" data-password-target="password" aria-label="Hiện mật khẩu">Hiện</button>
-          </label>
-          <label class="password-field block text-xs font-bold uppercase tracking-wider text-white/55">Xác nhận mật khẩu
-            <input id="passwordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" required class="field mt-2 w-full rounded-lg px-4 py-3 text-sm text-white" placeholder="Nhập lại mật khẩu">
-            <button type="button" class="password-toggle" data-password-target="passwordConfirm" aria-label="Hiện mật khẩu">Hiện</button>
-          </label>
-          <label class="flex items-start gap-2 text-xs text-white/60"><input id="terms" type="checkbox" required class="mt-0.5 accent-[#ff4655]"> Tôi đồng ý với <a href="#terms-info" class="text-white underline">điều khoản sử dụng</a>.</label>
-          <button type="submit" class="w-full rounded-lg bg-[#ff4655] hover:bg-[#d93646] py-3.5 font-extrabold uppercase tracking-wider transition">Tạo tài khoản</button>
-          <p id="status" class="min-h-5 text-center text-xs font-semibold" role="status" aria-live="polite"></p>
-        </form>
-        <div id="terms-info" class="mt-5 border-t border-white/10 pt-4 text-center text-xs text-white/40">Tài khoản này không tự đăng ký đội thi đấu. Để đăng ký giải, dùng form <a href="tournament-register.html" class="text-[#ff4655] hover:underline">Đăng ký thi đấu</a>.</div>
-      </section>
-    </main>
-    <footer class="text-center text-xs text-white/35">© 2026 DauTruongEsports · <a href="mailto:support@dautruongesports.vn" class="hover:text-white">Hỗ trợ</a></footer>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js"></script>
-  <script>
-    const form = document.getElementById('registerForm');
-    const status = document.getElementById('status');
-    document.querySelectorAll('.password-toggle').forEach((button) => {
-      button.addEventListener('click', () => {
-        const input = document.getElementById(button.dataset.passwordTarget);
-        const visible = input.type === 'text';
-        input.type = visible ? 'password' : 'text';
-        button.textContent = visible ? 'Hiện' : 'Ẩn';
-        button.setAttribute('aria-label', visible ? 'Hiện mật khẩu' : 'Ẩn mật khẩu');
-      });
-    });
-    const setStatus = (message, type) => {
-      status.textContent = message;
-      status.className = `min-h-5 text-center text-xs font-semibold ${type === 'error' ? 'text-red-400' : type === 'success' ? 'text-emerald-400' : 'text-amber-300'}`;
-    };
-    document.querySelectorAll('.oauth-btn').forEach((button) => {
-      button.addEventListener('click', async () => {
-        const provider = button.dataset.provider;
-        if (provider === 'unsupported-playstation') {
-          setStatus('Supabase chưa có nhà cung cấp PlayStation trực tiếp. Hãy dùng Google, Facebook, Apple hoặc Microsoft.', 'info');
-          return;
-        }
-        if (!window.vctSupabase) {
-          setStatus('Chưa cấu hình Supabase. Hãy điền URL và anon key trong supabase-config.js.', 'error');
-          return;
-        }
-        try {
-          const { error } = await window.vctSupabase.auth.signInWithOAuth({ provider, options: { redirectTo: `${window.location.origin}/index.html` } });
-          if (error) throw error;
-        } catch (error) {
-          setStatus(`Không thể kết nối ${provider}: ${error.message}`, 'error');
-        }
-      });
-    });
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); setStatus('Vui lòng điền đủ thông tin.', 'error'); return; }
-      const email = document.getElementById('email').value.trim();
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value;
-      if (password !== document.getElementById('passwordConfirm').value) { setStatus('Mật khẩu xác nhận không khớp.', 'error'); return; }
-      if (window.vctSupabase) {
-        try {
-          const { error } = await window.vctSupabase.auth.signUp({
-            email,
-            password,
-            options: { data: { username } }
-          });
-          if (error) { setStatus(error.message, 'error'); return; }
-          setStatus('Đăng ký thành công. Đang chuyển sang trang đăng nhập...', 'success');
-          setTimeout(() => { window.location.href = 'login.html?registered=1'; }, 1200);
-        } catch (error) {
-          setStatus(`Không thể đăng ký tài khoản: ${error.message}`, 'error');
-        }
-        return;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo tài khoản - Đấu Trường Esports</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              display: ["Outfit", "sans-serif"],
+            },
+            colors: { riot: { red: "#ff4655", dark: "#080a10" } },
+          },
+        },
+      };
+    </script>
+    <style>
+      .hero-bg {
+        background:
+          radial-gradient(
+            circle at 50% 15%,
+            rgba(45, 55, 85, 0.35),
+            transparent 45%
+          ),
+          #07090f;
       }
-      localStorage.setItem('vctAccount', JSON.stringify({ email, username, password }));
-      setStatus('Tạo tài khoản thành công. Đang chuyển sang đăng nhập...', 'success');
-      setTimeout(() => { window.location.href = 'login.html'; }, 700);
-    });
-  </script>
-</body>
+      .auth-card {
+        background: rgba(10, 14, 24, 0.88);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .field {
+        background: #151b26 !important;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: #f8fafc !important;
+        -webkit-text-fill-color: #f8fafc !important;
+        caret-color: #ff4655;
+        opacity: 1 !important;
+        color-scheme: dark;
+      }
+      .field::placeholder {
+        color: rgba(255, 255, 255, 0.55) !important;
+        opacity: 1;
+      }
+      .password-field {
+        position: relative;
+      }
+      .password-field .field {
+        padding-right: 3rem;
+      }
+      .password-toggle {
+        position: absolute;
+        right: 0.75rem;
+        bottom: 0.7rem;
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .password-toggle:hover {
+        color: #fff;
+      }
+      .field:focus {
+        border-color: #ff4655;
+        box-shadow: 0 0 0 2px rgba(255, 70, 85, 0.2);
+        outline: none;
+      }
+      .field:-webkit-autofill {
+        -webkit-text-fill-color: #fff !important;
+        -webkit-box-shadow: 0 0 0 1000px #151b26 inset;
+      }
+      input[type="password"].field {
+        color: #f8fafc !important;
+        -webkit-text-fill-color: #f8fafc !important;
+        background: #151b26 !important;
+        letter-spacing: 0.08em;
+      }
+      input[type="password"].field::placeholder {
+        color: #aab4c3 !important;
+        -webkit-text-fill-color: #aab4c3 !important;
+        letter-spacing: normal;
+      }
+    </style>
+  </head>
+  <body class="min-h-full hero-bg text-white font-sans antialiased">
+    <div class="min-h-screen flex flex-col px-5 py-6 md:px-10">
+      <header
+        class="w-full max-w-7xl mx-auto flex justify-between items-center"
+      >
+        <a
+          href="index.html"
+          class="font-display font-extrabold tracking-widest text-xl hover:text-[#ff4655]"
+          >RIOT <span class="text-[#ff4655]">GAMES</span></a
+        >
+        <a href="login.html" class="text-sm text-white/60 hover:text-white"
+          >Đã có tài khoản? <strong class="text-[#ff4655]">Đăng nhập</strong></a
+        >
+      </header>
+      <main class="w-full max-w-[430px] mx-auto my-auto py-8">
+        <section class="auth-card rounded-2xl p-7 sm:p-9 shadow-2xl">
+          <div class="text-center mb-7">
+            <div
+              class="mx-auto mb-4 w-12 h-12 rounded-xl bg-[#ff4655]/15 border border-[#ff4655]/40 flex items-center justify-center text-[#ff4655] text-2xl"
+            >
+              +
+            </div>
+            <h1 class="font-display text-3xl font-extrabold">Tạo tài khoản</h1>
+            <p class="text-sm text-white/55 mt-2">
+              Tài khoản dùng để đăng nhập và quản lý hồ sơ esports
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-5">
+            <button
+              type="button"
+              data-provider="google"
+              class="oauth-btn field rounded-lg py-3 text-xs font-semibold hover:bg-white/10"
+            >
+              Google
+            </button>
+            <button
+              type="button"
+              data-provider="facebook"
+              class="oauth-btn field rounded-lg py-3 text-xs font-semibold hover:bg-white/10"
+            >
+              Facebook
+            </button>
+            <button
+              type="button"
+              data-provider="apple"
+              class="oauth-btn field rounded-lg py-3 text-xs font-semibold hover:bg-white/10"
+            >
+              Apple
+            </button>
+            <button
+              type="button"
+              data-provider="azure"
+              class="oauth-btn field rounded-lg py-3 text-xs font-semibold hover:bg-white/10"
+            >
+              Microsoft
+            </button>
+            <button
+              type="button"
+              data-provider="unsupported-playstation"
+              class="oauth-btn field rounded-lg py-3 text-xs font-semibold hover:bg-white/10"
+            >
+              PSN
+            </button>
+          </div>
+          <div
+            class="flex items-center gap-3 mb-5 text-[11px] uppercase tracking-widest text-white/35"
+          >
+            <span class="h-px bg-white/10 flex-1"></span>hoặc email<span
+              class="h-px bg-white/10 flex-1"
+            ></span>
+          </div>
+
+          <form id="registerForm" class="space-y-4" novalidate>
+            <label
+              class="block text-xs font-bold uppercase tracking-wider text-white/55"
+              >Email
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                class="field mt-2 w-full rounded-lg px-4 py-3 text-sm text-white"
+                placeholder="name@example.com"
+              />
+            </label>
+            <label
+              class="block text-xs font-bold uppercase tracking-wider text-white/55"
+              >Tên đăng nhập
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autocomplete="username"
+                minlength="3"
+                required
+                class="field mt-2 w-full rounded-lg px-4 py-3 text-sm text-white"
+                placeholder="Ví dụ: player_vn"
+              />
+            </label>
+            <label
+              class="password-field block text-xs font-bold uppercase tracking-wider text-white/55"
+              >Mật khẩu
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                minlength="8"
+                required
+                class="field mt-2 w-full rounded-lg px-4 py-3 text-sm text-white"
+                placeholder="Tối thiểu 8 ký tự"
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                data-password-target="password"
+                aria-label="Hiện mật khẩu"
+              >
+                Hiện
+              </button>
+            </label>
+            <label
+              class="password-field block text-xs font-bold uppercase tracking-wider text-white/55"
+              >Xác nhận mật khẩu
+              <input
+                id="passwordConfirm"
+                name="passwordConfirm"
+                type="password"
+                autocomplete="new-password"
+                required
+                class="field mt-2 w-full rounded-lg px-4 py-3 text-sm text-white"
+                placeholder="Nhập lại mật khẩu"
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                data-password-target="passwordConfirm"
+                aria-label="Hiện mật khẩu"
+              >
+                Hiện
+              </button>
+            </label>
+            <label class="flex items-start gap-2 text-xs text-white/60"
+              ><input
+                id="terms"
+                type="checkbox"
+                required
+                class="mt-0.5 accent-[#ff4655]"
+              />
+              Tôi đồng ý với
+              <a href="#terms-info" class="text-white underline"
+                >điều khoản sử dụng</a
+              >.</label
+            >
+            <button
+              type="submit"
+              class="w-full rounded-lg bg-[#ff4655] hover:bg-[#d93646] py-3.5 font-extrabold uppercase tracking-wider transition"
+            >
+              Tạo tài khoản
+            </button>
+            <p
+              id="status"
+              class="min-h-5 text-center text-xs font-semibold"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+          <div
+            id="terms-info"
+            class="mt-5 border-t border-white/10 pt-4 text-center text-xs text-white/40"
+          >
+            Tài khoản này không tự đăng ký đội thi đấu. Để đăng ký giải, dùng
+            form
+            <a
+              href="tournament-register.html"
+              class="text-[#ff4655] hover:underline"
+              >Đăng ký thi đấu</a
+            >.
+          </div>
+        </section>
+      </main>
+      <footer class="text-center text-xs text-white/35">
+        © 2026 DauTruongEsports ·
+        <a href="mailto:support@dautruongesports.vn" class="hover:text-white"
+          >Hỗ trợ</a
+        >
+      </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script>
+      const form = document.getElementById("registerForm");
+      const status = document.getElementById("status");
+      document.querySelectorAll(".password-toggle").forEach((button) => {
+        button.addEventListener("click", () => {
+          const input = document.getElementById(button.dataset.passwordTarget);
+          const visible = input.type === "text";
+          input.type = visible ? "password" : "text";
+          button.textContent = visible ? "Hiện" : "Ẩn";
+          button.setAttribute(
+            "aria-label",
+            visible ? "Hiện mật khẩu" : "Ẩn mật khẩu",
+          );
+        });
+      });
+      const setStatus = (message, type) => {
+        status.textContent = message;
+        status.className = `min-h-5 text-center text-xs font-semibold ${type === "error" ? "text-red-400" : type === "success" ? "text-emerald-400" : "text-amber-300"}`;
+      };
+      document.querySelectorAll(".oauth-btn").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const provider = button.dataset.provider;
+          if (provider === "unsupported-playstation") {
+            setStatus(
+              "Supabase chưa có nhà cung cấp PlayStation trực tiếp. Hãy dùng Google, Facebook, Apple hoặc Microsoft.",
+              "info",
+            );
+            return;
+          }
+          if (!window.vctSupabase) {
+            setStatus(
+              "Chưa cấu hình Supabase. Hãy điền URL và anon key trong supabase-config.js.",
+              "error",
+            );
+            return;
+          }
+          try {
+            const { error } = await window.vctSupabase.auth.signInWithOAuth({
+              provider,
+              options: { redirectTo: `${window.location.origin}/index.html` },
+            });
+            if (error) throw error;
+          } catch (error) {
+            setStatus(
+              `Không thể kết nối ${provider}: ${error.message}`,
+              "error",
+            );
+          }
+        });
+      });
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          setStatus("Vui lòng điền đủ thông tin.", "error");
+          return;
+        }
+        const email = document.getElementById("email").value.trim();
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value;
+        if (password !== document.getElementById("passwordConfirm").value) {
+          setStatus("Mật khẩu xác nhận không khớp.", "error");
+          return;
+        }
+        if (window.vctSupabase) {
+          try {
+            const { error } = await window.vctSupabase.auth.signUp({
+              email,
+              password,
+              options: { data: { username } },
+            });
+            if (error) {
+              setStatus(error.message, "error");
+              return;
+            }
+            setStatus(
+              "Đăng ký thành công. Đang chuyển sang trang đăng nhập...",
+              "success",
+            );
+            setTimeout(() => {
+              window.location.href = "login.html?registered=1";
+            }, 1200);
+          } catch (error) {
+            setStatus(`Không thể đăng ký tài khoản: ${error.message}`, "error");
+          }
+          return;
+        }
+        localStorage.setItem(
+          "vctAccount",
+          JSON.stringify({ email, username, password }),
+        );
+        setStatus(
+          "Tạo tài khoản thành công. Đang chuyển sang đăng nhập...",
+          "success",
+        );
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 700);
+      });
+    </script>
+  </body>
 </html>
