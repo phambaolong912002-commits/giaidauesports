@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="vi">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cài đặt - Đấu Trường Esports</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="min-h-screen bg-[#0d0d0f] p-6 text-white">
+<main class="mx-auto max-w-xl rounded-2xl border border-white/10 bg-[#151518] p-8">
+<a href="index.html" class="text-sm text-[#ff4655]">← Về trang chủ</a>
+<h1 class="mt-6 text-3xl font-black">Cài đặt</h1>
+<p class="mt-2 text-sm text-gray-400">Quản lý phiên đăng nhập và tùy chọn tài khoản.</p>
+<button id="logout" class="mt-8 rounded-lg bg-[#ff4655] px-5 py-3 text-sm font-bold">ĐĂNG XUẤT</button>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
+<script>
+document.getElementById('logout').addEventListener('click', async () => {
+  if (window.vctSupabase) await window.vctSupabase.auth.signOut();
+  localStorage.removeItem('vctLoggedIn');
+  window.location.href = 'login.html';
+});
+</script>
+</body></html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="vi">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Hồ sơ người dùng - Đấu Trường Esports</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="min-h-screen bg-[#0d0d0f] p-6 text-white">
+<main class="mx-auto max-w-xl rounded-2xl border border-white/10 bg-[#151518] p-8">
+<a href="index.html" class="text-sm text-[#ff4655]">← Về trang chủ</a>
+<h1 class="mt-6 text-3xl font-black">Hồ sơ người dùng</h1>
+<p class="mt-2 text-sm text-gray-400">Thông tin tài khoản Supabase của bạn.</p>
+<div id="profileInfo" class="mt-8 rounded-lg bg-black/20 p-4 text-sm text-gray-200">Đang tải hồ sơ...</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
+<script>
+(async () => {
+  const info = document.getElementById('profileInfo');
+  if (!window.vctSupabase) { info.textContent = 'Chưa kết nối Supabase.'; return; }
+  const { data } = await window.vctSupabase.auth.getUser();
+  if (!data.user) { window.location.href = 'login.html'; return; }
+  info.innerHTML = `<p><strong>Email:</strong> ${data.user.email}</p><p class="mt-2"><strong>Tên đăng nhập:</strong> ${data.user.user_metadata?.username || 'Chưa cập nhật'}</p>`;
+})();
+</script>
+</body></html>

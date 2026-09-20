@@ -77,6 +77,11 @@
       transition: background-color 5000s ease-in-out 0s;
     }
   </style>
+<style>
+  #riot-signin-form input { color: #fff !important; caret-color: #ff4655; opacity: 1 !important; }
+  #riot-signin-form input::placeholder { color: transparent !important; opacity: 0; }
+  #riot-signin-form input:-webkit-autofill { -webkit-text-fill-color: #fff !important; -webkit-box-shadow: 0 0 0 1000px #111827 inset; }
+</style>
 </head>
 <body class="h-full bg-[#07090f] text-gray-100 font-sans antialiased select-none overflow-x-hidden">
 <!-- BEGIN: MainContainer -->
@@ -85,7 +90,7 @@
 <!-- Official Riot Topbar Navigation -->
 <header class="w-full max-w-7xl flex items-center justify-between z-20" data-purpose="top-navigation-bar">
 <!-- Riot Games Official Brand Logo -->
-<a aria-label="Riot Games Home" class="group flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-riot-red/50 rounded-lg p-1 transition-transform active:scale-95" href="#">
+<a aria-label="Riot Games Home" class="group flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-riot-red/50 rounded-lg p-1 transition-transform active:scale-95" href="index.html">
 <div class="flex items-center text-white fill-current">
 <!-- Riot Fist Vector Icon -->
 <svg class="w-10 h-10 transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_0_12px_rgba(235,0,41,0.5)]" fill="none" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -147,12 +152,12 @@
       </p>
 </div>
 <!-- Auth Form -->
-<form class="space-y-4" data-purpose="sign-in-form" id="riot-signin-form" onsubmit="event.preventDefault();">
+<form class="space-y-4" data-purpose="sign-in-form" id="riot-signin-form">
 <!-- USERNAME INPUT -->
 <div class="field-wrapper relative">
-<input autocomplete="username" class="field-input peer w-full pt-6 pb-2 px-4 bg-white/[0.06] hover:bg-white/[0.09] focus:bg-white/[0.12] text-white placeholder-transparent text-sm font-medium rounded-xl border border-white/15 focus:border-riot-red focus:ring-1 focus:ring-riot-red focus:outline-none transition-all duration-200" id="username" name="username" placeholder="TÊN ĐĂNG NHẬP" required="" type="text"/>
+<input autocomplete="username" class="field-input peer w-full pt-6 pb-2 px-4 bg-white/[0.06] hover:bg-white/[0.09] focus:bg-white/[0.12] text-white placeholder-transparent text-sm font-medium rounded-xl border border-white/15 focus:border-riot-red focus:ring-1 focus:ring-riot-red focus:outline-none transition-all duration-200" id="username" name="username" placeholder="EMAIL HOẶC TÊN ĐĂNG NHẬP" required="" type="text"/>
 <label class="pointer-events-none absolute left-4 top-2 text-[10px] font-bold uppercase tracking-wider text-white/50 peer-placeholder-shown:text-xs peer-placeholder-shown:top-4 peer-placeholder-shown:text-white/40 peer-focus:top-2 peer-focus:text-[10px] peer-focus:text-riot-red transition-all duration-200" for="username">
-          TÊN ĐĂNG NHẬP
+          EMAIL / TÊN ĐĂNG NHẬP
         </label>
 </div>
 <!-- PASSWORD INPUT -->
@@ -169,17 +174,32 @@
 </svg>
 </button>
 </div>
+<!-- NÚT ĐĂNG NHẬP -->
+<div class="mt-6 space-y-3">
+  <button
+    type="submit"
+    class="block w-full text-center bg-[#ff4655] hover:bg-[#e03e4d] text-white font-bold py-3 rounded-lg transition-colors uppercase tracking-wider text-sm shadow-md">
+    ĐĂNG NHẬP
+  </button>
+
+  <!-- LINK QUAY LẠI TRANG CHỦ DÀNH CHO KHÁCH CHƯA ĐĂNG NHẬP -->
+  <a 
+    href="index.html" 
+    class="block text-center text-xs text-gray-400 hover:text-white transition-colors py-1">
+    ← Quay lại Trang Chủ
+  </a>
+</div>
 <!-- SOCIAL AUTHENTICATION BUTTONS -->
 <div class="pt-1" data-purpose="social-login-grid">
 <div class="flex items-center justify-between gap-2">
 <!-- Facebook -->
-<button aria-label="Sign in with Facebook" class="flex-1 flex items-center justify-center h-10 bg-[#1877F2]/20 hover:bg-[#1877F2]/35 border border-[#1877F2]/40 text-[#1877F2] rounded-xl transition-all duration-150 active:scale-95 group" title="Facebook" type="button">
+<button data-provider="facebook" aria-label="Sign in with Facebook" class="oauth-btn flex-1 flex items-center justify-center h-10 bg-[#1877F2]/20 hover:bg-[#1877F2]/35 border border-[#1877F2]/40 text-[#1877F2] rounded-xl transition-all duration-150 active:scale-95 group" title="Facebook" type="button">
 <svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
 </svg>
 </button>
 <!-- Google -->
-<button aria-label="Sign in with Google" class="flex-1 flex items-center justify-center h-10 bg-white/5 hover:bg-white/10 border border-white/15 text-white rounded-xl transition-all duration-150 active:scale-95" title="Google" type="button">
+<button data-provider="google" aria-label="Sign in with Google" class="oauth-btn flex-1 flex items-center justify-center h-10 bg-white/5 hover:bg-white/10 border border-white/15 text-white rounded-xl transition-all duration-150 active:scale-95" title="Google" type="button">
 <svg class="w-4 h-4" viewbox="0 0 24 24">
 <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z" fill="#4285F4"></path>
 <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.25 21.27 7.31 24 12 24z" fill="#34A853"></path>
@@ -188,19 +208,19 @@
 </svg>
 </button>
 <!-- Apple -->
-<button aria-label="Sign in with Apple" class="flex-1 flex items-center justify-center h-10 bg-white/5 hover:bg-white/10 border border-white/15 text-white rounded-xl transition-all duration-150 active:scale-95" title="Apple" type="button">
+<button data-provider="apple" aria-label="Sign in with Apple" class="oauth-btn flex-1 flex items-center justify-center h-10 bg-white/5 hover:bg-white/10 border border-white/15 text-white rounded-xl transition-all duration-150 active:scale-95" title="Apple" type="button">
 <svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.98.6-2.61 1.34-.56.64-1.04 1.7-0.91 2.72 1 .08 2-.48 2.6-1.21z"></path>
 </svg>
 </button>
 <!-- Xbox -->
-<button aria-label="Sign in with Xbox" class="flex-1 flex items-center justify-center h-10 bg-[#107C10]/20 hover:bg-[#107C10]/35 border border-[#107C10]/40 text-[#54c454] rounded-xl transition-all duration-150 active:scale-95" title="Xbox Live" type="button">
+<button data-provider="azure" aria-label="Sign in with Microsoft/Xbox" class="oauth-btn flex-1 flex items-center justify-center h-10 bg-[#107C10]/20 hover:bg-[#107C10]/35 border border-[#107C10]/40 text-[#54c454] rounded-xl transition-all duration-150 active:scale-95" title="Microsoft/Xbox" type="button">
 <svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
 <path d="M4.53 4.53c2.44-2.44 5.37-3.88 8.92-4.32C9.43 1.3 6.07 2.78 4.53 4.53zM12 0c-.82 0-1.62.06-2.4.18 3.55.44 6.48 1.88 8.92 4.32-1.54-1.75-4.9-3.23-8.92-4.32A12.06 12.06 0 0012 0zm-7.47 4.53C2.19 6.87.75 9.77.26 13.06c.64-2.73 2.07-5.06 4.27-7.26v-1.27zm14.94 0v1.27c2.2 2.2 3.63 4.53 4.27 7.26-.49-3.29-1.93-6.19-4.27-8.53zM12 6.55c-1.94 0-3.66.69-5.05 1.87 1.48 2.15 3.32 4.19 5.05 6.03 1.73-1.84 3.57-3.88 5.05-6.03C15.66 7.24 13.94 6.55 12 6.55zM2.87 13.88C1.51 16.48.97 19.33 1.25 22.25c2.4-1.21 4.79-2.58 6.74-4.24-2.22-1.07-4.04-2.46-5.12-4.13zm18.26 0c-1.08 1.67-2.9 3.06-5.12 4.13 1.95 1.66 4.34 3.03 6.74 4.24.28-2.92-.26-5.77-1.62-8.37zM12 15.6c-1.85 2.06-3.85 4.26-5.78 6.13 1.76.78 3.73 1.23 5.78 1.27 2.05-.04 4.02-.49 5.78-1.27-1.93-1.87-3.93-4.07-5.78-6.13z"></path>
 </svg>
 </button>
 <!-- PlayStation -->
-<button aria-label="Sign in with PlayStation" class="flex-1 flex items-center justify-center h-10 bg-[#003791]/20 hover:bg-[#003791]/35 border border-[#003791]/40 text-[#4c87e8] rounded-xl transition-all duration-150 active:scale-95" title="PlayStation Network" type="button">
+<button data-provider="unsupported-playstation" aria-label="Sign in with PlayStation" class="oauth-btn flex-1 flex items-center justify-center h-10 bg-[#003791]/20 hover:bg-[#003791]/35 border border-[#003791]/40 text-[#4c87e8] rounded-xl transition-all duration-150 active:scale-95" title="PlayStation Network" type="button">
 <svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
 <path d="M8.94 3.5A3.48 3.48 0 005.5 6.94v8.12a.94.94 0 001.88 0V7.41a1.6 1.6 0 013.2 0v7.65a.94.94 0 001.88 0V6.94A3.48 3.48 0 008.94 3.5zm6.12 11.56a2.44 2.44 0 01-2.44-2.44.94.94 0 00-1.88 0 4.32 4.32 0 004.32 4.32h3.44a.94.94 0 000-1.88h-3.44zm3.44-4.88h-2.5a.94.94 0 000 1.88h2.5a.56.56 0 010 1.12.94.94 0 000 1.88 2.44 2.44 0 000-4.88zM4.06 18.5a.94.94 0 00-.94.94c0 1.34 3.97 2.06 8.88 2.06s8.88-.72 8.88-2.06a.94.94 0 00-1.88 0c0 .41-2.95 1.06-7 1.06s-7-.65-7-1.06a.94.94 0 00-.94-.94z"></path>
 </svg>
@@ -223,21 +243,14 @@
 </label>
 </div>
 <!-- PRIMARY SUBMIT ACTION (Electric Red glowing Riot button) -->
-<div class="pt-4 flex justify-center">
-<button aria-label="Submit Sign In" class="group relative flex items-center justify-center w-16 h-16 rounded-2xl bg-riot-red hover:bg-riot-redHover text-white shadow-[0_0_30px_rgba(235,0,41,0.6)] hover:shadow-[0_0_45px_rgba(235,0,41,0.85)] hover:scale-105 active:scale-95 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-riot-red/40" type="submit">
-<!-- Forward Arrow -->
-<svg class="w-7 h-7 stroke-current stroke-[2.5] transform transition-transform group-hover:translate-x-1" fill="none" viewbox="0 0 24 24">
-<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</button>
-</div>
 </form>
+<p id="login-status" class="mt-3 min-h-5 text-center text-xs font-semibold" role="status" aria-live="polite"></p>
 <!-- FOOTER LINKS -->
 <footer class="mt-6 pt-5 border-t border-white/10 flex flex-col items-center gap-2 text-center text-xs font-semibold tracking-wide" data-purpose="auth-card-footer">
-<a class="text-white/60 hover:text-white transition-colors py-0.5" href="#">
+<a class="text-white/60 hover:text-white transition-colors py-0.5" href="mailto:support@dautruongesports.vn?subject=Khôi phục mật khẩu">
         Quên mật khẩu?
       </a>
-<a class="text-riot-red hover:text-red-400 font-bold transition-colors py-0.5" href="#">
+<a class="text-riot-red hover:text-red-400 font-bold transition-colors py-0.5" href="register.html">
         Tạo tài khoản mới
       </a>
 </footer>
@@ -250,11 +263,11 @@
 <span class="tracking-wider">V91.0.4 • RIOT CLIENT</span>
 </div>
 <div class="flex items-center gap-4 text-white/60">
-<a class="hover:text-white transition-colors" href="#">Điều khoản dịch vụ</a>
+<a class="hover:text-white transition-colors" href="register.html#terms">Điều khoản dịch vụ</a>
 <span>•</span>
-<a class="hover:text-white transition-colors" href="#">Chính sách bảo mật</a>
+<a class="hover:text-white transition-colors" href="register.html#privacy">Chính sách bảo mật</a>
 <span>•</span>
-<a class="hover:text-white transition-colors" href="#">Hỗ trợ</a>
+<a class="hover:text-white transition-colors" href="mailto:support@dautruongesports.vn">Hỗ trợ</a>
 </div>
 </footer>
 <!-- END: ClientAppFooter -->
@@ -283,5 +296,81 @@
       });
     }
   </script>
-<!-- END: InteractiveScripts -->
-</body></html>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script>
+    document.querySelectorAll('.oauth-btn').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const message = document.getElementById('login-status');
+        if (button.dataset.provider === 'unsupported-playstation') {
+          message.textContent = 'Supabase chưa có nhà cung cấp PlayStation trực tiếp. Hãy dùng Google, Facebook, Apple hoặc Microsoft.';
+          message.className = 'mt-3 min-h-5 text-center text-xs font-semibold text-amber-300';
+          return;
+        }
+        if (!window.vctSupabase) {
+          message.textContent = 'Chưa cấu hình Supabase. Hãy điền URL và anon key trong supabase-config.js.';
+          message.className = 'mt-3 min-h-5 text-center text-xs font-semibold text-red-400';
+          return;
+        }
+        try {
+          const { error } = await window.vctSupabase.auth.signInWithOAuth({
+            provider: button.dataset.provider,
+            options: { redirectTo: `${window.location.origin}/index.html` }
+          });
+          if (error) throw error;
+        } catch (error) {
+          message.textContent = error.message;
+          message.className = 'mt-3 min-h-5 text-center text-xs font-semibold text-red-400';
+        }
+      });
+    });
+  </script>
+  <script>
+    const signInForm = document.getElementById('riot-signin-form');
+    const loginStatus = document.getElementById('login-status');
+    if (new URLSearchParams(window.location.search).get('registered') === '1') {
+      loginStatus.textContent = 'Tạo tài khoản thành công. Nếu được yêu cầu, hãy xác nhận email rồi đăng nhập bằng email và mật khẩu vừa tạo.';
+      loginStatus.className = 'mt-3 min-h-5 text-center text-xs font-semibold text-emerald-400';
+    }
+    signInForm?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const account = JSON.parse(localStorage.getItem('vctAccount') || 'null');
+
+      if (window.vctSupabase) {
+        if (!username.includes('@')) {
+          loginStatus.textContent = 'Khi Supabase đang bật, hãy đăng nhập bằng email đã đăng ký.';
+          loginStatus.className = 'mt-3 min-h-5 text-center text-xs font-semibold text-amber-300';
+          return;
+        }
+        window.vctSupabase.auth.signInWithPassword({ email: username, password }).then(({ error }) => {
+          if (error) {
+            loginStatus.textContent = error.message;
+            loginStatus.className = 'mt-3 min-h-5 text-center text-xs font-semibold text-red-400';
+            return;
+          }
+          localStorage.setItem('vctLoggedIn', 'true');
+          window.location.href = 'index.html';
+        }).catch(() => {
+          loginStatus.textContent = 'Không thể kết nối Supabase. Vui lòng thử lại.';
+          loginStatus.className = 'mt-3 min-h-5 text-center text-xs font-semibold text-red-400';
+        });
+        return;
+      }
+
+      if (!account || account.username !== username || account.password !== password) {
+        loginStatus.textContent = 'Tên đăng nhập hoặc mật khẩu chưa đúng.';
+        loginStatus.className = 'mt-3 min-h-5 text-center text-xs font-semibold text-red-400';
+        return;
+      }
+
+      localStorage.setItem('vctLoggedIn', 'true');
+      loginStatus.textContent = 'Đăng nhập thành công. Đang chuyển về trang chủ...';
+      loginStatus.className = 'mt-3 min-h-5 text-center text-xs font-semibold text-emerald-400';
+      setTimeout(() => { window.location.href = 'index.html'; }, 500);
+    });
+  </script>
+  
+</body>
+</html>

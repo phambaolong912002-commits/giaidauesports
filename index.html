@@ -1,646 +1,1419 @@
-<!DOCTYPE html><html lang="vi" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>VALORANT Champions Tour - Trung Tâm Esports</title>
-<!-- Tailwind CSS CDN with forms and container queries plugins -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            vct: {
-              red: '#ff4655',
-              hoverRed: '#fa4454',
-              darkBg: '#0d0d0f',
-              sidebarLeft: '#080809',
-              sidebarRight: '#0b0b0e',
-              cardBg: '#151518',
-              borderDark: '#202025',
-              subtleGray: '#8b8e9b',
-            }
+<!doctype html>
+<html lang="vi" style="">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Đấu Trường Esports</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Tailwind CSS CDN with forms and container queries plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              vct: {
+                red: "#ff4655",
+                hoverRed: "#fa4454",
+                darkBg: "#0d0d0f",
+                sidebarLeft: "#080809",
+                sidebarRight: "#0b0b0e",
+                cardBg: "#151518",
+                borderDark: "#202025",
+                subtleGray: "#8b8e9b",
+              },
+            },
+            fontFamily: {
+              sans: [
+                "Inter",
+                "Segoe UI",
+                "Roboto",
+                "Helvetica Neue",
+                "Arial",
+                "sans-serif",
+              ],
+              display: ["Oswald", "Impact", "sans-serif"],
+            },
           },
-          fontFamily: {
-            sans: ['Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-            display: ['Oswald', 'Impact', 'sans-serif']
-          }
+        },
+      };
+    </script>
+    <!-- BEGIN: Custom CSS Styling -->
+    <style data-purpose="custom-scrollbar">
+      /* Tinh chỉnh thanh cuộn dark theme cho sidebar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #080809;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #202028;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #ff4655;
+      }
+    </style>
+    <style data-purpose="glow-and-effects">
+      /* Hiệu ứng live pulsing badge và glow cho banner */
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.35;
+          transform: scale(1.2);
         }
       }
-    }
-  </script>
-<!-- BEGIN: Custom CSS Styling -->
-<style data-purpose="custom-scrollbar">
-    /* Tinh chỉnh thanh cuộn dark theme cho sidebar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #080809;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #202028;
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #ff4655;
-    }
-  </style>
-<style data-purpose="glow-and-effects">
-    /* Hiệu ứng live pulsing badge và glow cho banner */
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.35; transform: scale(1.2); }
-    }
-    .pulse-indicator {
-      animation: pulse-dot 1.8s infinite ease-in-out;
-    }
-    .hero-pattern {
-      background: radial-gradient(circle at 50% 30%, rgba(30, 41, 69, 0.45) 0%, rgba(13, 14, 18, 0.96) 80%);
-    }
-  </style>
-<!-- END: Custom CSS Styling -->
-</head>
-<body class="bg-[#0d0d0f] text-[#ffffff] font-sans antialiased overflow-x-hidden select-none min-h-screen flex flex-col">
-<!-- BEGIN: MainNavbar -->
-<header class="h-[74px] bg-[#09090b] border-b border-[#1a1a20] flex items-center justify-between px-4 lg:px-7 sticky top-0 z-50">
-<!-- Left Navigation: Brand Logos & Menu Items -->
-<div class="flex items-center space-x-6">
-<!-- Riot Games & VCT Spark Emblem -->
-<div class="flex items-center space-x-4 pr-6 border-r border-[#22222c]"><a href="#" class="flex items-center space-x-2 text-white hover:text-[#ff4655] transition-colors group"><svg class="w-5 h-5 fill-current text-white group-hover:text-[#ff4655] transition-colors" viewBox="0 0 24 24"><path d="M2 8.5L7.5 2.5L12 7.5L10 9L12.5 12L14.5 10.5L17.5 13.5L15 15.5L18 18.5L22 15L23 21L12.5 24L2 8.5Z"></path></svg><span class="font-display font-black tracking-wider text-sm uppercase text-white">RIOT GAMES</span><svg class="w-3 h-3 text-gray-400 group-hover:text-white transition-colors ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg></a><div class="h-5 w-[1px] bg-zinc-700"></div><a href="#" class="flex items-center space-x-2.5 group"><svg class="w-6 h-6 text-[#ff4655] fill-current group-hover:scale-105 transition-transform duration-200 flex-shrink-0" viewBox="0 0 100 100"><polygon points="12,20 44,20 24,80 2,80"></polygon><polygon points="88,20 56,20 76,80 98,80"></polygon><polygon points="50,38 68,78 54,78 43,54 47,44"></polygon><polygon points="50,38 32,78 46,78 57,54 53,44"></polygon></svg><div class="flex flex-col justify-center"><div class="flex items-center space-x-1.5 leading-none"><span class="text-sm font-black tracking-wider uppercase text-white font-display">VALORANT</span><span class="text-[9px] font-black uppercase text-[#ff4655] bg-[#ff4655]/10 border border-[#ff4655]/40 px-1 py-0.5 rounded font-mono leading-none">VCT</span></div><span class="text-[9px] font-extrabold tracking-[0.22em] text-gray-400 uppercase font-mono leading-none mt-1">CHAMPIONS TOUR</span></div></a></div>
-<!-- Main Navigation Menu (Việt hóa hoàn chỉnh) -->
-<nav class="hidden md:flex items-center space-x-7 text-[12px] font-bold tracking-wider uppercase h-full"><a class="relative text-white font-extrabold flex items-center h-full px-1.5 transition-colors" href="#"><span class="">TRANG CHỦ</span><span class="absolute bottom-0 left-0 w-full h-[2px] bg-[#e03b4b]"></span></a><div class="relative group cursor-pointer flex items-center space-x-1 text-gray-400 hover:text-white h-full px-1.5 transition-colors"><span class="">SỰ KIỆN &amp; BẢNG XẾP HẠNG</span><svg class="w-3.5 h-3.5 text-gray-400 group-hover:text-white transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg></div><a class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors" href="#">XẾP HẠNG SỨC MẠNH</a><a class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors" href="#">DỰ ĐOÁN</a><a class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors" href="#">TIN TỨC</a></nav>
-</div>
-<!-- Right Controls: Locale Selector & Login Action -->
-<div class="flex items-center space-x-4">
-<!-- Language Icon -->
-<button class="text-gray-400 hover:text-white p-2 rounded-full hover:bg-[#1a1a20] transition-colors" title="Chuyển vùng / Ngôn ngữ">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<circle cx="12" cy="12" r="10" stroke-width="1.8"></circle>
-<path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" stroke-width="1.8"></path>
-</svg>
-</button>
-<!-- Sign In Button -->
-<button class="bg-[#d93344] hover:bg-[#c42636] text-white font-bold text-[12px] tracking-wider uppercase px-5 py-2 rounded transition-all duration-200 shadow-sm">ĐĂNG NHẬP</button>
-</div>
-</header>
-<!-- END: MainNavbar -->
-<!-- BEGIN: MainLayoutContainer (3-Column Layout) -->
-<div class="flex-1 flex flex-col lg:flex-row w-full max-w-[1920px] mx-auto min-h-[calc(100vh-74px)]">
-<!-- BEGIN: LeftSidebar (Tournament Events Schedule) -->
-<aside class="w-full lg:w-[25%] bg-[#080809] border-r border-[#1a1a20] flex flex-col p-6 overflow-y-auto" data-purpose="tournament-schedule-sidebar" style="padding-top: 3rem;">
-<!-- VCT Branding Header -->
-<div class="flex items-center justify-between mb-5 pb-4 border-b border-[#1a1a22]"><div class="flex items-center space-x-2.5"><div class="w-2 h-2 rounded-full bg-[#ff4655]"></div><div><span class="text-xs font-black uppercase tracking-wider text-white block leading-none">LỊCH THI ĐẤU &amp; GIẢI ĐẤU</span><span class="text-[10px] text-[#8b8e9b] font-mono block mt-1">VCT ROADMAP 2026</span></div></div><span class="text-[10px] font-black uppercase tracking-wider text-[#ff4655] bg-[#ff4655]/10 border border-[#ff4655]/30 px-2 py-0.5 rounded font-mono">MÙA GIẢI 2026</span></div>
-<!-- Schedule Stage Nodes -->
-<div class="space-y-6">
-<!-- Item 1: Tất Cả Khu Vực - Khởi Động -->
-<div class="group cursor-pointer p-2.5 -mx-2.5 rounded-md hover:bg-[#121217] transition-all duration-200 border-l-2 border-transparent hover:border-[#ff4655]">
-<span class="text-[11px] font-extrabold uppercase tracking-wider text-[#8b8e9b] block mb-1">TẤT CẢ KHU VỰC</span>
-<h3 class="text-lg font-bold text-white group-hover:text-[#ff4655] transition-colors leading-tight">Khởi Động</h3>
-<p class="text-xs text-[#8b8e9b] mt-1 font-medium">15 thg 1 - 15 thg 2</p>
-</div>
-<!-- Item 2: Quốc Tế - Masters Santiago -->
-<div class="group cursor-pointer p-2.5 -mx-2.5 rounded-md hover:bg-[#121217] transition-all duration-200 border-l-2">
-<span class="text-[11px] font-extrabold uppercase tracking-wider text-[#ff4655] block mb-1">QUỐC TẾ</span>
-<h3 class="text-lg font-bold text-white group-hover:text-[#ff4655] transition-colors leading-tight">Masters Santiago</h3>
-<p class="text-xs text-[#8b8e9b] mt-1 font-medium">28 thg 2 - 16 thg 3</p>
-</div>
-<!-- Item 3: Tất Cả Khu Vực - Vòng 1 / Stage 1 -->
-<div class="group cursor-pointer p-2.5 -mx-2.5 rounded-md hover:bg-[#121217] transition-all duration-200 border-l-2 border-transparent hover:border-[#ff4655] bg-[#121216]/50 border-[#ff4655]">
-<span class="text-[11px] font-extrabold uppercase tracking-wider text-[#8b8e9b] block mb-1">TẤT CẢ KHU VỰC</span>
-<h3 class="text-lg font-bold text-white group-hover:text-[#ff4655] transition-colors leading-tight">Vòng 1 (Stage 1)</h3>
-<p class="text-xs text-[#8b8e9b] mt-1 font-medium">1 thg 4 - 24 thg 5</p>
-</div>
-<!-- Item 4: Quốc Tế - Masters London -->
-<div class="group cursor-pointer p-2.5 -mx-2.5 rounded-md hover:bg-[#121217] transition-all duration-200 border-l-2 border-transparent hover:border-[#ff4655]">
-<span class="text-[11px] font-extrabold uppercase tracking-wider text-[#8b8e9b] block mb-1">QUỐC TẾ</span>
-<h3 class="text-lg font-bold text-white group-hover:text-[#ff4655] transition-colors leading-tight">Masters London</h3>
-<p class="text-xs text-[#8b8e9b] mt-1 font-medium">6 thg 6 - 21 thg 6</p>
-</div>
-<!-- Item 5: Quốc Tế - Champions Paris -->
-<div class="group cursor-pointer p-2.5 -mx-2.5 rounded-md hover:bg-[#121217] transition-all duration-200 border-l-2 border-transparent hover:border-[#ff4655]">
-<span class="text-[11px] font-extrabold uppercase tracking-wider text-[#8b8e9b] block mb-1">QUỐC TẾ</span>
-<h3 class="text-lg font-bold text-white group-hover:text-[#ff4655] transition-colors leading-tight">Champions Paris</h3>
-<p class="text-xs text-[#8b8e9b] mt-1 font-medium">15 thg 8 - 30 thg 8</p>
-</div>
-</div>
-</aside>
-<!-- END: LeftSidebar -->
-<!-- BEGIN: CenterMainContent (Match Broadcast & Schedule Navigation) -->
-<main class="w-full lg:w-[50%] bg-[#0d0d10] p-4 lg:p-6 flex flex-col justify-start space-y-6 overflow-y-auto" data-purpose="live-broadcast-center">
-<!-- Top Navigation & Filter Bar -->
-<div class="bg-[#151518] border border-[#22222a] rounded-lg px-4 py-3 flex flex-wrap items-center justify-between gap-3 shadow-lg">
-<!-- Title Heading -->
-<h2 class="text-2xl font-black tracking-tight text-white">Hôm nay</h2>
-<!-- Middle Controls: Date Switcher & Tournament Selector -->
-<div class="flex items-center space-x-3">
-<!-- Date Prev/Next Navigator -->
-<div class="flex items-center bg-[#1c1c22] border border-[#2d2d38] rounded-md px-2.5 py-1 text-sm font-semibold">
-<button class="text-gray-400 hover:text-white px-1.5 py-0.5 transition-colors" title="Ngày trước">
-<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
-</svg>
-</button>
-<span class="px-2.5 text-xs text-gray-200">Hôm nay</span>
-<button class="text-gray-400 hover:text-white px-1.5 py-0.5 transition-colors" title="Ngày sau">
-<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
-</svg>
-</button>
-</div>
-<!-- Tournament Dropdown Filter -->
-<button class="flex items-center space-x-2 bg-[#1c1c22] hover:bg-[#25252e] border border-[#2d2d38] px-3.5 py-1.5 rounded-md text-xs font-bold text-white transition-colors">
-<!-- Cup / Trophy SVG Icon -->
-<svg class="w-4 h-4 text-[#ff4655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M8 4h8m-8 0a4 4 0 00-4 4v2a4 4 0 004 4h8a4 4 0 004-4V8a4 4 0 00-4-4m-8 0h8m-4 10v4m-3 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span class="">Tất Cả Giải Đấu</span>
-<svg class="w-3.5 h-3.5 text-gray-400 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-</div>
-<!-- Right Settings Gear Icon -->
-<button class="text-gray-400 hover:text-white p-1 rounded transition-colors" title="Cài đặt">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-</div>
-<!-- Featured Live Match Card with Video Player Simulation -->
-<article class="relative w-full rounded-xl overflow-hidden border border-[#262633] bg-[#0c0d12] shadow-2xl flex flex-col group cursor-pointer" data-purpose="featured-live-match">
-<!-- Live Stream Video Canvas Simulated Container -->
-<div class="relative w-full aspect-[16/9] hero-pattern flex flex-col justify-between p-5 overflow-hidden">
-<!-- Background Esports Overlay Graphics -->
-<div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#3a445d_1px,transparent_1px)] [background-size:16px_16px]"></div>
-<!-- Top Info Header: Match Timer & Sponsor Logos -->
-<div class="relative z-10 flex items-center justify-between">
-<div>
-<div class="text-xs font-mono tracking-wider font-semibold text-gray-400 flex items-center space-x-2">
-<span class="text-white font-bold">00:03:10</span>
-<span class="">•</span>
-<span class="text-gray-300 uppercase text-[10px] font-bold">VCT PACIFIC 2026: VÒNG KHỞI ĐỘNG - CHUNG KẾT NHÁNH THẮNG</span>
-</div>
-</div>
-<!-- Sponsors Predator & Intel representation -->
-<div class="flex items-center space-x-3 opacity-70">
-<span class="text-[11px] font-black tracking-widest text-gray-300 uppercase">PREDATOR</span>
-<span class="text-[11px] font-extrabold text-blue-400 uppercase">intel.</span>
-</div>
-</div>
-<!-- Main Center Match Score & Teams -->
-<div class="relative z-10 grid grid-cols-3 items-center w-full my-auto px-2">
-<!-- Left Team: Global Esports (GE) -->
-<div class="flex flex-col items-center sm:items-start text-center sm:text-left space-y-1">
-<!-- Live Badge -->
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#ff4655] text-white shadow-sm mb-1">
-<span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-white pulse-indicator"></span>
-                TRỰC TIẾP
-              </span>
-<span class="text-[10px] font-bold tracking-widest uppercase text-gray-400">VCT PACIFIC</span>
-<div class="flex items-center space-x-2.5 mt-1">
-<div class="w-11 h-11 rounded-lg bg-gradient-to-br from-blue-700 via-red-600 to-amber-500 flex items-center justify-center font-black text-sm text-white shadow-md border border-white/20">
-                  GE
+      .pulse-indicator {
+        animation: pulse-dot 1.8s infinite ease-in-out;
+      }
+      .hero-pattern {
+        background: radial-gradient(
+          circle at 50% 30%,
+          rgba(30, 41, 69, 0.45) 0%,
+          rgba(13, 14, 18, 0.96) 80%
+        );
+      }
+    </style>
+    <!-- END: Custom CSS Styling -->
+  </head>
+  <body
+    class="bg-[#0d0d0f] text-[#ffffff] font-sans antialiased overflow-x-hidden select-none min-h-screen flex flex-col"
+  >
+    <!-- BEGIN: MainNavbar -->
+    <!-- BEGIN: MainNavbar -->
+    <header
+      class="h-[74px] bg-[#09090b] border-b border-[#1a1a20] flex items-center justify-between px-4 lg:px-7 sticky top-0 z-[9999]"
+    >
+      <!-- Left Navigation & Logo -->
+      <div class="flex items-center space-x-6">
+        <div class="flex items-center space-x-4 pr-6 border-r border-[#22222c]">
+          <a
+            href="index.html"
+            class="flex items-center space-x-2 text-white hover:text-[#ff4655] transition-colors group"
+          >
+            <svg
+              class="w-5 h-5 fill-current text-white group-hover:text-[#ff4655] transition-colors"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M2 8.5L7.5 2.5L12 7.5L10 9L12.5 12L14.5 10.5L17.5 13.5L15 15.5L18 18.5L22 15L23 21L12.5 24L2 8.5Z"
+              ></path>
+            </svg>
+            <span
+              class="font-display font-black tracking-wider text-sm uppercase text-white"
+              >RIOT GAMES</span
+            >
+          </a>
+          <div class="h-5 w-[1px] bg-zinc-700"></div>
+          <a href="index.html" class="flex items-center space-x-2.5 group">
+            <svg
+              class="w-6 h-6 text-[#ff4655] fill-current group-hover:scale-105 transition-transform duration-200 flex-shrink-0"
+              viewBox="0 0 100 100"
+            >
+              <polygon points="12,20 44,20 24,80 2,80"></polygon>
+              <polygon points="88,20 56,20 76,80 98,80"></polygon>
+              <polygon points="50,38 68,78 54,78 43,54 47,44"></polygon>
+              <polygon points="50,38 32,78 46,78 57,54 53,44"></polygon>
+            </svg>
+            <div class="flex flex-col justify-center">
+              <div class="flex items-center space-x-1.5 leading-none">
+                <span
+                  class="text-sm font-black tracking-wider uppercase text-white font-display"
+                  >DauTruongEsports</span
+                >
+                <span
+                  class="text-[9px] font-black uppercase text-[#ff4655] bg-[#ff4655]/10 border border-[#ff4655]/40 px-1 py-0.5 rounded font-mono leading-none"
+                  >VCT</span
+                >
+              </div>
+              <span
+                class="text-[9px] font-extrabold tracking-[0.22em] text-gray-400 uppercase font-mono leading-none mt-1"
+                >CHAMPIONS TOUR</span
+              >
+            </div>
+          </a>
+        </div>
+
+        <!-- Main Navigation Menu -->
+        <nav
+          class="hidden md:flex items-center space-x-7 text-[12px] font-bold tracking-wider uppercase h-full"
+        >
+          <a
+            class="relative text-white font-extrabold flex items-center h-full px-1.5 transition-colors"
+            href="index.html"
+          >
+            <span>TRANG CHỦ</span>
+            <span
+              class="absolute bottom-0 left-0 w-full h-[2px] bg-[#e03b4b]"
+            ></span>
+          </a>
+          <a
+            class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+            href="xephangsucmanh.html"
+            >XẾP HẠNG SỨC MẠNH</a
+          >
+          <a
+            class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+            href="dudoan.html"
+            >DỰ ĐOÁN</a
+          >
+          <a
+            class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+            href="tintuc.html"
+            >TIN TỨC</a
+          >
+        </nav>
+      </div>
+
+      <!-- Right Controls -->
+      <div class="flex items-center space-x-3 shrink-0">
+        <a
+          href="tournament-register.html"
+          class="hidden sm:inline-flex border border-[#ff4655] text-[#ff4655] hover:bg-[#ff4655] hover:text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-4 py-[9px] rounded transition-all duration-200"
+        >
+          ĐĂNG KÝ THI ĐẤU
+        </a>
+        <a
+          id="loginLink"
+          href="login.html"
+          class="bg-[#ff4655] hover:bg-[#c42636] border border-transparent text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-6 py-[9px] rounded transition-all duration-200 shadow-sm"
+        >
+          ĐĂNG NHẬP
+        </a>
+        <div id="accountMenu" class="relative hidden">
+          <button
+            id="accountButton"
+            type="button"
+            aria-expanded="false"
+            aria-controls="accountDropdown"
+            class="flex items-center gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-3 py-2 text-xs font-bold text-white transition-colors"
+          >
+            <span
+              class="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff4655] text-white"
+              aria-hidden="true"
+            >
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19a4 4 0 00-6 0m8-8a5 5 0 11-10 0 5 5 0 0110 0z"
+                />
+              </svg>
+            </span>
+            <span class="hidden sm:inline">TÀI KHOẢN</span>
+            <svg
+              class="h-3 w-3 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m6 9 6 6 6-6"
+              />
+            </svg>
+          </button>
+          <div
+            id="accountDropdown"
+            class="absolute right-0 mt-2 hidden w-48 rounded-lg border border-white/10 bg-[#151518] p-1 shadow-2xl"
+          >
+            <a
+              href="profile.html"
+              class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10"
+              >HỒ SƠ NGƯỜI DÙNG</a
+            >
+            <a
+              href="settings.html"
+              class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10"
+              >CÀI ĐẶT</a
+            >
+            <button
+              id="logoutButton"
+              type="button"
+              class="block w-full rounded px-3 py-2 text-left text-xs font-bold text-[#ff4655] hover:bg-[#ff4655]/10"
+            >
+              ĐĂNG XUẤT
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- END: MainNavbar -->
+    <!-- BEGIN: MainLayoutContainer (3-Column Layout) -->
+    <div
+      class="flex-1 flex flex-col lg:flex-row w-full max-w-[1920px] mx-auto min-h-[calc(100vh-74px)]"
+    >
+      <!-- BEGIN: LeftSidebar (Tournament Events Schedule) -->
+      <aside
+        class="w-full lg:w-[25%] bg-[#080809] border-r border-[#1a1a20] flex flex-col p-6 overflow-y-auto"
+        data-purpose="tournament-schedule-sidebar"
+        style="padding-top: 3rem"
+      >
+        <!-- VCT Branding Header -->
+        <div
+          class="flex items-center justify-between mb-5 pb-4 border-b border-[#1a1a22]"
+        >
+          <div class="flex items-center space-x-2.5">
+            <div class="w-2 h-2 rounded-full bg-[#ff4655]"></div>
+            <div>
+              <span
+                class="text-xs font-black uppercase tracking-wider text-white block leading-none"
+                >LỊCH THI ĐẤU &amp; GIẢI ĐẤU</span
+              ><span class="text-[10px] text-[#8b8e9b] font-mono block mt-1"
+                >VCT ROADMAP 2026</span
+              >
+            </div>
+          </div>
+          <span
+            class="text-[10px] font-black uppercase tracking-wider text-[#ff4655] bg-[#ff4655]/10 border border-[#ff4655]/30 px-2 py-0.5 rounded font-mono"
+            >MÙA GIẢI 2026</span
+          >
+        </div>
+        <!-- Schedule Stage Nodes -->
+        <div class="space-y-6">
+          <!-- Item 1: Tất Cả Khu Vực - Khởi Động -->
+          <div
+            class="group cursor-pointer p-2.5 -mx-2.5 rounded-md hover:bg-[#121217] transition-all duration-200 border-l-2 border-transparent hover:border-[#ff4655]"
+          >
+            <span
+              class="text-[11px] font-extrabold uppercase tracking-wider text-[#8b8e9b] block mb-1"
+              >TẤT CẢ KHU VỰC</span
+            >
+            <h3
+              class="text-lg font-bold text-white group-hover:text-[#ff4655] transition-colors leading-tight"
+            >
+              Khởi Động
+            </h3>
+            <p class="text-xs text-[#8b8e9b] mt-1 font-medium">
+              15 thg 1 - 15 thg 2
+            </p>
+          </div>
+          <!-- Item 2: Quốc Tế - Masters Santiago -->
+          <div
+            class="group cursor-pointer p-2.5 -mx-2.5 rounded-md hover:bg-[#121217] transition-all duration-200 border-l-2"
+          >
+            <span
+              class="text-[11px] font-extrabold uppercase tracking-wider text-[#ff4655] block mb-1"
+              >QUỐC TẾ</span
+            >
+            <h3
+              class="text-lg font-bold text-white group-hover:text-[#ff4655] transition-colors leading-tight"
+            >
+              Masters Santiago
+            </h3>
+            <p class="text-xs text-[#8b8e9b] mt-1 font-medium">
+              28 thg 2 - 16 thg 3
+            </p>
+          </div>
+          <!-- Item 3: Tất Cả Khu Vực - Vòng 1 / Stage 1 -->
+          <div
+            class="group cursor-pointer p-2.5 -mx-2.5 rounded-md hover:bg-[#121217] transition-all duration-200 border-l-2 border-transparent hover:border-[#ff4655] bg-[#121216]/50 border-[#ff4655]"
+          >
+            <span
+              class="text-[11px] font-extrabold uppercase tracking-wider text-[#8b8e9b] block mb-1"
+              >TẤT CẢ KHU VỰC</span
+            >
+            <h3
+              class="text-lg font-bold text-white group-hover:text-[#ff4655] transition-colors leading-tight"
+            >
+              Vòng 1 (Stage 1)
+            </h3>
+            <p class="text-xs text-[#8b8e9b] mt-1 font-medium">
+              1 thg 4 - 24 thg 5
+            </p>
+          </div>
+          <!-- Item 4: Quốc Tế - Masters London -->
+          <div
+            class="group cursor-pointer p-2.5 -mx-2.5 rounded-md hover:bg-[#121217] transition-all duration-200 border-l-2 border-transparent hover:border-[#ff4655]"
+          >
+            <span
+              class="text-[11px] font-extrabold uppercase tracking-wider text-[#8b8e9b] block mb-1"
+              >QUỐC TẾ</span
+            >
+            <h3
+              class="text-lg font-bold text-white group-hover:text-[#ff4655] transition-colors leading-tight"
+            >
+              Masters London
+            </h3>
+            <p class="text-xs text-[#8b8e9b] mt-1 font-medium">
+              6 thg 6 - 21 thg 6
+            </p>
+          </div>
+          <!-- Item 5: Quốc Tế - Champions Paris -->
+          <div
+            class="group cursor-pointer p-2.5 -mx-2.5 rounded-md hover:bg-[#121217] transition-all duration-200 border-l-2 border-transparent hover:border-[#ff4655]"
+          >
+            <span
+              class="text-[11px] font-extrabold uppercase tracking-wider text-[#8b8e9b] block mb-1"
+              >QUỐC TẾ</span
+            >
+            <h3
+              class="text-lg font-bold text-white group-hover:text-[#ff4655] transition-colors leading-tight"
+            >
+              Champions Paris
+            </h3>
+            <p class="text-xs text-[#8b8e9b] mt-1 font-medium">
+              15 thg 8 - 30 thg 8
+            </p>
+          </div>
+        </div>
+      </aside>
+      <!-- BEGIN: CenterMainContent (Match Broadcast & Schedule Navigation) -->
+      <main
+        class="w-full lg:w-[50%] bg-[#0d0d10] p-4 lg:p-6 flex flex-col justify-start space-y-6 overflow-y-auto"
+        data-purpose="live-broadcast-center"
+      >
+        <!-- Tournament Registration Announcement -->
+        <section
+          class="w-full bg-[#151518] border border-[#202025] rounded-lg p-2.5 overflow-hidden relative flex items-center shadow-md group"
+          aria-label="Thông báo giải đấu"
+        >
+          <div
+            class="bg-[#ff4655] text-white font-black text-[10px] px-2 py-1 rounded-[2px] uppercase tracking-wider z-10 shrink-0 flex items-center mr-3 shadow-[0_0_10px_rgba(255,70,85,0.5)]"
+          >
+            <span
+              class="w-1.5 h-1.5 bg-white rounded-full inline-block animate-ping mr-1.5"
+            ></span>
+            THÔNG BÁO GIẢI ĐẤU
+          </div>
+          <div
+            class="w-full overflow-hidden relative whitespace-nowrap mask-gradient"
+          >
+            <div
+              class="inline-block font-bold text-[11px] uppercase tracking-widest text-neutral-300 animate-marquee group-hover:[animation-play-state:paused]"
+            >
+              <span class="text-[#ff4655] font-black"
+                >GIẢI ĐẤU VCT DAUTRUONGESPORTS 2026 ĐÃ CHÍNH THỨC BẮT ĐẦU!</span
+              >
+              <span class="mx-2"
+                >ĐĂNG KÝ VÒNG SƠ LOẠI ĐỂ TRANH TÀI CÙNG CÁC ĐỘI TUYỂN HÀNG ĐẦU —
+                TỔNG GIẢI THƯỞNG LÊN ĐẾN 100.000.000 VNĐ!</span
+              >
+              <a
+                href="tournament-register.html"
+                class="underline decoration-[#ff4655] text-white hover:text-[#ff4655] transition-colors"
+                >[ĐĂNG KÝ NGAY]</a
+              >
+            </div>
+          </div>
+        </section>
+        <!-- Top Navigation & Filter Bar -->
+        <div
+          class="bg-[#151518] border border-[#22222a] rounded-lg px-4 py-3 flex flex-wrap items-center justify-between gap-3 shadow-lg"
+        >
+          <!-- Title Heading -->
+          <h2 class="text-2xl font-black tracking-tight text-white">Hôm nay</h2>
+          <!-- Middle Controls: Date Switcher & Tournament Selector -->
+          <div class="flex items-center space-x-3">
+            <!-- Date Prev/Next Navigator -->
+            <div
+              class="flex items-center bg-[#1c1c22] border border-[#2d2d38] rounded-md px-2.5 py-1 text-sm font-semibold"
+            >
+              <button
+                class="text-gray-400 hover:text-white px-1.5 py-0.5 transition-colors"
+                title="Ngày trước"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M15 19l-7-7 7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.5"
+                  ></path>
+                </svg>
+              </button>
+              <span class="px-2.5 text-xs text-gray-200">Hôm nay</span>
+              <button
+                class="text-gray-400 hover:text-white px-1.5 py-0.5 transition-colors"
+                title="Ngày sau"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 5l7 7-7 7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.5"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <!-- Tournament Dropdown Filter -->
+            <button
+              class="flex items-center space-x-2 bg-[#1c1c22] hover:bg-[#25252e] border border-[#2d2d38] px-3.5 py-1.5 rounded-md text-xs font-bold text-white transition-colors"
+            >
+              <!-- Cup / Trophy SVG Icon -->
+              <svg
+                class="w-4 h-4 text-[#ff4655]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M8 4h8m-8 0a4 4 0 00-4 4v2a4 4 0 004 4h8a4 4 0 004-4V8a4 4 0 00-4-4m-8 0h8m-4 10v4m-3 0h6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                ></path>
+              </svg>
+              <span class="">Tất Cả Giải Đấu</span>
+              <svg
+                class="w-3.5 h-3.5 text-gray-400 ml-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <!-- Right Settings Gear Icon -->
+          <button
+            class="text-gray-400 hover:text-white p-1 rounded transition-colors"
+            title="Cài đặt"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              ></path>
+              <path
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <!-- Featured Live Match Card with Video Player Simulation -->
+        <article
+          class="relative w-full rounded-xl overflow-hidden border border-[#262633] bg-[#0c0d12] shadow-2xl flex flex-col group cursor-pointer"
+          data-purpose="featured-live-match"
+        >
+          <!-- Live Stream Video Canvas Simulated Container -->
+          <div
+            class="relative w-full aspect-[16/9] hero-pattern flex flex-col justify-between p-5 overflow-hidden"
+          >
+            <!-- Background Esports Overlay Graphics -->
+            <div
+              class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#3a445d_1px,transparent_1px)] [background-size:16px_16px]"
+            ></div>
+            <!-- Top Info Header: Match Timer & Sponsor Logos -->
+            <div class="relative z-10 flex items-center justify-between">
+              <div>
+                <div
+                  class="text-xs font-mono tracking-wider font-semibold text-gray-400 flex items-center space-x-2"
+                >
+                  <span class="text-white font-bold">00:03:10</span>
+                  <span class="">•</span>
+                  <span class="text-gray-300 uppercase text-[10px] font-bold"
+                    >VCT PACIFIC 2026: VÒNG KHỞI ĐỘNG - CHUNG KẾT NHÁNH
+                    THẮNG</span
+                  >
                 </div>
-<div>
-<span class="text-xl font-black tracking-tight text-white block leading-none">GE</span>
-<span class="text-[10px] text-gray-400 font-medium hidden sm:block mt-0.5">Global Esports</span>
-</div>
-</div>
-</div>
-<!-- Center: Interactive Play Icon & Scoreboard -->
-<div class="flex flex-col items-center justify-center">
-<!-- Giant Play Circle Icon Button -->
-<div class="w-16 h-16 rounded-full bg-white/95 text-[#0d0d0f] flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.4)] transform group-hover:scale-110 transition-transform duration-300">
-<svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24">
-<polygon points="5 3 19 12 5 21 5 3"></polygon>
-</svg>
-</div>
-<!-- Score & Round indicator -->
-<div class="mt-3 text-center">
-<span class="text-[11px] font-bold uppercase tracking-widest text-[#ff4655] block mb-0.5">ĐANG DIỄN RA • BO5</span>
-<span class="text-3xl sm:text-4xl font-mono font-black tracking-wider text-white">6 - 0</span>
-</div>
-</div>
-<!-- Right Team: Nongshim RedForce (NS) -->
-<div class="flex flex-col items-center sm:items-end text-center sm:text-right space-y-1">
-<span class="text-[10px] font-mono text-gray-400 uppercase">ĐỐI THỦ</span>
-<div class="flex items-center space-x-2.5 mt-1">
-<div>
-<span class="text-xl font-black tracking-tight text-white block leading-none">NS</span>
-<span class="text-[10px] text-gray-400 font-medium hidden sm:block mt-0.5">Nongshim RedForce</span>
-</div>
-<div class="w-11 h-11 rounded-lg bg-[#c9252c] border border-red-400/40 flex items-center justify-center font-black text-sm text-white shadow-md">
-                  NS
+              </div>
+              <!-- Sponsors Predator & Intel representation -->
+              <div class="flex items-center space-x-3 opacity-70">
+                <span
+                  class="text-[11px] font-black tracking-widest text-gray-300 uppercase"
+                  >PREDATOR</span
+                >
+                <span class="text-[11px] font-extrabold text-blue-400 uppercase"
+                  >intel.</span
+                >
+              </div>
+            </div>
+            <!-- Main Center Match Score & Teams -->
+            <div
+              class="relative z-10 grid grid-cols-3 items-center w-full my-auto px-2"
+            >
+              <!-- Left Team: Global Esports (GE) -->
+              <div
+                class="flex flex-col items-center sm:items-start text-center sm:text-left space-y-1"
+              >
+                <!-- Live Badge -->
+                <span
+                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#ff4655] text-white shadow-sm mb-1"
+                >
+                  <span
+                    class="w-1.5 h-1.5 mr-1.5 rounded-full bg-white pulse-indicator"
+                  ></span>
+                  TRỰC TIẾP
+                </span>
+                <span
+                  class="text-[10px] font-bold tracking-widest uppercase text-gray-400"
+                  >VCT PACIFIC</span
+                >
+                <div class="flex items-center space-x-2.5 mt-1">
+                  <div
+                    class="w-11 h-11 rounded-lg bg-gradient-to-br from-blue-700 via-red-600 to-amber-500 flex items-center justify-center font-black text-sm text-white shadow-md border border-white/20"
+                  >
+                    GE
+                  </div>
+                  <div>
+                    <span
+                      class="text-xl font-black tracking-tight text-white block leading-none"
+                      >GE</span
+                    >
+                    <span
+                      class="text-[10px] text-gray-400 font-medium hidden sm:block mt-0.5"
+                      >Global Esports</span
+                    >
+                  </div>
                 </div>
-</div>
-</div>
-</div>
-<!-- Subtle Watermark Bottom -->
-<div class="relative z-10 flex justify-between items-center text-[10px] font-mono text-gray-400">
-<span class="">BẢN ĐỒ 3: HAVEN (TỈ SỐ HIỆP: 4 - 2)</span>
-<span class="uppercase text-gray-500 tracking-widest">IT LIES WITHIN</span>
-</div>
-</div>
-<!-- Bottom Roster Bar (Ticker with players & KDA stats) -->
-<div class="bg-[#121217] border-t border-[#202028] px-4 py-2.5 flex items-center justify-between overflow-x-auto text-xs" data-purpose="player-ticker-bar">
-<!-- Format Indicator -->
-<div class="flex items-center space-x-2 flex-shrink-0 pr-4 border-r border-[#22222a]">
-<span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-<span class="font-bold text-white text-xs">Đội Hình GE</span>
-<span class="text-gray-400 text-[11px]">• Bo5</span>
-</div>
-<!-- Players Avatars & Tags with K/D -->
-<div class="flex items-center space-x-4 pl-4 overflow-x-auto">
-<!-- Player 1 -->
-<div class="flex items-center space-x-2 flex-shrink-0">
-<div class="w-6 h-6 rounded bg-[#202028] border border-[#ff4655] flex items-center justify-center text-[9px] font-black text-[#ff4655]">
-                KR
               </div>
-<div>
-<span class="font-bold text-white text-xs">KR1STAL</span>
-<span class="text-[10px] text-emerald-400 block font-mono">24/11</span>
-</div>
-</div>
-<!-- Player 2 -->
-<div class="flex items-center space-x-2 flex-shrink-0">
-<div class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white">
-                PM
+              <!-- Center: Interactive Play Icon & Scoreboard -->
+              <div class="flex flex-col items-center justify-center">
+                <!-- Giant Play Circle Icon Button -->
+                <div
+                  class="w-16 h-16 rounded-full bg-white/95 text-[#0d0d0f] flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.4)] transform group-hover:scale-110 transition-transform duration-300"
+                >
+                  <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </div>
+                <!-- Score & Round indicator -->
+                <div class="mt-3 text-center">
+                  <span
+                    class="text-[11px] font-bold uppercase tracking-widest text-[#ff4655] block mb-0.5"
+                    >ĐANG DIỄN RA • BO5</span
+                  >
+                  <span
+                    class="text-3xl sm:text-4xl font-mono font-black tracking-wider text-white"
+                    >6 - 0</span
+                  >
+                </div>
               </div>
-<div>
-<span class="font-semibold text-gray-300 text-xs">PATMEN</span>
-<span class="text-[10px] text-gray-400 block font-mono">15/12</span>
-</div>
-</div>
-<!-- Player 3 -->
-<div class="flex items-center space-x-2 flex-shrink-0">
-<div class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white">
-                UD
+              <!-- Right Team: Nongshim RedForce (NS) -->
+              <div
+                class="flex flex-col items-center sm:items-end text-center sm:text-right space-y-1"
+              >
+                <span class="text-[10px] font-mono text-gray-400 uppercase"
+                  >ĐỐI THỦ</span
+                >
+                <div class="flex items-center space-x-2.5 mt-1">
+                  <div>
+                    <span
+                      class="text-xl font-black tracking-tight text-white block leading-none"
+                      >NS</span
+                    >
+                    <span
+                      class="text-[10px] text-gray-400 font-medium hidden sm:block mt-0.5"
+                      >Nongshim RedForce</span
+                    >
+                  </div>
+                  <div
+                    class="w-11 h-11 rounded-lg bg-[#c9252c] border border-red-400/40 flex items-center justify-center font-black text-sm text-white shadow-md"
+                  >
+                    NS
+                  </div>
+                </div>
               </div>
-<div>
-<span class="font-semibold text-gray-300 text-xs">UDOTAN</span>
-<span class="text-[10px] text-gray-400 block font-mono">14/10</span>
-</div>
-</div>
-<!-- Player 4 -->
-<div class="flex items-center space-x-2 flex-shrink-0">
-<div class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white">
-                XA
-              </div>
-<div>
-<span class="font-semibold text-gray-300 text-xs">XAVI8K</span>
-<span class="text-[10px] text-gray-400 block font-mono">12/13</span>
-</div>
-</div>
-<!-- Player 5 -->
-<div class="flex items-center space-x-2 flex-shrink-0">
-<div class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white">
-                AU
-              </div>
-<div>
-<span class="font-semibold text-gray-300 text-xs">AUTUMN</span>
-<span class="text-[10px] text-gray-400 block font-mono">16/9</span>
-</div>
-</div>
-</div>
-</div>
-</article>
-<!-- NỘI DUNG MỚI 1 & 2: Bảng Thống kê Bản đồ & Tuyển thủ MVP -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-<!-- Bảng Thống kê Bản đồ (Map Score & Veto) -->
-<div class="md:col-span-2 bg-[#141418] border border-[#202028] rounded-xl p-4 flex flex-col justify-between">
-<div class="flex items-center justify-between pb-2 border-b border-[#202026] mb-3">
-<div class="flex items-center space-x-2">
-<span class="w-1.5 h-3.5 bg-[#ff4655] rounded-full"></span>
-<h3 class="text-sm font-black uppercase tracking-wider text-white">BẢN ĐỒ THI ĐẤU &amp; TỈ SỐ</h3>
-</div>
-<span class="text-[11px] font-mono text-gray-400 uppercase">CHỌN / CẤM</span>
-</div>
-<div class="space-y-2.5">
-<!-- Map 1 -->
-<div class="flex items-center justify-between bg-[#1a1a22] px-3 py-2 rounded-lg border border-[#262633]">
-<div class="flex items-center space-x-3">
-<span class="text-xs font-mono font-bold text-gray-400">M1</span>
-<span class="font-bold text-sm text-white">Sunset</span>
-<span class="text-[10px] bg-blue-900/60 text-blue-300 px-2 py-0.5 rounded font-medium">GE chọn</span>
-</div>
-<div class="flex items-center space-x-3">
-<span class="text-xs font-mono font-black text-emerald-400">13 - 9</span>
-<span class="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">GE Thắng</span>
-</div>
-</div>
-<!-- Map 2 -->
-<div class="flex items-center justify-between bg-[#1a1a22] px-3 py-2 rounded-lg border border-[#262633]">
-<div class="flex items-center space-x-3">
-<span class="text-xs font-mono font-bold text-gray-400">M2</span>
-<span class="font-bold text-sm text-white">Bind</span>
-<span class="text-[10px] bg-red-900/60 text-red-300 px-2 py-0.5 rounded font-medium">NS chọn</span>
-</div>
-<div class="flex items-center space-x-3">
-<span class="text-xs font-mono font-black text-emerald-400">13 - 11</span>
-<span class="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">GE Thắng</span>
-</div>
-</div>
-<!-- Map 3 -->
-<div class="flex items-center justify-between bg-[#1f1d24] px-3 py-2 rounded-lg border border-[#ff4655]/40">
-<div class="flex items-center space-x-3">
-<span class="text-xs font-mono font-bold text-[#ff4655]">M3</span>
-<span class="font-bold text-sm text-white">Haven</span>
-<span class="inline-flex items-center text-[10px] bg-[#ff4655]/20 text-[#ff4655] px-2 py-0.5 rounded font-bold">
-<span class="w-1.5 h-1.5 rounded-full bg-[#ff4655] mr-1 pulse-indicator"></span>Đang đấu
-                  </span>
-</div>
-<div class="flex items-center space-x-3">
-<span class="text-xs font-mono font-black text-yellow-400">4 - 2</span>
-<span class="text-[10px] font-bold uppercase text-gray-300">Hiệp 6</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Tuyển thủ MVP ván đấu -->
-<div class="bg-[#141418] border border-[#202028] rounded-xl p-4 flex flex-col justify-between">
-<div>
-<div class="flex items-center justify-between pb-2 border-b border-[#202026] mb-3">
-<span class="text-[11px] font-black uppercase tracking-wider text-[#ff4655]">MVP TRẬN ĐẤU</span>
-<span class="text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded font-bold">TOP 1</span>
-</div>
-<div class="flex items-center space-x-3 mb-3">
-<div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#ff4655] to-purple-800 flex items-center justify-center font-black text-lg text-white shadow-lg">
+            </div>
+            <!-- Subtle Watermark Bottom -->
+            <div
+              class="relative z-10 flex justify-between items-center text-[10px] font-mono text-gray-400"
+            >
+              <span class="">BẢN ĐỒ 3: HAVEN (TỈ SỐ HIỆP: 4 - 2)</span>
+              <span class="uppercase text-gray-500 tracking-widest"
+                >IT LIES WITHIN</span
+              >
+            </div>
+          </div>
+          <!-- Bottom Roster Bar (Ticker with players & KDA stats) -->
+          <div
+            class="bg-[#121217] border-t border-[#202028] px-4 py-2.5 flex items-center justify-between overflow-x-auto text-xs"
+            data-purpose="player-ticker-bar"
+          >
+            <!-- Format Indicator -->
+            <div
+              class="flex items-center space-x-2 flex-shrink-0 pr-4 border-r border-[#22222a]"
+            >
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span class="font-bold text-white text-xs">Đội Hình GE</span>
+              <span class="text-gray-400 text-[11px]">• Bo5</span>
+            </div>
+            <!-- Players Avatars & Tags with K/D -->
+            <div class="flex items-center space-x-4 pl-4 overflow-x-auto">
+              <!-- Player 1 -->
+              <div class="flex items-center space-x-2 flex-shrink-0">
+                <div
+                  class="w-6 h-6 rounded bg-[#202028] border border-[#ff4655] flex items-center justify-center text-[9px] font-black text-[#ff4655]"
+                >
                   KR
                 </div>
-<div>
-<h4 class="font-black text-base text-white leading-tight">KR1STAL</h4>
-<span class="text-xs text-gray-400 font-medium">Đặc vụ: <strong class="text-white">Jett</strong></span>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-2 bg-[#191920] p-2.5 rounded-lg text-center border border-[#252530]">
-<div>
-<span class="text-[10px] text-gray-400 block uppercase font-bold">K / D / A</span>
-<span class="text-sm font-black font-mono text-emerald-400">24 / 11 / 7</span>
-</div>
-<div>
-<span class="text-[10px] text-gray-400 block uppercase font-bold">ĐIỂM ACS</span>
-<span class="text-sm font-black font-mono text-white">298</span>
-</div>
-</div>
-</div>
-<span class="text-[10px] text-gray-500 text-center block mt-2 font-mono">Đánh giá hiệu suất bởi AWS</span>
-</div>
-</div>
-<!-- NỘI DUNG MỚI 3: LỊCH THI ĐẤU TIẾP THEO TRONG NGÀY -->
-<div class="bg-[#141418] border border-[#202028] rounded-xl p-4">
-<div class="flex items-center justify-between pb-3 border-b border-[#202026] mb-4">
-<div class="flex items-center space-x-2">
-<span class="w-1.5 h-3.5 bg-[#ff4655] rounded-full"></span>
-<h3 class="text-sm font-black uppercase tracking-wider text-white">CÁC TRẬN ĐẤU TIẾP THEO TRONG NGÀY</h3>
-</div>
-<span class="text-xs font-bold text-gray-400">Giờ Việt Nam (GMT+7)</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-<!-- Upcoming Match 1 -->
-<div class="bg-[#191920] hover:bg-[#1f1f28] border border-[#252532] rounded-lg p-3.5 flex flex-col justify-between transition-colors">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">VCT PACIFIC • BO3</span>
-<span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                <div>
+                  <span class="font-bold text-white text-xs">KR1STAL</span>
+                  <span class="text-[10px] text-emerald-400 block font-mono"
+                    >24/11</span
+                  >
+                </div>
+              </div>
+              <!-- Player 2 -->
+              <div class="flex items-center space-x-2 flex-shrink-0">
+                <div
+                  class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white"
+                >
+                  PM
+                </div>
+                <div>
+                  <span class="font-semibold text-gray-300 text-xs"
+                    >PATMEN</span
+                  >
+                  <span class="text-[10px] text-gray-400 block font-mono"
+                    >15/12</span
+                  >
+                </div>
+              </div>
+              <!-- Player 3 -->
+              <div class="flex items-center space-x-2 flex-shrink-0">
+                <div
+                  class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white"
+                >
+                  UD
+                </div>
+                <div>
+                  <span class="font-semibold text-gray-300 text-xs"
+                    >UDOTAN</span
+                  >
+                  <span class="text-[10px] text-gray-400 block font-mono"
+                    >14/10</span
+                  >
+                </div>
+              </div>
+              <!-- Player 4 -->
+              <div class="flex items-center space-x-2 flex-shrink-0">
+                <div
+                  class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white"
+                >
+                  XA
+                </div>
+                <div>
+                  <span class="font-semibold text-gray-300 text-xs"
+                    >XAVI8K</span
+                  >
+                  <span class="text-[10px] text-gray-400 block font-mono"
+                    >12/13</span
+                  >
+                </div>
+              </div>
+              <!-- Player 5 -->
+              <div class="flex items-center space-x-2 flex-shrink-0">
+                <div
+                  class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white"
+                >
+                  AU
+                </div>
+                <div>
+                  <span class="font-semibold text-gray-300 text-xs"
+                    >AUTUMN</span
+                  >
+                  <span class="text-[10px] text-gray-400 block font-mono"
+                    >16/9</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <!-- NỘI DUNG MỚI 1 & 2: Bảng Thống kê Bản đồ & Tuyển thủ MVP -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Bảng Thống kê Bản đồ (Map Score & Veto) -->
+          <div
+            class="md:col-span-2 bg-[#141418] border border-[#202028] rounded-xl p-4 flex flex-col justify-between"
+          >
+            <div
+              class="flex items-center justify-between pb-2 border-b border-[#202026] mb-3"
+            >
+              <div class="flex items-center space-x-2">
+                <span class="w-1.5 h-3.5 bg-[#ff4655] rounded-full"></span>
+                <h3
+                  class="text-sm font-black uppercase tracking-wider text-white"
+                >
+                  BẢN ĐỒ THI ĐẤU &amp; TỈ SỐ
+                </h3>
+              </div>
+              <span class="text-[11px] font-mono text-gray-400 uppercase"
+                >CHỌN / CẤM</span
+              >
+            </div>
+            <div class="space-y-2.5">
+              <!-- Map 1 -->
+              <div
+                class="flex items-center justify-between bg-[#1a1a22] px-3 py-2 rounded-lg border border-[#262633]"
+              >
+                <div class="flex items-center space-x-3">
+                  <span class="text-xs font-mono font-bold text-gray-400"
+                    >M1</span
+                  >
+                  <span class="font-bold text-sm text-white">Sunset</span>
+                  <span
+                    class="text-[10px] bg-blue-900/60 text-blue-300 px-2 py-0.5 rounded font-medium"
+                    >GE chọn</span
+                  >
+                </div>
+                <div class="flex items-center space-x-3">
+                  <span class="text-xs font-mono font-black text-emerald-400"
+                    >13 - 9</span
+                  >
+                  <span
+                    class="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded"
+                    >GE Thắng</span
+                  >
+                </div>
+              </div>
+              <!-- Map 2 -->
+              <div
+                class="flex items-center justify-between bg-[#1a1a22] px-3 py-2 rounded-lg border border-[#262633]"
+              >
+                <div class="flex items-center space-x-3">
+                  <span class="text-xs font-mono font-bold text-gray-400"
+                    >M2</span
+                  >
+                  <span class="font-bold text-sm text-white">Bind</span>
+                  <span
+                    class="text-[10px] bg-red-900/60 text-red-300 px-2 py-0.5 rounded font-medium"
+                    >NS chọn</span
+                  >
+                </div>
+                <div class="flex items-center space-x-3">
+                  <span class="text-xs font-mono font-black text-emerald-400"
+                    >13 - 11</span
+                  >
+                  <span
+                    class="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded"
+                    >GE Thắng</span
+                  >
+                </div>
+              </div>
+              <!-- Map 3 -->
+              <div
+                class="flex items-center justify-between bg-[#1f1d24] px-3 py-2 rounded-lg border border-[#ff4655]/40"
+              >
+                <div class="flex items-center space-x-3">
+                  <span class="text-xs font-mono font-bold text-[#ff4655]"
+                    >M3</span
+                  >
+                  <span class="font-bold text-sm text-white">Haven</span>
+                  <span
+                    class="inline-flex items-center text-[10px] bg-[#ff4655]/20 text-[#ff4655] px-2 py-0.5 rounded font-bold"
+                  >
+                    <span
+                      class="w-1.5 h-1.5 rounded-full bg-[#ff4655] mr-1 pulse-indicator"
+                    ></span
+                    >Đang đấu
+                  </span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <span class="text-xs font-mono font-black text-yellow-400"
+                    >4 - 2</span
+                  >
+                  <span class="text-[10px] font-bold uppercase text-gray-300"
+                    >Hiệp 6</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tuyển thủ MVP ván đấu -->
+          <div
+            class="bg-[#141418] border border-[#202028] rounded-xl p-4 flex flex-col justify-between"
+          >
+            <div>
+              <div
+                class="flex items-center justify-between pb-2 border-b border-[#202026] mb-3"
+              >
+                <span
+                  class="text-[11px] font-black uppercase tracking-wider text-[#ff4655]"
+                  >MVP TRẬN ĐẤU</span
+                >
+                <span
+                  class="text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded font-bold"
+                  >TOP 1</span
+                >
+              </div>
+              <div class="flex items-center space-x-3 mb-3">
+                <div
+                  class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#ff4655] to-purple-800 flex items-center justify-center font-black text-lg text-white shadow-lg"
+                >
+                  KR
+                </div>
+                <div>
+                  <h4 class="font-black text-base text-white leading-tight">
+                    KR1STAL
+                  </h4>
+                  <span class="text-xs text-gray-400 font-medium"
+                    >Đặc vụ: <strong class="text-white">Jett</strong></span
+                  >
+                </div>
+              </div>
+              <div
+                class="grid grid-cols-2 gap-2 bg-[#191920] p-2.5 rounded-lg text-center border border-[#252530]"
+              >
+                <div>
+                  <span
+                    class="text-[10px] text-gray-400 block uppercase font-bold"
+                    >K / D / A</span
+                  >
+                  <span class="text-sm font-black font-mono text-emerald-400"
+                    >24 / 11 / 7</span
+                  >
+                </div>
+                <div>
+                  <span
+                    class="text-[10px] text-gray-400 block uppercase font-bold"
+                    >ĐIỂM ACS</span
+                  >
+                  <span class="text-sm font-black font-mono text-white"
+                    >298</span
+                  >
+                </div>
+              </div>
+            </div>
+            <span
+              class="text-[10px] text-gray-500 text-center block mt-2 font-mono"
+              >Đánh giá hiệu suất bởi AWS</span
+            >
+          </div>
+        </div>
+        <!-- NỘI DUNG MỚI 3: LỊCH THI ĐẤU TIẾP THEO TRONG NGÀY -->
+        <div class="bg-[#141418] border border-[#202028] rounded-xl p-4">
+          <div
+            class="flex items-center justify-between pb-3 border-b border-[#202026] mb-4"
+          >
+            <div class="flex items-center space-x-2">
+              <span class="w-1.5 h-3.5 bg-[#ff4655] rounded-full"></span>
+              <h3
+                class="text-sm font-black uppercase tracking-wider text-white"
+              >
+                CÁC TRẬN ĐẤU TIẾP THEO TRONG NGÀY
+              </h3>
+            </div>
+            <span class="text-xs font-bold text-gray-400"
+              >Giờ Việt Nam (GMT+7)</span
+            >
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <!-- Upcoming Match 1 -->
+            <div
+              class="bg-[#191920] hover:bg-[#1f1f28] border border-[#252532] rounded-lg p-3.5 flex flex-col justify-between transition-colors"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <span
+                  class="text-[10px] font-bold text-gray-400 uppercase tracking-wider"
+                  >VCT PACIFIC • BO3</span
+                >
+                <span
+                  class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                >
                   SẮP BẮT ĐẦU
                 </span>
-</div>
-<div class="flex items-center justify-between my-2">
-<!-- Team 1: PRX -->
-<div class="flex items-center space-x-2.5">
-<div class="w-8 h-8 rounded bg-[#1e2337] border border-blue-400/40 flex items-center justify-center font-black text-xs text-cyan-300">
+              </div>
+              <div class="flex items-center justify-between my-2">
+                <!-- Team 1: PRX -->
+                <div class="flex items-center space-x-2.5">
+                  <div
+                    class="w-8 h-8 rounded bg-[#1e2337] border border-blue-400/40 flex items-center justify-center font-black text-xs text-cyan-300"
+                  >
                     PRX
                   </div>
-<div>
-<span class="font-bold text-sm text-white block leading-none">PRX</span>
-<span class="text-[10px] text-gray-400">Paper Rex</span>
-</div>
-</div>
-<!-- VS -->
-<span class="font-mono text-xs font-bold text-gray-500">VS</span>
-<!-- Team 2: DRX -->
-<div class="flex items-center space-x-2.5">
-<div class="text-right">
-<span class="font-bold text-sm text-white block leading-none">DRX</span>
-<span class="text-[10px] text-gray-400">DRX Esports</span>
-</div>
-<div class="w-8 h-8 rounded bg-[#0f1d3a] border border-blue-500/40 flex items-center justify-center font-black text-xs text-blue-400">
+                  <div>
+                    <span
+                      class="font-bold text-sm text-white block leading-none"
+                      >PRX</span
+                    >
+                    <span class="text-[10px] text-gray-400">Paper Rex</span>
+                  </div>
+                </div>
+                <!-- VS -->
+                <span class="font-mono text-xs font-bold text-gray-500"
+                  >VS</span
+                >
+                <!-- Team 2: DRX -->
+                <div class="flex items-center space-x-2.5">
+                  <div class="text-right">
+                    <span
+                      class="font-bold text-sm text-white block leading-none"
+                      >DRX</span
+                    >
+                    <span class="text-[10px] text-gray-400">DRX Esports</span>
+                  </div>
+                  <div
+                    class="w-8 h-8 rounded bg-[#0f1d3a] border border-blue-500/40 flex items-center justify-center font-black text-xs text-blue-400"
+                  >
                     DRX
                   </div>
-</div>
-</div>
-<div class="flex items-center justify-between pt-2 border-t border-[#252530] mt-1">
-<span class="text-xs font-mono font-bold text-white flex items-center">
-<svg class="w-3.5 h-3.5 mr-1 text-[#ff4655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<circle cx="12" cy="12" r="10" stroke-width="2"></circle>
-<polyline points="12 6 12 12 16 14" stroke-width="2"></polyline>
-</svg>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between pt-2 border-t border-[#252530] mt-1"
+              >
+                <span
+                  class="text-xs font-mono font-bold text-white flex items-center"
+                >
+                  <svg
+                    class="w-3.5 h-3.5 mr-1 text-[#ff4655]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                    <polyline
+                      points="12 6 12 12 16 14"
+                      stroke-width="2"
+                    ></polyline>
+                  </svg>
                   18:30 (còn ~45 phút)
                 </span>
-<button class="text-[11px] font-bold text-[#ff4655] hover:text-white bg-[#ff4655]/10 hover:bg-[#ff4655] px-2.5 py-1 rounded transition-colors flex items-center space-x-1">
-<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span class="">Đặt Thông Báo</span>
-</button>
-</div>
-</div>
-<!-- Upcoming Match 2 -->
-<div class="bg-[#191920] hover:bg-[#1f1f28] border border-[#252532] rounded-lg p-3.5 flex flex-col justify-between transition-colors">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">VCT PACIFIC • BO3</span>
-<span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-zinc-700/40 text-gray-300 border border-zinc-600/40">
+                <button
+                  class="text-[11px] font-bold text-[#ff4655] hover:text-white bg-[#ff4655]/10 hover:bg-[#ff4655] px-2.5 py-1 rounded transition-colors flex items-center space-x-1"
+                >
+                  <svg
+                    class="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                  <span class="">Đặt Thông Báo</span>
+                </button>
+              </div>
+            </div>
+            <!-- Upcoming Match 2 -->
+            <div
+              class="bg-[#191920] hover:bg-[#1f1f28] border border-[#252532] rounded-lg p-3.5 flex flex-col justify-between transition-colors"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <span
+                  class="text-[10px] font-bold text-gray-400 uppercase tracking-wider"
+                  >VCT PACIFIC • BO3</span
+                >
+                <span
+                  class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-zinc-700/40 text-gray-300 border border-zinc-600/40"
+                >
                   CHỜ ĐẤU
                 </span>
-</div>
-<div class="flex items-center justify-between my-2">
-<!-- Team 1: T1 -->
-<div class="flex items-center space-x-2.5">
-<div class="w-8 h-8 rounded bg-[#2b1114] border border-red-500/40 flex items-center justify-center font-black text-xs text-red-400">
+              </div>
+              <div class="flex items-center justify-between my-2">
+                <!-- Team 1: T1 -->
+                <div class="flex items-center space-x-2.5">
+                  <div
+                    class="w-8 h-8 rounded bg-[#2b1114] border border-red-500/40 flex items-center justify-center font-black text-xs text-red-400"
+                  >
                     T1
                   </div>
-<div>
-<span class="font-bold text-sm text-white block leading-none">T1</span>
-<span class="text-[10px] text-gray-400">T1 Valorant</span>
-</div>
-</div>
-<!-- VS -->
-<span class="font-mono text-xs font-bold text-gray-500">VS</span>
-<!-- Team 2: Gen.G -->
-<div class="flex items-center space-x-2.5">
-<div class="text-right">
-<span class="font-bold text-sm text-white block leading-none">GEN</span>
-<span class="text-[10px] text-gray-400">Gen.G Esports</span>
-</div>
-<div class="w-8 h-8 rounded bg-[#2c2612] border border-amber-500/40 flex items-center justify-center font-black text-xs text-amber-300">
+                  <div>
+                    <span
+                      class="font-bold text-sm text-white block leading-none"
+                      >T1</span
+                    >
+                    <span class="text-[10px] text-gray-400">T1 Valorant</span>
+                  </div>
+                </div>
+                <!-- VS -->
+                <span class="font-mono text-xs font-bold text-gray-500"
+                  >VS</span
+                >
+                <!-- Team 2: Gen.G -->
+                <div class="flex items-center space-x-2.5">
+                  <div class="text-right">
+                    <span
+                      class="font-bold text-sm text-white block leading-none"
+                      >GEN</span
+                    >
+                    <span class="text-[10px] text-gray-400">Gen.G Esports</span>
+                  </div>
+                  <div
+                    class="w-8 h-8 rounded bg-[#2c2612] border border-amber-500/40 flex items-center justify-center font-black text-xs text-amber-300"
+                  >
                     GEN
                   </div>
-</div>
-</div>
-<div class="flex items-center justify-between pt-2 border-t border-[#252530] mt-1">
-<span class="text-xs font-mono font-bold text-white flex items-center">
-<svg class="w-3.5 h-3.5 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<circle cx="12" cy="12" r="10" stroke-width="2"></circle>
-<polyline points="12 6 12 12 16 14" stroke-width="2"></polyline>
-</svg>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between pt-2 border-t border-[#252530] mt-1"
+              >
+                <span
+                  class="text-xs font-mono font-bold text-white flex items-center"
+                >
+                  <svg
+                    class="w-3.5 h-3.5 mr-1 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                    <polyline
+                      points="12 6 12 12 16 14"
+                      stroke-width="2"
+                    ></polyline>
+                  </svg>
                   21:00
                 </span>
-<button class="text-[11px] font-bold text-[#ff4655] hover:text-white bg-[#ff4655]/10 hover:bg-[#ff4655] px-2.5 py-1 rounded transition-colors flex items-center space-x-1">
-<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<span class="">Đặt Thông Báo</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- END: CenterMainContent -->
-<!-- BEGIN: RightSidebar (Rankings & News) -->
-<aside class="w-full lg:w-[25%] bg-[#0b0b0e] border-l border-[#1a1a20] flex flex-col space-y-8 overflow-y-auto px-6 pb-6" data-purpose="rankings-and-news-sidebar" style="padding-top: 3rem;">
-<!-- Global Power Rankings Card -->
-<section data-purpose="power-rankings-section">
-<!-- Section Header -->
-<div class="mb-4">
-<h2 class="text-lg font-black text-white tracking-tight leading-tight">Xếp Hạng Sức Mạnh Toàn Cầu</h2>
-<div class="flex items-center space-x-1.5 text-xs text-gray-400 mt-0.5">
-<span class="">Hỗ trợ bởi</span>
-<!-- AWS Logo Representation -->
-<span class="font-extrabold text-amber-500 tracking-wider uppercase">aws</span>
-</div>
-</div>
-<!-- Leaderboard Rows -->
-<div class="space-y-3 font-sans">
-<!-- Rank 1: 100 Thieves -->
-<div class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer">
-<div class="flex items-center space-x-4">
-<span class="text-xl font-black text-white w-4 text-center">1</span>
-<!-- Team Crest -->
-<div class="w-8 h-8 rounded-full bg-black border border-[#2d2d38] flex items-center justify-center text-[#ff4655] font-black text-xs italic">
-                100T
+                <button
+                  class="text-[11px] font-bold text-[#ff4655] hover:text-white bg-[#ff4655]/10 hover:bg-[#ff4655] px-2.5 py-1 rounded transition-colors flex items-center space-x-1"
+                >
+                  <svg
+                    class="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                  <span class="">Đặt Thông Báo</span>
+                </button>
               </div>
-<span class="font-bold text-sm tracking-wide text-white">100 Thieves (100T)</span>
-</div>
-</div>
-<!-- Rank 1 (Tied): Leviatán -->
-<div class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer">
-<div class="flex items-center space-x-4">
-<span class="text-xl font-black text-white w-4 text-center">1</span>
-<!-- Team Crest (Dragon neon blue style) -->
-<div class="w-8 h-8 rounded-full bg-cyan-950 border border-cyan-400/40 flex items-center justify-center text-cyan-300 font-black text-xs">
-                LEV
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- END: CenterMainContent -->
+      <!-- BEGIN: RightSidebar (Rankings & News) -->
+      <aside
+        class="w-full lg:w-[25%] bg-[#0b0b0e] border-l border-[#1a1a20] flex flex-col space-y-8 overflow-y-auto px-6 pb-6"
+        data-purpose="rankings-and-news-sidebar"
+        style="padding-top: 3rem"
+      >
+        <!-- Global Power Rankings Card -->
+        <section data-purpose="power-rankings-section">
+          <!-- Section Header -->
+          <div class="mb-4">
+            <h2
+              class="text-lg font-black text-white tracking-tight leading-tight"
+            >
+              Xếp Hạng Sức Mạnh Toàn Cầu
+            </h2>
+            <div
+              class="flex items-center space-x-1.5 text-xs text-gray-400 mt-0.5"
+            >
+              <span class="">Hỗ trợ bởi</span>
+              <!-- AWS Logo Representation -->
+              <span
+                class="font-extrabold text-amber-500 tracking-wider uppercase"
+                >aws</span
+              >
+            </div>
+          </div>
+          <!-- Leaderboard Rows -->
+          <div class="space-y-3 font-sans">
+            <!-- Rank 1: 100 Thieves -->
+            <div
+              class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
+            >
+              <div class="flex items-center space-x-4">
+                <span class="text-xl font-black text-white w-4 text-center"
+                  >1</span
+                >
+                <!-- Team Crest -->
+                <div
+                  class="w-8 h-8 rounded-full bg-black border border-[#2d2d38] flex items-center justify-center text-[#ff4655] font-black text-xs italic"
+                >
+                  100T
+                </div>
+                <span class="font-bold text-sm tracking-wide text-white"
+                  >100 Thieves (100T)</span
+                >
               </div>
-<span class="font-bold text-sm tracking-wide text-white">Leviatán (LEV)</span>
-</div>
-</div>
-<!-- Rank 3: Nongshim RedForce -->
-<div class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer">
-<div class="flex items-center space-x-4">
-<span class="text-xl font-black text-white w-4 text-center">3</span>
-<!-- Team Crest Red shield -->
-<div class="w-8 h-8 rounded bg-[#b91c1c] border border-red-500/50 flex items-center justify-center text-white font-black text-xs">
-                NS
+            </div>
+            <!-- Rank 1 (Tied): Leviatán -->
+            <div
+              class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
+            >
+              <div class="flex items-center space-x-4">
+                <span class="text-xl font-black text-white w-4 text-center"
+                  >1</span
+                >
+                <!-- Team Crest (Dragon neon blue style) -->
+                <div
+                  class="w-8 h-8 rounded-full bg-cyan-950 border border-cyan-400/40 flex items-center justify-center text-cyan-300 font-black text-xs"
+                >
+                  LEV
+                </div>
+                <span class="font-bold text-sm tracking-wide text-white"
+                  >Leviatán (LEV)</span
+                >
               </div>
-<span class="font-bold text-sm tracking-wide text-white">Nongshim RedForce (NS)</span>
-</div>
-</div>
-<!-- Rank 4: Paper Rex -->
-<div class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer">
-<div class="flex items-center space-x-4">
-<span class="text-xl font-black text-white w-4 text-center">4</span>
-<div class="w-8 h-8 rounded bg-[#1e2337] border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-black text-xs">
-                PRX
+            </div>
+            <!-- Rank 3: Nongshim RedForce -->
+            <div
+              class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
+            >
+              <div class="flex items-center space-x-4">
+                <span class="text-xl font-black text-white w-4 text-center"
+                  >3</span
+                >
+                <!-- Team Crest Red shield -->
+                <div
+                  class="w-8 h-8 rounded bg-[#b91c1c] border border-red-500/50 flex items-center justify-center text-white font-black text-xs"
+                >
+                  NS
+                </div>
+                <span class="font-bold text-sm tracking-wide text-white"
+                  >Nongshim RedForce (NS)</span
+                >
               </div>
-<span class="font-bold text-sm tracking-wide text-white">Paper Rex (PRX)</span>
-</div>
-</div>
-<!-- Rank 5: Fnatic -->
-<div class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer">
-<div class="flex items-center space-x-4">
-<span class="text-xl font-black text-white w-4 text-center">5</span>
-<div class="w-8 h-8 rounded bg-[#2c1d12] border border-orange-500/40 flex items-center justify-center text-orange-400 font-black text-xs">
-                FNC
+            </div>
+            <!-- Rank 4: Paper Rex -->
+            <div
+              class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
+            >
+              <div class="flex items-center space-x-4">
+                <span class="text-xl font-black text-white w-4 text-center"
+                  >4</span
+                >
+                <div
+                  class="w-8 h-8 rounded bg-[#1e2337] border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-black text-xs"
+                >
+                  PRX
+                </div>
+                <span class="font-bold text-sm tracking-wide text-white"
+                  >Paper Rex (PRX)</span
+                >
               </div>
-<span class="font-bold text-sm tracking-wide text-white">Fnatic (FNC)</span>
-</div>
-</div>
-</div>
-<!-- View Full Rankings Link -->
-<a class="mt-4 flex items-center justify-between text-xs font-bold text-[#ff4655] hover:text-[#fa4454] transition-colors py-1 group" href="#">
-<span class="">Xem Toàn Bộ Bảng Xếp Hạng</span>
-<svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
-</svg>
-</a>
-</section>
-<!-- TIN TỨC MỚI NHẤT (VCT News Section) -->
-<section class="pt-2 border-t border-[#1c1c24]" data-purpose="news-feed-section">
-<div class="flex items-center justify-between mb-4">
-<h2 class="text-lg font-black text-white tracking-wider uppercase">TIN TỨC MỚI NHẤT</h2>
-<span class="h-0.5 w-10 bg-[#ff4655]"></span>
-</div>
-<!-- News Article 1 -->
-<article class="group cursor-pointer mb-4 pb-3 border-b border-[#181820]">
-<div class="h-24 w-full rounded-md bg-gradient-to-r from-blue-900/60 to-purple-900/40 border border-[#22222c] overflow-hidden mb-2 relative">
-<div class="absolute inset-0 bg-[#0d0d12]/40 group-hover:bg-transparent transition-colors"></div>
-<span class="absolute bottom-2 left-2 bg-[#ff4655] text-white text-[9px] font-black uppercase px-1.5 py-0.5 rounded">
-              VCT 2026
-            </span>
-</div>
-<h4 class="text-xs font-bold text-gray-200 group-hover:text-[#ff4655] transition-colors line-clamp-2 leading-relaxed">
-            Lịch thi đấu chính thức vòng Khởi Động VCT 2026 khu vực Pacific và Americas
-          </h4>
-<span class="text-[10px] text-gray-500 mt-1 block">2 giờ trước</span>
-</article>
-<!-- News Article 2 -->
-<article class="group cursor-pointer mb-4 pb-3 border-b border-[#181820]">
-<div class="h-24 w-full rounded-md bg-gradient-to-r from-red-950/60 to-zinc-900/50 border border-[#22222c] overflow-hidden mb-2 relative">
-<div class="absolute inset-0 bg-[#0d0d12]/40 group-hover:bg-transparent transition-colors"></div>
-<span class="absolute bottom-2 left-2 bg-zinc-800 text-gray-300 text-[9px] font-black uppercase px-1.5 py-0.5 rounded border border-gray-700">
-              CHIẾN THUẬT
-            </span>
-</div>
-<h4 class="text-xs font-bold text-gray-200 group-hover:text-[#ff4655] transition-colors line-clamp-2 leading-relaxed">
-            Phân tích tỷ lệ chọn đặc vụ tại bản đồ Sunset mới nhất tại VCT Masters
-          </h4>
-<span class="text-[10px] text-gray-500 mt-1 block">5 giờ trước</span>
-</article>
-<!-- News Article 3 -->
-<article class="group cursor-pointer pb-2">
-<div class="h-24 w-full rounded-md bg-gradient-to-r from-emerald-950/60 to-zinc-900/50 border border-[#22222c] overflow-hidden mb-2 relative">
-<div class="absolute inset-0 bg-[#0d0d12]/40 group-hover:bg-transparent transition-colors"></div>
-<span class="absolute bottom-2 left-2 bg-emerald-700 text-white text-[9px] font-black uppercase px-1.5 py-0.5 rounded">
-              QUỐC TẾ
-            </span>
-</div>
-<h4 class="text-xs font-bold text-gray-200 group-hover:text-[#ff4655] transition-colors line-clamp-2 leading-relaxed">
-            Riot Games công bố thể thức thi đấu vòng loại giải đấu Masters Santiago
-          </h4>
-<span class="text-[10px] text-gray-500 mt-1 block">1 ngày trước</span>
-</article>
-</section>
-</aside>
-<!-- END: RightSidebar -->
-</div>
-<!-- END: MainLayoutContainer -->
-<!-- BEGIN: InteractiveScripts -->
-<script data-purpose="toggle-interactions">
-    // Script tinh chỉnh tương tác cơ bản cho dashboard
-    document.addEventListener('DOMContentLoaded', () => {
-      const scheduleCards = document.querySelectorAll('[data-purpose="tournament-schedule-sidebar"] .group');
-      scheduleCards.forEach(card => {
-        card.addEventListener('click', () => {
-          scheduleCards.forEach(c => c.classList.remove('bg-[#121216]/50', 'border-[#ff4655]'));
-          card.classList.add('bg-[#121216]/50', 'border-[#ff4655]');
+            </div>
+            <!-- Rank 5: Fnatic -->
+            <div
+              class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
+            >
+              <div class="flex items-center space-x-4">
+                <span class="text-xl font-black text-white w-4 text-center"
+                  >5</span
+                >
+                <div
+                  class="w-8 h-8 rounded bg-[#2c1d12] border border-orange-500/40 flex items-center justify-center text-orange-400 font-black text-xs"
+                >
+                  FNC
+                </div>
+                <span class="font-bold text-sm tracking-wide text-white"
+                  >Fnatic (FNC)</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- View Full Rankings Link -->
+          <a
+            class="mt-4 flex items-center justify-between text-xs font-bold text-[#ff4655] hover:text-[#fa4454] transition-colors py-1 group"
+            href="xephangsucmanh.html"
+          >
+            <span class="">Xem Toàn Bộ Bảng Xếp Hạng</span>
+            <svg
+              class="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 5l7 7-7 7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+              ></path>
+            </svg>
+          </a>
+        </section>
+        <!-- TIN TỨC MỚI NHẤT (VCT News Section) -->
+        <section
+          class="pt-2 border-t border-[#1c1c24]"
+          data-purpose="news-feed-section"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-black text-white tracking-wider uppercase">
+              TIN TỨC MỚI NHẤT
+            </h2>
+            <span class="h-0.5 w-10 bg-[#ff4655]"></span>
+          </div>
+          <!-- News Article 1 -->
+          <article
+            class="group cursor-pointer mb-4 pb-3 border-b border-[#181820]"
+          >
+            <div
+              class="h-24 w-full rounded-md bg-gradient-to-r from-blue-900/60 to-purple-900/40 border border-[#22222c] overflow-hidden mb-2 relative"
+            >
+              <div
+                class="absolute inset-0 bg-[#0d0d12]/40 group-hover:bg-transparent transition-colors"
+              ></div>
+              <span
+                class="absolute bottom-2 left-2 bg-[#ff4655] text-white text-[9px] font-black uppercase px-1.5 py-0.5 rounded"
+              >
+                VCT 2026
+              </span>
+            </div>
+            <h4
+              class="text-xs font-bold text-gray-200 group-hover:text-[#ff4655] transition-colors line-clamp-2 leading-relaxed"
+            >
+              Lịch thi đấu chính thức vòng Khởi Động VCT 2026 khu vực Pacific và
+              Americas
+            </h4>
+            <span class="text-[10px] text-gray-500 mt-1 block"
+              >2 giờ trước</span
+            >
+          </article>
+          <!-- News Article 2 -->
+          <article
+            class="group cursor-pointer mb-4 pb-3 border-b border-[#181820]"
+          >
+            <div
+              class="h-24 w-full rounded-md bg-gradient-to-r from-red-950/60 to-zinc-900/50 border border-[#22222c] overflow-hidden mb-2 relative"
+            >
+              <div
+                class="absolute inset-0 bg-[#0d0d12]/40 group-hover:bg-transparent transition-colors"
+              ></div>
+              <span
+                class="absolute bottom-2 left-2 bg-zinc-800 text-gray-300 text-[9px] font-black uppercase px-1.5 py-0.5 rounded border border-gray-700"
+              >
+                CHIẾN THUẬT
+              </span>
+            </div>
+            <h4
+              class="text-xs font-bold text-gray-200 group-hover:text-[#ff4655] transition-colors line-clamp-2 leading-relaxed"
+            >
+              Phân tích tỷ lệ chọn đặc vụ tại bản đồ Sunset mới nhất tại VCT
+              Masters
+            </h4>
+            <span class="text-[10px] text-gray-500 mt-1 block"
+              >5 giờ trước</span
+            >
+          </article>
+          <!-- News Article 3 -->
+          <article class="group cursor-pointer pb-2">
+            <div
+              class="h-24 w-full rounded-md bg-gradient-to-r from-emerald-950/60 to-zinc-900/50 border border-[#22222c] overflow-hidden mb-2 relative"
+            >
+              <div
+                class="absolute inset-0 bg-[#0d0d12]/40 group-hover:bg-transparent transition-colors"
+              ></div>
+              <span
+                class="absolute bottom-2 left-2 bg-emerald-700 text-white text-[9px] font-black uppercase px-1.5 py-0.5 rounded"
+              >
+                QUỐC TẾ
+              </span>
+            </div>
+            <h4
+              class="text-xs font-bold text-gray-200 group-hover:text-[#ff4655] transition-colors line-clamp-2 leading-relaxed"
+            >
+              Riot Games công bố thể thức thi đấu vòng loại giải đấu Masters
+              Santiago
+            </h4>
+            <span class="text-[10px] text-gray-500 mt-1 block"
+              >1 ngày trước</span
+            >
+          </article>
+        </section>
+      </aside>
+      <!-- END: RightSidebar -->
+    </div>
+    <!-- END: MainLayoutContainer -->
+    <!-- BEGIN: InteractiveScripts -->
+    <script data-purpose="toggle-interactions">
+      // Script tinh chỉnh tương tác cơ bản cho dashboard
+      document.addEventListener("DOMContentLoaded", () => {
+        const scheduleCards = document.querySelectorAll(
+          '[data-purpose="tournament-schedule-sidebar"] .group',
+        );
+        scheduleCards.forEach((card) => {
+          card.addEventListener("click", () => {
+            scheduleCards.forEach((c) =>
+              c.classList.remove("bg-[#121216]/50", "border-[#ff4655]"),
+            );
+            card.classList.add("bg-[#121216]/50", "border-[#ff4655]");
+          });
         });
       });
-    });
-  </script>
-<!-- END: InteractiveScripts -->
+    </script>
+    <!-- END: InteractiveScripts -->
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script>
+      const loginLink = document.getElementById("loginLink");
+      const accountMenu = document.getElementById("accountMenu");
+      const accountButton = document.getElementById("accountButton");
+      const accountDropdown = document.getElementById("accountDropdown");
+      const logoutButton = document.getElementById("logoutButton");
 
+      const showAccountMenu = () => {
+        loginLink.classList.add("hidden");
+        accountMenu.classList.remove("hidden");
+      };
 
+      const showLoginLink = () => {
+        loginLink.classList.remove("hidden");
+        accountMenu.classList.add("hidden");
+      };
 
-</body></html>
+      accountButton.addEventListener("click", () => {
+        const open = accountDropdown.classList.toggle("hidden") === false;
+        accountButton.setAttribute("aria-expanded", String(open));
+      });
+
+      logoutButton.addEventListener("click", async () => {
+        if (window.vctSupabase) await window.vctSupabase.auth.signOut();
+        localStorage.removeItem("vctLoggedIn");
+        showLoginLink();
+        accountDropdown.classList.add("hidden");
+      });
+
+      (async () => {
+        let loggedIn = localStorage.getItem("vctLoggedIn") === "true";
+        if (window.vctSupabase) {
+          const { data } = await window.vctSupabase.auth.getSession();
+          if (data.session) {
+            loggedIn = true;
+            localStorage.setItem("vctLoggedIn", "true");
+          }
+        }
+        if (loggedIn) showAccountMenu();
+      })();
+    </script>
+    <script src="main.js"></script>
+  </body>
+</html>
