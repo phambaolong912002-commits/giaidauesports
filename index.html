@@ -523,229 +523,101 @@
           class="relative w-full rounded-xl overflow-hidden border border-[#262633] bg-[#0c0d12] shadow-2xl flex flex-col group cursor-pointer"
           data-purpose="featured-live-match"
         >
-          <!-- Live Stream Video Canvas Simulated Container -->
-          <div
-            class="relative w-full aspect-[16/9] hero-pattern flex flex-col justify-between p-5 overflow-hidden"
-          >
-            <!-- Background Esports Overlay Graphics -->
-            <div
-              class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#3a445d_1px,transparent_1px)] [background-size:16px_16px]"
-            ></div>
-            <!-- Top Info Header: Match Timer & Sponsor Logos -->
-            <div class="relative z-10 flex items-center justify-between">
-              <div>
-                <div
-                  class="text-xs font-mono tracking-wider font-semibold text-gray-400 flex items-center space-x-2"
-                >
-                  <span class="text-white font-bold">00:03:10</span>
-                  <span class="">•</span>
-                  <span class="text-gray-300 uppercase text-[10px] font-bold"
-                    >VCT PACIFIC 2026: VÒNG KHỞI ĐỘNG - CHUNG KẾT NHÁNH
-                    THẮNG</span
-                  >
-                </div>
-              </div>
-              <!-- Sponsors Predator & Intel representation -->
-              <div class="flex items-center space-x-3 opacity-70">
-                <span
-                  class="text-[11px] font-black tracking-widest text-gray-300 uppercase"
-                  >PREDATOR</span
-                >
-                <span class="text-[11px] font-extrabold text-blue-400 uppercase"
-                  >intel.</span
-                >
-              </div>
-            </div>
-            <!-- Main Center Match Score & Teams -->
-            <div
-              class="relative z-10 grid grid-cols-3 items-center w-full my-auto px-2"
-            >
-              <!-- Left Team: Global Esports (GE) -->
-              <div
-                class="flex flex-col items-center sm:items-start text-center sm:text-left space-y-1"
-              >
-                <!-- Live Badge -->
-                <span
-                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#ff4655] text-white shadow-sm mb-1"
-                >
-                  <span
-                    class="w-1.5 h-1.5 mr-1.5 rounded-full bg-white pulse-indicator"
-                  ></span>
-                  TRỰC TIẾP
-                </span>
-                <span
-                  class="text-[10px] font-bold tracking-widest uppercase text-gray-400"
-                  >VCT PACIFIC</span
-                >
-                <div class="flex items-center space-x-2.5 mt-1">
-                  <div
-                    class="w-11 h-11 rounded-lg bg-gradient-to-br from-blue-700 via-red-600 to-amber-500 flex items-center justify-center font-black text-sm text-white shadow-md border border-white/20"
-                  >
-                    GE
-                  </div>
+          <!-- Featured Live Match Card with Video Player Simulation -->
+        <article
+          class="relative w-full rounded-xl overflow-hidden border border-[#262633] bg-[#0c0d12] shadow-2xl flex flex-col group"
+          data-purpose="featured-live-match"
+        >
+          <!-- GIAO DIỆN CHỨA VIDEO -->
+          <div class="relative w-full aspect-[16/9] flex flex-col justify-between overflow-hidden bg-black">
+            
+            <!-- 1. IFRAME VIDEO (Mặc định ẩn đi) -->
+            <!-- Chú ý: src đang để trống, JS sẽ tự chèn link vào để tự động play khi bấm nút -->
+            <iframe id="live-video-frame" class="absolute inset-0 w-full h-full hidden z-0" src="" title="Live Stream" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+            <!-- 2. LỚP GIAO DIỆN OVERLAY (Sẽ bị ẩn đi khi bấm Play) -->
+            <div id="match-overlay-ui" class="absolute inset-0 z-10 flex flex-col justify-between p-5 hero-pattern transition-opacity duration-500">
+                <!-- Background Esports Overlay Graphics -->
+                <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#3a445d_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                
+                <!-- Top Info Header -->
+                <div class="relative z-10 flex items-center justify-between">
                   <div>
-                    <span
-                      class="text-xl font-black tracking-tight text-white block leading-none"
-                      >GE</span
-                    >
-                    <span
-                      class="text-[10px] text-gray-400 font-medium hidden sm:block mt-0.5"
-                      >Global Esports</span
-                    >
+                    <div class="text-xs font-mono tracking-wider font-semibold text-gray-400 flex items-center space-x-2">
+                      <span class="text-white font-bold">00:03:10</span>
+                      <span class="">•</span>
+                      <span class="text-gray-300 uppercase text-[10px] font-bold">VCT PACIFIC 2026: VÒNG KHỞI ĐỘNG - CHUNG KẾT NHÁNH THẮNG</span>
+                    </div>
+                  </div>
+                  <!-- Sponsors -->
+                  <div class="flex items-center space-x-3 opacity-70">
+                    <span class="text-[11px] font-black tracking-widest text-gray-300 uppercase">PREDATOR</span>
+                    <span class="text-[11px] font-extrabold text-blue-400 uppercase">intel.</span>
                   </div>
                 </div>
-              </div>
-              <!-- Center: Interactive Play Icon & Scoreboard -->
-              <div class="flex flex-col items-center justify-center">
-                <!-- Giant Play Circle Icon Button -->
-                <div
-                  class="w-16 h-16 rounded-full bg-white/95 text-[#0d0d0f] flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.4)] transform group-hover:scale-110 transition-transform duration-300"
-                >
-                  <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24">
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                  </svg>
-                </div>
-                <!-- Score & Round indicator -->
-                <div class="mt-3 text-center">
-                  <span
-                    class="text-[11px] font-bold uppercase tracking-widest text-[#ff4655] block mb-0.5"
-                    >ĐANG DIỄN RA • BO5</span
-                  >
-                  <span
-                    class="text-3xl sm:text-4xl font-mono font-black tracking-wider text-white"
-                    >6 - 0</span
-                  >
-                </div>
-              </div>
-              <!-- Right Team: Nongshim RedForce (NS) -->
-              <div
-                class="flex flex-col items-center sm:items-end text-center sm:text-right space-y-1"
-              >
-                <span class="text-[10px] font-mono text-gray-400 uppercase"
-                  >ĐỐI THỦ</span
-                >
-                <div class="flex items-center space-x-2.5 mt-1">
-                  <div>
-                    <span
-                      class="text-xl font-black tracking-tight text-white block leading-none"
-                      >NS</span
-                    >
-                    <span
-                      class="text-[10px] text-gray-400 font-medium hidden sm:block mt-0.5"
-                      >Nongshim RedForce</span
-                    >
+
+                <!-- Main Center Match Score & Teams -->
+                <div class="relative z-10 grid grid-cols-3 items-center w-full my-auto px-2">
+                  <!-- Left Team: GE -->
+                  <div class="flex flex-col items-center sm:items-start text-center sm:text-left space-y-1">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#ff4655] text-white shadow-sm mb-1">
+                      <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-white pulse-indicator"></span>TRỰC TIẾP
+                    </span>
+                    <span class="text-[10px] font-bold tracking-widest uppercase text-gray-400">VCT PACIFIC</span>
+                    <div class="flex items-center space-x-2.5 mt-1">
+                      <div class="w-11 h-11 rounded-lg bg-gradient-to-br from-blue-700 via-red-600 to-amber-500 flex items-center justify-center font-black text-sm text-white shadow-md border border-white/20">GE</div>
+                      <div>
+                        <span class="text-xl font-black tracking-tight text-white block leading-none">GE</span>
+                        <span class="text-[10px] text-gray-400 font-medium hidden sm:block mt-0.5">Global Esports</span>
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    class="w-11 h-11 rounded-lg bg-[#c9252c] border border-red-400/40 flex items-center justify-center font-black text-sm text-white shadow-md"
-                  >
-                    NS
+
+                  <!-- Center: NÚT PLAY Ở ĐÂY (Đã thêm ID btn-play-stream) -->
+                  <div class="flex flex-col items-center justify-center">
+                    <button id="btn-play-stream" class="w-16 h-16 rounded-full bg-white/95 text-[#0d0d0f] flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.4)] transform hover:scale-110 transition-transform duration-300 cursor-pointer">
+                      <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </button>
+                    <div class="mt-3 text-center">
+                      <span class="text-[11px] font-bold uppercase tracking-widest text-[#ff4655] block mb-0.5">ĐANG DIỄN RA • BO5</span>
+                      <span class="text-3xl sm:text-4xl font-mono font-black tracking-wider text-white">6 - 0</span>
+                    </div>
+                  </div>
+
+                  <!-- Right Team: NS -->
+                  <div class="flex flex-col items-center sm:items-end text-center sm:text-right space-y-1">
+                    <span class="text-[10px] font-mono text-gray-400 uppercase">ĐỐI THỦ</span>
+                    <div class="flex items-center space-x-2.5 mt-1">
+                      <div>
+                        <span class="text-xl font-black tracking-tight text-white block leading-none">NS</span>
+                        <span class="text-[10px] text-gray-400 font-medium hidden sm:block mt-0.5">Nongshim RedForce</span>
+                      </div>
+                      <div class="w-11 h-11 rounded-lg bg-[#c9252c] border border-red-400/40 flex items-center justify-center font-black text-sm text-white shadow-md">NS</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <!-- Subtle Watermark Bottom -->
-            <div
-              class="relative z-10 flex justify-between items-center text-[10px] font-mono text-gray-400"
-            >
-              <span class="">BẢN ĐỒ 3: HAVEN (TỈ SỐ HIỆP: 4 - 2)</span>
-              <span class="uppercase text-gray-500 tracking-widest"
-                >IT LIES WITHIN</span
-              >
+
+                <!-- Subtle Watermark Bottom -->
+                <div class="relative z-10 flex justify-between items-center text-[10px] font-mono text-gray-400">
+                  <span class="">BẢN ĐỒ 3: HAVEN (TỈ SỐ HIỆP: 4 - 2)</span>
+                  <span class="uppercase text-gray-500 tracking-widest">IT LIES WITHIN</span>
+                </div>
             </div>
           </div>
-          <!-- Bottom Roster Bar (Ticker with players & KDA stats) -->
-          <div
-            class="bg-[#121217] border-t border-[#202028] px-4 py-2.5 flex items-center justify-between overflow-x-auto text-xs"
-            data-purpose="player-ticker-bar"
-          >
-            <!-- Format Indicator -->
-            <div
-              class="flex items-center space-x-2 flex-shrink-0 pr-4 border-r border-[#22222a]"
-            >
+
+          <!-- Bottom Roster Bar (Giữ nguyên) -->
+          <div class="bg-[#121217] border-t border-[#202028] px-4 py-2.5 flex items-center justify-between overflow-x-auto text-xs" data-purpose="player-ticker-bar">
+            <div class="flex items-center space-x-2 flex-shrink-0 pr-4 border-r border-[#22222a]">
               <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
               <span class="font-bold text-white text-xs">Đội Hình GE</span>
               <span class="text-gray-400 text-[11px]">• Bo5</span>
             </div>
-            <!-- Players Avatars & Tags with K/D -->
             <div class="flex items-center space-x-4 pl-4 overflow-x-auto">
-              <!-- Player 1 -->
-              <div class="flex items-center space-x-2 flex-shrink-0">
-                <div
-                  class="w-6 h-6 rounded bg-[#202028] border border-[#ff4655] flex items-center justify-center text-[9px] font-black text-[#ff4655]"
-                >
-                  KR
-                </div>
-                <div>
-                  <span class="font-bold text-white text-xs">KR1STAL</span>
-                  <span class="text-[10px] text-emerald-400 block font-mono"
-                    >24/11</span
-                  >
-                </div>
-              </div>
-              <!-- Player 2 -->
-              <div class="flex items-center space-x-2 flex-shrink-0">
-                <div
-                  class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white"
-                >
-                  PM
-                </div>
-                <div>
-                  <span class="font-semibold text-gray-300 text-xs"
-                    >PATMEN</span
-                  >
-                  <span class="text-[10px] text-gray-400 block font-mono"
-                    >15/12</span
-                  >
-                </div>
-              </div>
-              <!-- Player 3 -->
-              <div class="flex items-center space-x-2 flex-shrink-0">
-                <div
-                  class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white"
-                >
-                  UD
-                </div>
-                <div>
-                  <span class="font-semibold text-gray-300 text-xs"
-                    >UDOTAN</span
-                  >
-                  <span class="text-[10px] text-gray-400 block font-mono"
-                    >14/10</span
-                  >
-                </div>
-              </div>
-              <!-- Player 4 -->
-              <div class="flex items-center space-x-2 flex-shrink-0">
-                <div
-                  class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white"
-                >
-                  XA
-                </div>
-                <div>
-                  <span class="font-semibold text-gray-300 text-xs"
-                    >XAVI8K</span
-                  >
-                  <span class="text-[10px] text-gray-400 block font-mono"
-                    >12/13</span
-                  >
-                </div>
-              </div>
-              <!-- Player 5 -->
-              <div class="flex items-center space-x-2 flex-shrink-0">
-                <div
-                  class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white"
-                >
-                  AU
-                </div>
-                <div>
-                  <span class="font-semibold text-gray-300 text-xs"
-                    >AUTUMN</span
-                  >
-                  <span class="text-[10px] text-gray-400 block font-mono"
-                    >16/9</span
-                  >
-                </div>
-              </div>
+              <div class="flex items-center space-x-2 flex-shrink-0"><div class="w-6 h-6 rounded bg-[#202028] border border-[#ff4655] flex items-center justify-center text-[9px] font-black text-[#ff4655]">KR</div><div><span class="font-bold text-white text-xs">KR1STAL</span><span class="text-[10px] text-emerald-400 block font-mono">24/11</span></div></div>
+              <div class="flex items-center space-x-2 flex-shrink-0"><div class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white">PM</div><div><span class="font-semibold text-gray-300 text-xs">PATMEN</span><span class="text-[10px] text-gray-400 block font-mono">15/12</span></div></div>
+              <div class="flex items-center space-x-2 flex-shrink-0"><div class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white">UD</div><div><span class="font-semibold text-gray-300 text-xs">UDOTAN</span><span class="text-[10px] text-gray-400 block font-mono">14/10</span></div></div>
+              <div class="flex items-center space-x-2 flex-shrink-0"><div class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white">XA</div><div><span class="font-semibold text-gray-300 text-xs">XAVI8K</span><span class="text-[10px] text-gray-400 block font-mono">12/13</span></div></div>
+              <div class="flex items-center space-x-2 flex-shrink-0"><div class="w-6 h-6 rounded bg-[#202028] border border-gray-600 flex items-center justify-center text-[9px] font-black text-white">AU</div><div><span class="font-semibold text-gray-300 text-xs">AUTUMN</span><span class="text-[10px] text-gray-400 block font-mono">16/9</span></div></div>
             </div>
           </div>
         </article>
@@ -998,24 +870,15 @@
                   </svg>
                   18:30 (còn ~45 phút)
                 </span>
-                <button
-                  class="text-[11px] font-bold text-[#ff4655] hover:text-white bg-[#ff4655]/10 hover:bg-[#ff4655] px-2.5 py-1 rounded transition-colors flex items-center space-x-1"
-                >
-                  <svg
-                    class="w-3 h-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                    ></path>
-                  </svg>
-                  <span class="">Đặt Thông Báo</span>
-                </button>
+             <button
+  class="btn-notify text-[11px] font-bold text-[#ff4655] hover:text-white bg-[#ff4655]/10 hover:bg-[#ff4655] px-2.5 py-1 rounded transition-colors flex items-center space-x-1"
+  data-match="PRX vs DRX"
+>
+  <svg class="w-3 h-3 icon-bell" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+  </svg>
+  <span class="btn-text">Đặt Thông Báo</span>
+</button>
               </div>
             </div>
             <!-- Upcoming Match 2 -->
@@ -1090,23 +953,14 @@
                   21:00
                 </span>
                 <button
-                  class="text-[11px] font-bold text-[#ff4655] hover:text-white bg-[#ff4655]/10 hover:bg-[#ff4655] px-2.5 py-1 rounded transition-colors flex items-center space-x-1"
-                >
-                  <svg
-                    class="w-3 h-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                    ></path>
-                  </svg>
-                  <span class="">Đặt Thông Báo</span>
-                </button>
+  class="btn-notify text-[11px] font-bold text-[#ff4655] hover:text-white bg-[#ff4655]/10 hover:bg-[#ff4655] px-2.5 py-1 rounded transition-colors flex items-center space-x-1"
+  data-match="T1 vs GEN"
+>
+  <svg class="w-3 h-3 icon-bell" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+  </svg>
+  <span class="btn-text">Đặt Thông Báo</span>
+</button>
               </div>
             </div>
           </div>
@@ -1455,7 +1309,118 @@
 
     btnPrev.addEventListener('click', () => changeDay(-1));
     btnNext.addEventListener('click', () => changeDay(1));
+    // === CODE XỬ LÝ PHÁT VIDEO TRỰC TIẾP ===
+    document.addEventListener('click', function(e) {
+        // Tìm xem người dùng có bấm vào nút Play không
+        const playBtn = e.target.closest('#btn-play-stream');
+        
+        if (playBtn) {
+            const overlayUI = document.getElementById('match-overlay-ui');
+            const videoFrame = document.getElementById('live-video-frame');
+
+            if (overlayUI && videoFrame) {
+                // 1. Làm mờ và ẩn lớp giao diện tĩnh đi
+                overlayUI.style.opacity = '0';
+                setTimeout(() => { 
+                    overlayUI.style.pointerEvents = 'none'; // Không cho bấm nhầm vào giao diện ẩn nữa
+                }, 500);
+
+                // 2. Hiện iframe video lên
+                videoFrame.classList.remove('hidden');
+                
+                // 3. Chèn link video YouTube (Ví dụ một trận VCT Pacific) có đuôi ?autoplay=1 để tự chạy
+                // Bạn có thể thay link ID 'WbC6N8KOfbY' bằng ID video youtube bất kỳ bạn muốn.
+                // Bạn XÓA dòng trên và THAY BẰNG DÒNG NÀY nhé (chú ý đoạn ID EqMONeks0o8):
+videoFrame.src = "https://www.youtube.com/embed/EqMONeks0o8?autoplay=1&mute=0&rel=0";
+            }
+        }
+    });
+    // === CODE XỬ LÝ ĐẶT THÔNG BÁO ===
+document.addEventListener('DOMContentLoaded', () => {
+    const notifyBtns = document.querySelectorAll('.btn-notify');
+    
+    notifyBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            // Ngăn chặn sự kiện click lan ra ngoài
+            e.preventDefault(); 
+            
+            const matchName = this.getAttribute('data-match');
+            const isSet = this.classList.contains('is-set');
+            const textSpan = this.querySelector('.btn-text');
+            const iconSvg = this.querySelector('.icon-bell');
+            
+            if (!isSet) {
+                // ĐỔI SANG TRẠNG THÁI "ĐÃ ĐẶT"
+                this.classList.add('is-set');
+                
+                // Đổi màu nút (Thành màu xám đen)
+                this.classList.remove('text-[#ff4655]', 'bg-[#ff4655]/10', 'hover:bg-[#ff4655]', 'hover:text-white');
+                this.classList.add('text-gray-300', 'bg-zinc-700/50', 'hover:bg-zinc-700', 'border', 'border-zinc-600');
+                
+                // Đổi text và Icon (Thành icon Check)
+                textSpan.textContent = 'Đã Đặt';
+                iconSvg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>`;
+                
+                // Hiện thông báo Toast
+                showToast(`Đã bật thông báo cho trận: <strong class="text-white">${matchName}</strong>`, 'success');
+            } else {
+                // HỦY ĐẶT THÔNG BÁO (Trở về ban đầu)
+                this.classList.remove('is-set');
+                
+                // Đổi lại màu đỏ
+                this.classList.remove('text-gray-300', 'bg-zinc-700/50', 'hover:bg-zinc-700', 'border', 'border-zinc-600');
+                this.classList.add('text-[#ff4655]', 'bg-[#ff4655]/10', 'hover:bg-[#ff4655]', 'hover:text-white');
+                
+                // Đổi lại text và icon Chuông
+                textSpan.textContent = 'Đặt Thông Báo';
+                iconSvg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>`;
+                
+                // Hiện thông báo Toast
+                showToast(`Đã hủy thông báo trận: <strong class="text-white">${matchName}</strong>`, 'removed');
+            }
+        });
+    });
+});
+
+// Hàm tạo hiệu ứng thông báo (Toast) góc dưới màn hình
+function showToast(message, type) {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    
+    // Setup hiệu ứng trượt và mờ dần (Tailwind classes)
+    toast.className = `transform transition-all duration-300 translate-y-8 opacity-0 flex items-center space-x-3 px-4 py-3 rounded shadow-xl border-l-4 bg-[#151518] border-[#22222a]`;
+    
+    // Màu sắc thông báo tùy theo loại (Thêm/Hủy)
+    const borderColor = type === 'success' ? 'border-l-emerald-500' : 'border-l-gray-500';
+    toast.classList.add(borderColor);
+    
+    const icon = type === 'success' 
+        ? `<svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+        : `<svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+
+    toast.innerHTML = `
+        ${icon}
+        <p class="text-xs text-gray-300 font-medium font-sans">${message}</p>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Trigger animation (Trượt lên và hiện rõ)
+    setTimeout(() => {
+        toast.classList.remove('translate-y-8', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+    }, 10);
+    
+    // Tự động xóa thông báo sau 3.5 giây
+    setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-2', 'opacity-0');
+        setTimeout(() => toast.remove(), 300); // Chờ animation mờ đi rồi xóa khỏi DOM
+    }, 3500);
+}
 </script>
+<!-- Toast Notification Container -->
+<div id="toast-container" class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none"></div>
   </body>
 
 
