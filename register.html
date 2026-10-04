@@ -370,7 +370,7 @@
         }
         localStorage.setItem(
           "vctAccount",
-          JSON.stringify({ email, username, password }),
+          JSON.stringify({ email, username, password, role: "user" }),
         );
         setStatus(
           "Tạo tài khoản thành công. Đang chuyển sang đăng nhập...",

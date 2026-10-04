@@ -618,70 +618,132 @@
     <script>
       const signInForm = document.getElementById("riot-signin-form");
       const loginStatus = document.getElementById("login-status");
-      if (
-        new URLSearchParams(window.location.search).get("registered") === "1"
-      ) {
-        loginStatus.textContent =
-          "Tạo tài khoản thành công. Nếu được yêu cầu, hãy xác nhận email rồi đăng nhập bằng email và mật khẩu vừa tạo.";
-        loginStatus.className =
-          "mt-3 min-h-5 text-center text-xs font-semibold text-emerald-400";
+      
+      if (new URLSearchParams(window.location.search).get("registered") === "1") {
+        loginStatus.textContent = "Tạo tài khoản thành công. Hãy đăng nhập.";
+        loginStatus.className = "mt-3 min-h-5 text-center text-xs font-semibold text-emerald-400";
       }
-      signInForm?.addEventListener("submit", (event) => {
+
+      signInForm?.addEventListener("submit", async (event) => {
         event.preventDefault();
         const username = document.getElementById("username").value.trim();
         const password = document.getElementById("password").value;
-        const account = JSON.parse(
-          localStorage.getItem("vctAccount") || "null",
-        );
 
-        if (window.vctSupabase) {
-          if (!username.includes("@")) {
-            loginStatus.textContent =
-              "Khi Supabase đang bật, hãy đăng nhập bằng email đã đăng ký.";
-            loginStatus.className =
-              "mt-3 min-h-5 text-center text-xs font-semibold text-amber-300";
+        // ========================================================
+        // 1. TÀI KHOẢN ADMIN MẶC ĐỊNH
+        // ========================================================
+        if (username === "admin@gmail.com" && password === "123456") {
+            loginStatus.textContent = "Xác nhận quyền Admin. Đang vào Dashboard quản trị...";
+            loginStatus.className = "mt-3 min-h-5 text-center text-xs font-semibold text-riot-red";
+            
+            if (window.vctSupabase) {
+              try {
+                await window.vctSupabase.auth.signInWithPassword({ email: username, password });
+              } catch(e) {}
+            }
+
+            localStorage.setItem("vctLoggedIn", "true");
+            localStorage.setItem("vctUserRole", "admin");
+            localStorage.setItem("vctCurrentUser", JSON.stringify({
+              email: "admin@gmail.com",
+              username: "Quản Trị Viên",
+              role: "admin"
+            }));
+            
+            setTimeout(() => {
+                window.location.href = "admin.html"; // Chuyển thẳng tới trang Admin
+            }, 800);
             return;
-          }
-          window.vctSupabase.auth
-            .signInWithPassword({ email: username, password })
-            .then(({ error }) => {
-              if (error) {
-                loginStatus.textContent = error.message;
-                loginStatus.className =
-                  "mt-3 min-h-5 text-center text-xs font-semibold text-red-400";
-                return;
+        }
+
+        // ========================================================
+        // 2. ĐĂNG NHẬP BẰNG SUPABASE
+        // ========================================================
+        if (window.vctSupabase) {
+          loginStatus.textContent = "Đang kiểm tra thông tin...";
+          loginStatus.className = "mt-3 min-h-5 text-center text-xs font-semibold text-white";
+
+          try {
+            const { data, error } = await window.vctSupabase.auth.signInWithPassword({ email: username, password });
+            
+            if (error) {
+              loginStatus.textContent = error.message;
+              loginStatus.className = "mt-3 min-h-5 text-center text-xs font-semibold text-red-400";
+              return;
+            }
+
+            const user = data.user;
+            const ADMIN_EMAILS = ["admin@gmail.com", "phambaolong912002@gmail.com"];
+            let role = "user";
+
+            if (ADMIN_EMAILS.includes(user.email) || user.user_metadata?.role === "admin") {
+              role = "admin";
+            } else {
+              try {
+                const { data: profile } = await window.vctSupabase.from('profiles').select('role').eq('id', user.id).single();
+                if (profile && profile.role === 'admin') {
+                  role = "admin";
+                }
+              } catch (e) {
+                console.warn("Lỗi kiểm tra profiles:", e);
               }
-              localStorage.setItem("vctLoggedIn", "true");
-              window.location.href = "index.html";
-            })
-            .catch(() => {
-              loginStatus.textContent =
-                "Không thể kết nối Supabase. Vui lòng thử lại.";
-              loginStatus.className =
-                "mt-3 min-h-5 text-center text-xs font-semibold text-red-400";
-            });
-          return;
+            }
+
+            const displayName = user.user_metadata?.username || user.email.split('@')[0];
+
+            localStorage.setItem("vctLoggedIn", "true");
+            localStorage.setItem("vctUserRole", role);
+            localStorage.setItem("vctCurrentUser", JSON.stringify({
+              id: user.id,
+              email: user.email,
+              username: displayName,
+              role: role
+            }));
+
+            if (role === 'admin') {
+                loginStatus.textContent = "Đăng nhập quyền Admin thành công! Đang vào Dashboard...";
+                loginStatus.className = "mt-3 min-h-5 text-center text-xs font-semibold text-riot-red";
+                setTimeout(() => window.location.href = "admin.html", 800);
+            } else {
+                loginStatus.textContent = "Đăng nhập thành công! Đang chuyển về trang chủ...";
+                loginStatus.className = "mt-3 min-h-5 text-center text-xs font-semibold text-emerald-400";
+                setTimeout(() => window.location.href = "index.html", 800);
+            }
+            return;
+
+          } catch (err) {
+             console.warn("Lỗi kết nối Supabase:", err);
+          }
         }
 
-        if (
-          !account ||
-          account.username !== username ||
-          account.password !== password
-        ) {
+        // ========================================================
+        // 3. BẢO VỆ DỰ PHÒNG KHI WEB KHÔNG CÓ MẠNG (LOCAL STORAGE)
+        // ========================================================
+        const account = JSON.parse(localStorage.getItem("vctAccount") || "null");
+        if (!account || (account.username !== username && account.email !== username) || account.password !== password) {
           loginStatus.textContent = "Tên đăng nhập hoặc mật khẩu chưa đúng.";
-          loginStatus.className =
-            "mt-3 min-h-5 text-center text-xs font-semibold text-red-400";
+          loginStatus.className = "mt-3 min-h-5 text-center text-xs font-semibold text-red-400";
           return;
         }
 
+        const role = account.role || "user";
         localStorage.setItem("vctLoggedIn", "true");
-        loginStatus.textContent =
-          "Đăng nhập thành công. Đang chuyển về trang chủ...";
-        loginStatus.className =
-          "mt-3 min-h-5 text-center text-xs font-semibold text-emerald-400";
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 500);
+        localStorage.setItem("vctUserRole", role);
+        localStorage.setItem("vctCurrentUser", JSON.stringify({
+          email: account.email || username,
+          username: account.username || username,
+          role: role
+        }));
+
+        if (role === "admin") {
+          loginStatus.textContent = "Đăng nhập quyền Admin thành công! Đang vào Dashboard...";
+          loginStatus.className = "mt-3 min-h-5 text-center text-xs font-semibold text-riot-red";
+          setTimeout(() => window.location.href = "admin.html", 800);
+        } else {
+          loginStatus.textContent = "Đăng nhập thành công. Đang chuyển về trang chủ...";
+          loginStatus.className = "mt-3 min-h-5 text-center text-xs font-semibold text-emerald-400";
+          setTimeout(() => window.location.href = "index.html", 500);
+        }
       });
     </script>
   </body>

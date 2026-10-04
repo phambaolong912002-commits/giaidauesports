@@ -5,38 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hồ sơ người dùng - Đấu Trường Esports</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
-  <body class="min-h-screen bg-[#0d0d0f] p-6 text-white">
+  <body class="min-h-screen bg-[#0d0d0f] p-6 text-white font-sans flex items-center justify-center">
     <main
-      class="mx-auto max-w-xl rounded-2xl border border-white/10 bg-[#151518] p-8"
+      class="w-full max-w-xl rounded-2xl border border-white/10 bg-[#151518] p-8 shadow-2xl relative"
     >
-      <a href="index.html" class="text-sm text-[#ff4655]">← Về trang chủ</a>
-      <h1 class="mt-6 text-3xl font-black">Hồ sơ người dùng</h1>
-      <p class="mt-2 text-sm text-gray-400">
-        Thông tin tài khoản Supabase của bạn.
-      </p>
+      <div class="flex items-center justify-between mb-6">
+        <a href="index.html" class="text-xs font-bold uppercase tracking-wider text-[#ff4655] hover:underline flex items-center gap-1">
+          <i class="fas fa-arrow-left"></i> Về trang chủ
+        </a>
+        <span id="roleBadge" class="hidden px-2.5 py-1 text-[11px] font-black uppercase rounded tracking-wider bg-[#ff4655] text-white">ADMIN</span>
+      </div>
+
+      <div class="flex items-center gap-4 mb-6 pb-6 border-b border-white/10">
+        <div id="profileAvatar" class="h-16 w-16 rounded-full bg-[#ff4655] text-white font-black text-2xl flex items-center justify-center ring-4 ring-white/10 uppercase">
+          U
+        </div>
+        <div>
+          <h1 id="profileName" class="text-2xl font-black">Hồ sơ người dùng</h1>
+          <p id="profileRoleDesc" class="text-xs text-gray-400 mt-0.5">Tài khoản thành viên</p>
+        </div>
+      </div>
+
       <div
         id="profileInfo"
-        class="mt-8 rounded-lg bg-black/20 p-4 text-sm text-gray-200"
+        class="rounded-xl bg-black/30 p-5 space-y-3 text-sm border border-white/5"
       >
-        Đang tải hồ sơ...
+        <div class="flex justify-between py-1 border-b border-white/5">
+          <span class="text-gray-400">Email:</span>
+          <strong id="displayEmail" class="text-white">...</strong>
+        </div>
+        <div class="flex justify-between py-1 border-b border-white/5">
+          <span class="text-gray-400">Tên đăng nhập:</span>
+          <strong id="displayUsername" class="text-white">...</strong>
+        </div>
+        <div class="flex justify-between py-1">
+          <span class="text-gray-400">Vai trò hệ thống:</span>
+          <strong id="displayRole" class="text-[#ff4655] uppercase font-bold">USER</strong>
+        </div>
+      </div>
+
+      <div class="mt-6 flex gap-3">
+        <a id="adminBtn" href="admin.html" class="hidden flex-1 bg-[#ff4655] hover:bg-[#d93646] text-white text-center py-3 rounded-lg text-xs font-black tracking-wider uppercase transition">
+          ⚡ Vào Admin Dashboard
+        </a>
+        <button id="logoutBtn" class="flex-1 bg-white/10 hover:bg-white/20 text-gray-300 text-center py-3 rounded-lg text-xs font-bold uppercase transition">
+          Đăng xuất
+        </button>
       </div>
     </main>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
     <script>
       (async () => {
-        const info = document.getElementById("profileInfo");
-        if (!window.vctSupabase) {
-          info.textContent = "Chưa kết nối Supabase.";
-          return;
+        const isLoggedIn = localStorage.getItem("vctLoggedIn") === "true";
+        let user = null;
+        try {
+          user = JSON.parse(localStorage.getItem("vctCurrentUser") || "null");
+        } catch (e) {}
+
+        let role = localStorage.getItem("vctUserRole") || (user && user.role) || "user";
+        let email = user?.email || "";
+        let username = user?.username || "";
+
+        if (window.vctSupabase) {
+          try {
+            const { data } = await window.vctSupabase.auth.getUser();
+            if (data?.user) {
+              email = data.user.email || email;
+              username = data.user.user_metadata?.username || username || email.split("@")[0];
+              if (email === "admin@gmail.com" || data.user.user_metadata?.role === "admin") {
+                role = "admin";
+              }
+            }
+          } catch(e) {}
         }
-        const { data } = await window.vctSupabase.auth.getUser();
-        if (!data.user) {
+
+        if (!isLoggedIn && !email) {
           window.location.href = "login.html";
           return;
         }
-        info.innerHTML = `<p><strong>Email:</strong> ${data.user.email}</p><p class="mt-2"><strong>Tên đăng nhập:</strong> ${data.user.user_metadata?.username || "Chưa cập nhật"}</p>`;
+
+        const displayName = username || (email ? email.split("@")[0] : "Người dùng");
+        document.getElementById("profileName").textContent = displayName;
+        document.getElementById("displayUsername").textContent = displayName;
+        document.getElementById("displayEmail").textContent = email || "Chưa cập nhật";
+        document.getElementById("displayRole").textContent = role === "admin" ? "Quản trị viên (Admin)" : "Thành viên (User)";
+        document.getElementById("profileRoleDesc").textContent = role === "admin" ? "Quyền quản trị toàn hệ thống" : "Thành viên Đấu Trường Esports";
+
+        const avatar = document.getElementById("profileAvatar");
+        if (avatar) avatar.textContent = displayName.charAt(0).toUpperCase();
+
+        if (role === "admin") {
+          document.getElementById("roleBadge").classList.remove("hidden");
+          const adminBtn = document.getElementById("adminBtn");
+          if (adminBtn) adminBtn.classList.remove("hidden");
+        }
+
+        document.getElementById("logoutBtn").addEventListener("click", async () => {
+          if (window.vctSupabase) {
+            try { await window.vctSupabase.auth.signOut(); } catch(e) {}
+          }
+          localStorage.removeItem("vctLoggedIn");
+          localStorage.removeItem("vctUserRole");
+          localStorage.removeItem("vctCurrentUser");
+          window.location.href = "login.html";
+        });
       })();
     </script>
   </body>

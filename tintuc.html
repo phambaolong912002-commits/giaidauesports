@@ -223,11 +223,78 @@
           </button>
           <!-- Login CTA Button -->
           <a
+            id="loginLink"
             class="bg-riotRed hover:bg-[#e03a48] text-white font-esports font-bold text-xs px-5 py-2 rounded-[3px] shadow transition-all uppercase tracking-wider flex items-center justify-center"
             href="login.html"
           >
             ĐĂNG NHẬP
           </a>
+
+          <!-- Menu tài khoản khi đã đăng nhập -->
+          <div id="accountMenu" class="relative hidden">
+            <button
+              id="accountButton"
+              type="button"
+              aria-expanded="false"
+              aria-controls="accountDropdown"
+              class="flex items-center gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-3 py-1.5 text-xs font-bold text-white transition-colors"
+            >
+              <span
+                id="userAvatarIcon"
+                class="flex h-7 w-7 items-center justify-center rounded-full bg-riotRed text-white font-black text-xs uppercase"
+                aria-hidden="true"
+              >
+                U
+              </span>
+              <span id="accountName" class="hidden sm:inline font-esports">TÀI KHOẢN</span>
+              <span id="adminBadge" class="hidden bg-riotRed text-[10px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>
+              <svg
+                class="h-3 w-3 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m6 9 6 6 6-6"
+                />
+              </svg>
+            </button>
+            <div
+              id="accountDropdown"
+              class="absolute right-0 mt-2 hidden w-52 rounded-lg border border-white/10 bg-[#151518] p-1.5 shadow-2xl z-50 text-left font-sans"
+            >
+              <div id="dropdownUserInfo" class="px-3 py-2 border-b border-white/10 mb-1 text-xs">
+                <p id="dropdownUserName" class="font-bold text-white truncate">Tài khoản</p>
+                <p id="dropdownUserEmail" class="text-[11px] text-gray-400 truncate"></p>
+              </div>
+              <a
+                id="adminDashboardLink"
+                href="admin.html"
+                class="hidden items-center gap-2 rounded px-3 py-2 text-xs font-black text-riotRed hover:bg-riotRed/15 transition"
+                >⚡ ADMIN DASHBOARD</a
+              >
+              <a
+                href="profile.html"
+                class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition"
+                >HỒ SƠ NGƯỜI DÙNG</a
+              >
+              <a
+                href="settings.html"
+                class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition"
+                >CÀI ĐẶT</a
+              >
+              <button
+                id="logoutButton"
+                type="button"
+                class="block w-full rounded px-3 py-2 text-left text-xs font-bold text-riotRed hover:bg-riotRed/10 transition"
+              >
+                ĐĂNG XUẤT
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -287,192 +354,22 @@
           </div>
         </div>
       </section>
-      <!-- BEGIN: PrimaryNewsGrid (4 horizontal cards matching IMAGE_7) -->
+      
+        <!-- BEGIN: PrimaryNewsGrid (4 horizontal cards matching IMAGE_7) -->
       <section class="mb-14" data-purpose="featured-news-grid">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <!-- News Card 1: Audrey Nuna -->
-          <article
-            class="news-card bg-white text-gray-900 rounded-[2px] overflow-hidden flex flex-col cursor-pointer group shadow-lg"
-          >
-            <!-- Card Thumbnail -->
-            <div
-              class="relative w-full aspect-[16/10] bg-neutral-900 overflow-hidden"
-            >
-              <!-- Badge -->
-              <span
-                class="absolute top-2.5 left-2.5 z-20 bg-black/85 border border-riotRed text-riotRed text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider font-esports"
-              >
-                VCT PACIFIC
-              </span>
-              <!-- Thumbnail Image -->
-              <img
-                alt="Audrey Nuna Biểu Diễn Tại Chung Kết VCT Pacific Stage 2!"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6mzztzCGEYs2iMjBRXSHLyJ3hqsMwDq14SroCqotmmHNwyiF9arGJMu_qQXhOWmqUrPF__rNFUVau1ysb51zQPfl2mWUBD_8LlR1F4TZALBbPmbEZ_IP4i3IcgBSGdCxRvbVrQR81vANNAoODPM_ZU5zMjEXrutSYQWSSQHvIUaPLoi6bvDGnMh9qDBkvYLkywyUAl-V4RBobDuYE9vpBdm6uJCEsDBhkUdLcMrZJoOpDuJ_Lb6-R"
-              />
-              <!-- Gradient Overlay with Title Text Graphic -->
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 flex flex-col justify-end p-3"
-              >
-                <span
-                  class="text-white text-[10px] font-bold tracking-widest uppercase"
-                  >MÀN TRÌNH DIỄN TRỰC TIẾP</span
-                >
-                <span
-                  class="text-cyan-400 font-esports font-black text-xl leading-tight"
-                  >SUPERHUMAN</span
-                >
-              </div>
-            </div>
-            <!-- Card Body -->
-            <div class="p-5 flex-1 flex flex-col justify-between bg-white">
-              <h2
-                class="font-extrabold text-[17px] leading-snug tracking-tight text-neutral-900 group-hover:text-riotRed transition-colors line-clamp-3"
-              >
-                Audrey Nuna Biểu Diễn Tại Chung Kết VCT Pacific Stage 2!
-              </h2>
-              <div
-                class="mt-5 pt-3 border-t border-neutral-100 text-[11px] text-neutral-500 font-medium"
-              >
-                Valorant Esports Staff • 31 tháng 8, 2026
-              </div>
-            </div>
-          </article>
-          <!-- News Card 2: Game Changers -->
-          <article
-            class="news-card bg-white text-gray-900 rounded-[2px] overflow-hidden flex flex-col cursor-pointer group shadow-lg"
-          >
-            <!-- Card Thumbnail -->
-            <div
-              class="relative w-full aspect-[16/10] bg-neutral-900 overflow-hidden"
-            >
-              <span
-                class="absolute top-2.5 left-2.5 z-20 bg-black/85 border border-yellow-500 text-yellow-400 text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider font-esports"
-              >
-                GAME CHANGERS
-              </span>
-              <img
-                alt="Tổng Quan VALORANT Game Changers Pacific 2026"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn1ZkVmQQZJuCMaviNJ7jwLrOgEXucRIQSrLbHc-nXBq7PZZK4dYI9VXFImAcVKZUyUxy0pIYmMFkNCSMfwYIi1eaArZU0NonOQUdjDCJ1NDVcVVH5mGJ8QNlOEgMZjZ8bw8mLHmK_IGaOvTQRsl9F_Nxk7iyB79okaQ73WimmcgCe_-wxYE44LwQXe2q1FnhCMYmm4bRN2xcQ2MOU0N0kE-uw5VQKHb_HnHNvYXVCLnVwONGIfkxh"
-              />
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-black/85 via-[#23150b]/40 to-transparent flex flex-col justify-end p-3"
-              >
-                <span
-                  class="text-yellow-400 font-esports font-black text-sm tracking-wider uppercase leading-none"
-                  >TỔNG QUAN HÀNH TRÌNH</span
-                >
-                <span class="text-white font-bold text-xs uppercase mt-0.5"
-                  >NHỮNG ĐIỀU CẦN BIẾT</span
-                >
-              </div>
-            </div>
-            <!-- Card Body -->
-            <div class="p-5 flex-1 flex flex-col justify-between bg-white">
-              <h2
-                class="font-extrabold text-[17px] leading-snug tracking-tight text-neutral-900 group-hover:text-riotRed transition-colors line-clamp-3"
-              >
-                Tổng Quan VALORANT Game Changers Pacific 2026
-              </h2>
-              <div
-                class="mt-5 pt-3 border-t border-neutral-100 text-[11px] text-neutral-500 font-medium"
-              >
-                Valorant Esports Staff • 24 tháng 8, 2026
-              </div>
-            </div>
-          </article>
-          <!-- News Card 3: Chung Kết Busan -->
-          <article
-            class="news-card bg-white text-gray-900 rounded-[2px] overflow-hidden flex flex-col cursor-pointer group shadow-lg"
-          >
-            <!-- Card Thumbnail -->
-            <div
-              class="relative w-full aspect-[16/10] bg-neutral-900 overflow-hidden"
-            >
-              <span
-                class="absolute top-2.5 left-2.5 z-20 bg-black/85 border border-cyan-500 text-cyan-400 text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider font-esports"
-              >
-                HƯỚNG DẪN
-              </span>
-              <img
-                alt="Chung Kết Busan: Thông Tin Cần Biết"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuADrU5FnDHWaHrpL9SC_BQ4mqMc47j_7nsc99H0k2SfGy3T9tkMWI6tjIhiON1XwsUoRksdXLrHAxT-Q2kzVbLwUlSemoWs1NGlAtVgAU5MKjrAF7xsb52HdQhH60dwCPoM_R7hFtq4ypJ23XU8vOVkQ9D7uLLbjV7lkyiw6yMHuMQrhtlQrtPJBAA3FjDDXeSUrbg5UPvH5_OhT7Tv1KWtcr24sERtJiWyaBwwhi9jGp1ceQ8JrTwb"
-              />
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-black/85 via-cyan-950/30 to-transparent flex flex-col justify-end p-3"
-              >
-                <span
-                  class="text-cyan-300 font-esports font-black text-sm tracking-wider leading-none"
-                  >CHUNG KẾT BUSAN</span
-                >
-                <span class="text-white text-xs font-semibold"
-                  >THÔNG TIN CẦN BIẾT</span
-                >
-              </div>
-            </div>
-            <!-- Card Body -->
-            <div class="p-5 flex-1 flex flex-col justify-between bg-white">
-              <h2
-                class="font-extrabold text-[17px] leading-snug tracking-tight text-neutral-900 group-hover:text-riotRed transition-colors line-clamp-3"
-              >
-                Chung Kết Busan: Thông Tin Cần Biết
-              </h2>
-              <div
-                class="mt-5 pt-3 border-t border-neutral-100 text-[11px] text-neutral-500 font-medium"
-              >
-                17 tháng 8, 2026
-              </div>
-            </div>
-          </article>
-          <!-- News Card 4: superHuman Anthem Video with Play Overlay -->
-          <article
-            class="news-card bg-white text-gray-900 rounded-[2px] overflow-hidden flex flex-col cursor-pointer group shadow-lg"
-          >
-            <!-- Card Thumbnail -->
-            <div
-              class="relative w-full aspect-[16/10] bg-neutral-900 overflow-hidden flex items-center justify-center"
-            >
-              <span
-                class="absolute top-2.5 left-2.5 z-20 bg-black/85 border border-emerald-500 text-emerald-400 text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider font-esports"
-              >
-                MV / NHẠC
-              </span>
-              <img
-                alt="superHuman - Audrey Nuna"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 brightness-90"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6rjw-J2locHFyPzKIvossNKMIUx071jrEOVQpaPaYJGyiB0QGOCAPb3I1Lh0CWhoaK3gCc9tYml1oy9wqf07LnHEMjhJOdgEmmwR5VUHftytPlhW1kbowSLPPTMdzyvDNmorgH3dDCAjOg9Y0yv4fkd4NWxV3PukyUhFk5_rz8M--3VoAvvVp5Aw7FQlXqnzG00G3oKR3_ObMCreiZ1yJEgPAB6H6N_LOZGzplEQZq8rAK3lCk5At"
-              />
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30"
-              ></div>
-              <!-- Red Neon Play Button Overlay -->
-              <div
-                class="absolute z-20 w-12 h-12 bg-riotRed rounded-full flex items-center justify-center text-white play-glow group-hover:scale-110 transition-transform shadow-lg"
-              >
-                <svg class="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"></path>
-                </svg>
-              </div>
-            </div>
-            <!-- Card Body -->
-            <div class="p-5 flex-1 flex flex-col justify-between bg-white">
-              <h2
-                class="font-extrabold text-[17px] leading-snug tracking-tight text-neutral-900 group-hover:text-riotRed transition-colors line-clamp-3"
-              >
-                superHuman - Audrey Nuna // VCT Pacific 2026 Stage 2 Anthem
-              </h2>
-              <div
-                class="mt-5 pt-3 border-t border-neutral-100 text-[11px] text-neutral-500 font-medium"
-              >
-                8 tháng 8, 2026
-              </div>
-            </div>
-          </article>
+        <!-- ĐÃ THÊM id="news-container" VÀO ĐÂY -->
+        <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          
+          <!-- Hiệu ứng loading trong lúc chờ lấy dữ liệu -->
+          <div class="col-span-full flex flex-col items-center justify-center py-20">
+             <div class="w-10 h-10 border-4 border-neutral-800 border-t-riotRed rounded-full animate-spin mb-4"></div>
+             <p class="font-esports text-neutral-400 tracking-widest uppercase">Đang tải dữ liệu từ máy chủ...</p>
+          </div>
+
         </div>
       </section>
       <!-- END: PrimaryNewsGrid -->
+      
       <!-- BEGIN: CommunityAndTicketsSection (Horizontal 3-column banner row matching IMAGE_7) -->
       <section class="mb-14" data-purpose="community-and-tickets-highlight">
         <!-- Header with Red Square Indicator -->
@@ -622,5 +519,116 @@
       </div>
     </footer>
     <!-- END: MainFooter -->
+     <!-- KẾT NỐI SUPABASE VÀ XỬ LÝ LẤY DỮ LIỆU -->
+    <!-- KẾT NỐI SUPABASE & AUTH SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="auth-nav.js"></script>
+
+    <script>
+      const supabase = window.vctSupabase;
+
+      async function loadNews() {
+        const container = document.getElementById('news-container');
+        if (!container) return;
+
+        let supaNews = [];
+        if (supabase) {
+          try {
+            const { data, error } = await supabase
+              .from('news')
+              .select('*')
+              .eq('status', 'published')
+              .order('created_at', { ascending: false });
+            if (!error && Array.isArray(data)) {
+              supaNews = data;
+            }
+          } catch(err) {
+            console.warn("Lỗi kết nối Supabase:", err);
+          }
+        }
+
+        // Lấy tin từ LocalStorage (bài do Admin vừa tạo/sửa)
+        let localNews = [];
+        try {
+          const raw = localStorage.getItem('vct_local_news');
+          if (raw) {
+            localNews = JSON.parse(raw).filter(item => item.status === 'published');
+          }
+        } catch(e) {}
+
+        // Gộp tin tức Supabase và Local, ưu tiên theo ID
+        const newsMap = new Map();
+        localNews.forEach(item => newsMap.set(String(item.id), item));
+        supaNews.forEach(item => newsMap.set(String(item.id), item));
+
+        const allNews = Array.from(newsMap.values()).sort((a, b) => {
+          return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+        });
+
+        // Nếu chưa có tin nào, hiển thị tin tức mẫu mặc định cực đẹp
+        if (allNews.length === 0) {
+          allNews.push(
+            {
+              id: 'sample-1',
+              title: 'MASTERS SANTIAGO 2026: LỊCH THI ĐẤU VÀ TẤT CẢ NHỮNG ĐIỀU CẦN BIẾT',
+              category: 'VCT 2026',
+              thumbnail: 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg',
+              content: 'Giải đấu quốc tế đầu tiên của mùa giải VCT 2026 đã chính thức công bố thể thức và lịch thi đấu chi tiết cho các đội tuyển hàng đầu thế giới.',
+              created_at: new Date().toISOString()
+            },
+            {
+              id: 'sample-2',
+              title: 'TỔNG HỢP META VALORANT 2026: SỰ TRỖI DẬY CỦA CÁC ĐẶC VỤ CHIẾN THUẬT',
+              category: 'CHIẾN THUẬT',
+              thumbnail: 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blteaa1e7bc8a7f4577/64b5bc0599a4e370a250325b/Champions_2023_Ticket_Sales_Header.jpg',
+              content: 'Khám phá sự thay đổi chóng mặt của meta chiến thuật trong giai đoạn đầu năm 2026 cùng các phân tích từ các chuyên gia hàng đầu.',
+              created_at: new Date(Date.now() - 86400000).toISOString()
+            }
+          );
+        }
+
+        container.innerHTML = '';
+
+        allNews.forEach(article => {
+          const imgUrl = article.thumbnail || 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg';
+          const dateObj = new Date(article.created_at || Date.now());
+          const dateStr = dateObj.toLocaleDateString('vi-VN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+          let tempDiv = document.createElement("div");
+          tempDiv.innerHTML = article.content || '';
+          let shortText = tempDiv.textContent || tempDiv.innerText || "";
+
+          const cardHTML = `
+            <article class="news-card bg-white text-gray-900 rounded-[2px] overflow-hidden flex flex-col cursor-pointer group shadow-lg">
+              <div class="relative w-full aspect-[16/10] bg-neutral-900 overflow-hidden">
+                <span class="absolute top-2.5 left-2.5 z-20 bg-black/85 border border-riotRed text-riotRed text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider font-esports">
+                  ${article.category || 'TIN TỨC'}
+                </span>
+                <img alt="${article.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="${imgUrl}" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 flex flex-col justify-end p-3">
+                  <span class="text-white text-[10px] font-bold tracking-widest uppercase">CẬP NHẬT MỚI</span>
+                  <span class="text-cyan-400 font-esports font-black text-xl leading-tight line-clamp-1">${article.title}</span>
+                </div>
+              </div>
+              <div class="p-5 flex-1 flex flex-col justify-between bg-white">
+                <div>
+                  <h2 class="font-extrabold text-[17px] leading-snug tracking-tight text-neutral-900 group-hover:text-riotRed transition-colors line-clamp-2">
+                    ${article.title}
+                  </h2>
+                  <p class="text-[12px] text-gray-600 mt-2 line-clamp-2">${shortText}</p>
+                </div>
+                <div class="mt-5 pt-3 border-t border-neutral-100 text-[11px] text-neutral-500 font-medium">
+                  Đấu Trường Esports • ${dateStr}
+                </div>
+              </div>
+            </article>
+          `;
+          container.innerHTML += cardHTML;
+        });
+      }
+
+      window.addEventListener('DOMContentLoaded', loadNews);
+    </script>
   </body>
 </html>

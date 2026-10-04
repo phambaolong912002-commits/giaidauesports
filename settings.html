@@ -12,8 +12,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
 <script>
 document.getElementById('logout').addEventListener('click', async () => {
-  if (window.vctSupabase) await window.vctSupabase.auth.signOut();
+  if (window.vctSupabase) {
+    try { await window.vctSupabase.auth.signOut(); } catch(e) {}
+  }
   localStorage.removeItem('vctLoggedIn');
+  localStorage.removeItem('vctUserRole');
+  localStorage.removeItem('vctCurrentUser');
   window.location.href = 'login.html';
 });
 </script>

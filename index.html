@@ -196,24 +196,14 @@
             class="flex items-center gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-3 py-2 text-xs font-bold text-white transition-colors"
           >
             <span
-              class="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff4655] text-white"
+              id="userAvatarIcon"
+              class="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff4655] text-white font-black text-xs uppercase"
               aria-hidden="true"
             >
-              <svg
-                class="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 19a4 4 0 00-6 0m8-8a5 5 0 11-10 0 5 5 0 0110 0z"
-                />
-              </svg>
+              U
             </span>
-            <span class="hidden sm:inline">TÀI KHOẢN</span>
+            <span id="accountName" class="hidden sm:inline">TÀI KHOẢN</span>
+            <span id="adminBadge" class="hidden bg-[#ff4655] text-[10px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>
             <svg
               class="h-3 w-3 text-gray-400"
               fill="none"
@@ -230,22 +220,32 @@
           </button>
           <div
             id="accountDropdown"
-            class="absolute right-0 mt-2 hidden w-48 rounded-lg border border-white/10 bg-[#151518] p-1 shadow-2xl"
+            class="absolute right-0 mt-2 hidden w-52 rounded-lg border border-white/10 bg-[#151518] p-1.5 shadow-2xl z-50 text-left"
           >
+            <div id="dropdownUserInfo" class="px-3 py-2 border-b border-white/10 mb-1 text-xs">
+              <p id="dropdownUserName" class="font-bold text-white truncate">Tài khoản</p>
+              <p id="dropdownUserEmail" class="text-[11px] text-gray-400 truncate"></p>
+            </div>
+            <a
+              id="adminDashboardLink"
+              href="admin.html"
+              class="hidden items-center gap-2 rounded px-3 py-2 text-xs font-black text-[#ff4655] hover:bg-[#ff4655]/15 transition"
+              >⚡ ADMIN DASHBOARD</a
+            >
             <a
               href="profile.html"
-              class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10"
+              class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition"
               >HỒ SƠ NGƯỜI DÙNG</a
             >
             <a
               href="settings.html"
-              class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10"
+              class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition"
               >CÀI ĐẶT</a
             >
             <button
               id="logoutButton"
               type="button"
-              class="block w-full rounded px-3 py-2 text-left text-xs font-bold text-[#ff4655] hover:bg-[#ff4655]/10"
+              class="block w-full rounded px-3 py-2 text-left text-xs font-bold text-[#ff4655] hover:bg-[#ff4655]/10 transition"
             >
               ĐĂNG XUẤT
             </button>
@@ -457,66 +457,15 @@
                 </svg>
               </button>
             </div>
-            <!-- Tournament Dropdown Filter -->
-            <button
-              class="flex items-center space-x-2 bg-[#1c1c22] hover:bg-[#25252e] border border-[#2d2d38] px-3.5 py-1.5 rounded-md text-xs font-bold text-white transition-colors"
-            >
+           
+            
               <!-- Cup / Trophy SVG Icon -->
-              <svg
-                class="w-4 h-4 text-[#ff4655]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M8 4h8m-8 0a4 4 0 00-4 4v2a4 4 0 004 4h8a4 4 0 004-4V8a4 4 0 00-4-4m-8 0h8m-4 10v4m-3 0h6"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                ></path>
-              </svg>
-              <span class="">Tất Cả Giải Đấu</span>
-              <svg
-                class="w-3.5 h-3.5 text-gray-400 ml-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M19 9l-7 7-7-7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                ></path>
-              </svg>
+              
             </button>
           </div>
           <div id="matches-container" class="bg-[#111113] rounded-lg p-4">
-          <!-- Right Settings Gear Icon -->
-          <button
-            class="text-gray-400 hover:text-white p-1 rounded transition-colors"
-            title="Cài đặt"
-          >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              ></path>
-              <path
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              ></path>
-            </svg>
-          </button>
+          
+          
         </div>
         <!-- Featured Live Match Card with Video Player Simulation -->
         <article
@@ -1223,50 +1172,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
-    <script>
-      const loginLink = document.getElementById("loginLink");
-      const accountMenu = document.getElementById("accountMenu");
-      const accountButton = document.getElementById("accountButton");
-      const accountDropdown = document.getElementById("accountDropdown");
-      const logoutButton = document.getElementById("logoutButton");
-
-      const showAccountMenu = () => {
-        loginLink.classList.add("hidden");
-        accountMenu.classList.remove("hidden");
-      };
-
-      const showLoginLink = () => {
-        loginLink.classList.remove("hidden");
-        accountMenu.classList.add("hidden");
-      };
-
-      accountButton.addEventListener("click", () => {
-        const open = accountDropdown.classList.toggle("hidden") === false;
-        accountButton.setAttribute("aria-expanded", String(open));
-      });
-
-      logoutButton.addEventListener("click", async () => {
-        if (window.vctSupabase) await window.vctSupabase.auth.signOut();
-        localStorage.removeItem("vctLoggedIn");
-        showLoginLink();
-        accountDropdown.classList.add("hidden");
-      });
-
-      (async () => {
-        let loggedIn = localStorage.getItem("vctLoggedIn") === "true";
-        if (window.vctSupabase) {
-          const { data } = await window.vctSupabase.auth.getSession();
-          if (data.session) {
-            loggedIn = true;
-            localStorage.setItem("vctLoggedIn", "true");
-          }
-        }
-        if (loggedIn) showAccountMenu();
-      })();
-    </script>
-    <script src="main.js">
-
-    </script>
+    <script src="auth-nav.js"></script>
     <!-- Dán đoạn này ngay trên thẻ </body> -->
 <script>
     // Dữ liệu mẫu tạm thời
@@ -1421,8 +1327,8 @@ function showToast(message, type) {
 </script>
 <!-- Toast Notification Container -->
 <div id="toast-container" class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none"></div>
-  </body>
-
-
   
+</body>
+
+
 </html>
