@@ -526,16 +526,25 @@
     <script src="auth-nav.js"></script>
 
     <script>
-      const supabase = window.vctSupabase;
-
       async function loadNews() {
         const container = document.getElementById('news-container');
         if (!container) return;
 
+        // Lấy tin từ LocalStorage TRƯỚC (bài do Admin vừa tạo/sửa - ưu tiên cao nhất)
+        let localNews = [];
+        try {
+          const raw = localStorage.getItem('vct_local_news');
+          if (raw) {
+            localNews = JSON.parse(raw).filter(item => item.status === 'published');
+          }
+        } catch(e) {}
+
+        // Thử lấy thêm từ Supabase (dùng window.vctSupabase tránh xung đột tên biến)
         let supaNews = [];
-        if (supabase) {
+        const vctSupa = window.vctSupabase;
+        if (vctSupa) {
           try {
-            const { data, error } = await supabase
+            const { data, error } = await vctSupa
               .from('news')
               .select('*')
               .eq('status', 'published')
@@ -548,19 +557,10 @@
           }
         }
 
-        // Lấy tin từ LocalStorage (bài do Admin vừa tạo/sửa)
-        let localNews = [];
-        try {
-          const raw = localStorage.getItem('vct_local_news');
-          if (raw) {
-            localNews = JSON.parse(raw).filter(item => item.status === 'published');
-          }
-        } catch(e) {}
-
-        // Gộp tin tức Supabase và Local, ưu tiên theo ID
+        // Gộp tin tức: LocalStorage ưu tiên hơn Supabase (admin tạo local luôn hiển thị)
         const newsMap = new Map();
-        localNews.forEach(item => newsMap.set(String(item.id), item));
-        supaNews.forEach(item => newsMap.set(String(item.id), item));
+        supaNews.forEach(item => newsMap.set(String(item.id), item));   // Supabase trước
+        localNews.forEach(item => newsMap.set(String(item.id), item));  // LocalStorage ghi đè
 
         const allNews = Array.from(newsMap.values()).sort((a, b) => {
           return new Date(b.created_at || 0) - new Date(a.created_at || 0);
