@@ -44,8 +44,11 @@
             <span class="text-vct-red font-black tracking-widest uppercase text-xl">ADMIN PANEL</span>
         </div>
         <nav class="flex-1 p-4 space-y-2">
-            <a href="#" class="flex items-center space-x-3 bg-vct-red/10 text-vct-red px-4 py-3 rounded-lg font-bold">
+            <a href="#" onclick="switchTab('news'); return false;" id="tab-news-link" class="flex items-center space-x-3 bg-vct-red/10 text-vct-red px-4 py-3 rounded-lg font-bold">
                 <i class="fas fa-newspaper w-5"></i> <span>Quản lý Tin tức</span>
+            </a>
+            <a href="#" onclick="switchTab('banners'); return false;" id="tab-banners-link" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg font-bold transition">
+                <i class="fas fa-images w-5"></i> <span>Banner Cộng Đồng</span>
             </a>
             <a href="tintuc.html" target="_blank" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg font-bold transition">
                 <i class="fas fa-external-link-alt w-5"></i> <span>Xem Trang Tin Tức</span>
@@ -161,6 +164,49 @@
                 </div>
             </div>
 
+            <!-- MÀN HÌNH 3: QUẢN LÝ BANNER CỘNG ĐỒNG -->
+            <div id="view-banners" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Banner Cộng Đồng & Vé Tham Dự</h2>
+                    <p class="text-sm text-gray-400">Quản lý 3 banner nằm ngang ở trang Tin Tức</p>
+                </div>
+
+                <div id="banner-list" class="space-y-4"></div>
+
+                <!-- Form sửa banner -->
+                <div id="banner-form" class="hidden mt-6 bg-vct-cardBg border border-vct-borderDark rounded-lg p-6 space-y-4 max-w-2xl">
+                    <h3 id="banner-form-title" class="text-lg font-bold">Chỉnh sửa Banner</h3>
+                    <input type="hidden" id="banner-index">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-400 mb-2">Nhãn nhỏ (vd: NHẠC CHỦ ĐỀ)</label>
+                        <input type="text" id="banner-label" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-3 text-white focus:outline-none focus:border-vct-red" placeholder="NHẠC CHỦ ĐỀ">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-400 mb-2">Tiêu đề Banner (*)</label>
+                        <input type="text" id="banner-title" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-3 text-white focus:outline-none focus:border-vct-red" placeholder="SUPER HUMAN // STAGE 2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-400 mb-2">Link Ảnh</label>
+                        <input type="text" id="banner-image" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-3 text-white" placeholder="https://...">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-400 mb-2">Màu nhãn (class Tailwind)</label>
+                        <select id="banner-color" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-3 text-white">
+                            <option value="text-riotRed">Đỏ (Riot Red)</option>
+                            <option value="text-amber-400">Vàng (Amber)</option>
+                            <option value="text-cyan-400">Xanh lam (Cyan)</option>
+                            <option value="text-green-400">Xanh lá (Green)</option>
+                            <option value="text-purple-400">Tím (Purple)</option>
+                            <option value="text-white">Trắng</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-3 pt-2">
+                        <button onclick="saveBanner()" class="bg-vct-red hover:bg-red-600 text-white font-bold py-2 px-6 rounded transition">LƯU BANNER</button>
+                        <button onclick="closeBannerForm()" class="border border-gray-600 text-gray-400 hover:text-white font-bold py-2 px-4 rounded transition">Hủy</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
@@ -222,54 +268,64 @@
         }
 
         // ==================================================
-        // BỘ ĐỆM DỮ LIỆU CỤC BỘ (LOCAL STORAGE FALLBACK)
+        // DI CHUYỂN BÀI VIẾT CŨ TRONG LOCAL STORAGE LÊN SUPABASE (chạy 1 lần)
         // ==================================================
-        function getLocalNews() {
+        async function migrateLegacyLocalNews() {
+            if (!vctSupa) return;
+            let localNews = [];
             try {
-                return JSON.parse(localStorage.getItem('vct_local_news') || '[]');
+                localNews = JSON.parse(localStorage.getItem('vct_local_news') || '[]');
             } catch(e) {
-                return [];
+                return;
             }
-        }
+            if (!Array.isArray(localNews) || localNews.length === 0) return;
 
-        function saveLocalNews(list) {
-            localStorage.setItem('vct_local_news', JSON.stringify(list));
+            const failed = [];
+            for (const item of localNews) {
+                const payload = {
+                    title: item.title,
+                    thumbnail: item.thumbnail,
+                    category: item.category || 'VCT 2026',
+                    status: item.status || 'published',
+                    content: item.content || '',
+                    created_at: item.created_at || new Date().toISOString()
+                };
+                const { error } = await vctSupa.from('news').insert([payload]);
+                if (error) failed.push(item);
+            }
+
+            if (failed.length === 0) {
+                localStorage.removeItem('vct_local_news');
+                console.log('Đã di chuyển ' + localNews.length + ' bài viết cũ lên Supabase.');
+            } else {
+                localStorage.setItem('vct_local_news', JSON.stringify(failed));
+                console.warn('Còn ' + failed.length + ' bài chưa di chuyển được, sẽ thử lại lần sau.');
+            }
         }
 
         // ==================================================
         // CÁC TÍNH NĂNG THÊM - SỬA - XÓA BÀI VIẾT
         // ==================================================
         
-        // 1. TẢI DANH SÁCH BÀI VIẾT (Kết hợp Supabase + Local)
+        // 1. TẢI DANH SÁCH BÀI VIẾT (chỉ từ Supabase)
         async function loadNewsList() {
             const tbody = document.getElementById('news-table-body');
             if (!tbody) return;
             tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-400">Đang tải dữ liệu bài viết...</td></tr>';
 
-            let supaNews = [];
-            if (vctSupa) {
-                try {
-                    const { data, error } = await vctSupa.from('news').select('*').order('created_at', { ascending: false });
-                    if (!error && Array.isArray(data)) {
-                        supaNews = data;
-                    }
-                } catch(err) {
-                    console.warn("Không thể tải từ Supabase:", err);
-                }
+            if (!vctSupa) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-red-400">Chưa kết nối được Supabase. Hãy kiểm tra supabase-config.js.</td></tr>';
+                return;
             }
 
-            const localNews = getLocalNews();
+            const { data, error } = await vctSupa.from('news').select('*').order('created_at', { ascending: false });
+            if (error) {
+                console.error("Lỗi tải bài viết:", error);
+                tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-red-400">Không đọc được bảng news từ Supabase. Kiểm tra chính sách RLS của bảng.</td></tr>';
+                return;
+            }
 
-            // Gộp dữ liệu Supabase và Local, ưu tiên mục mới nhất và không trùng id
-            const newsMap = new Map();
-            localNews.forEach(item => newsMap.set(String(item.id), item));
-            supaNews.forEach(item => newsMap.set(String(item.id), item));
-
-            allArticlesCache = Array.from(newsMap.values()).sort((a, b) => {
-                const dateA = new Date(a.created_at || 0).getTime();
-                const dateB = new Date(b.created_at || 0).getTime();
-                return dateB - dateA;
-            });
+            allArticlesCache = Array.isArray(data) ? data : [];
 
             if (allArticlesCache.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-gray-400">Chưa có bài viết nào trong hệ thống. Hãy bấm <strong>"Viết bài mới"</strong> để đăng bài đầu tiên!</td></tr>';
@@ -297,7 +353,7 @@
             });
         }
 
-        // 2. LƯU BÀI VIẾT (THÊM HOẶC CẬP NHẬT)
+        // 2. LƯU BÀI VIẾT (THÊM HOẶC CẬP NHẬT LÊN SUPABASE)
         async function saveArticle() {
             initQuill();
             const idInput = document.getElementById('news-id').value;
@@ -313,44 +369,40 @@
                 return;
             }
 
+            if (!vctSupa) {
+                alert("Chưa kết nối được Supabase nên không thể lưu bài viết!");
+                return;
+            }
+
             const btnSave = document.getElementById('btn-save');
             btnSave.innerText = "ĐANG LƯU...";
             btnSave.disabled = true;
 
-            const now = new Date().toISOString();
-            const targetId = idInput ? idInput : Date.now();
             const articleData = {
-                id: targetId,
                 title,
                 thumbnail: thumbnail || 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg',
                 category,
                 status,
-                content,
-                created_at: now
+                content
             };
 
-            // 1. Lưu vào Local Storage để chắc chắn hiển thị ngay lập tức trên web
-            let localList = getLocalNews();
-            const existingIndex = localList.findIndex(item => String(item.id) === String(targetId));
-            if (existingIndex >= 0) {
-                localList[existingIndex] = { ...localList[existingIndex], ...articleData };
+            let error = null;
+            if (idInput) {
+                // Cập nhật bài cũ: giữ nguyên id và created_at thật từ server
+                const result = await vctSupa.from('news').update(articleData).eq('id', Number(idInput));
+                error = result.error;
             } else {
-                localList.unshift(articleData);
+                // Chèn bài mới: server tự sinh id, không lưu bản local nữa
+                const result = await vctSupa.from('news').insert([{ ...articleData, created_at: new Date().toISOString() }]);
+                error = result.error;
             }
-            saveLocalNews(localList);
 
-            // 2. Đồng bộ lên Supabase nếu có thể
-            if (vctSupa) {
-                try {
-                    const supaPayload = { title, thumbnail: articleData.thumbnail, category, status, content };
-                    if (idInput && !isNaN(Number(idInput))) {
-                        await vctSupa.from('news').update(supaPayload).eq('id', Number(idInput));
-                    } else {
-                        await vctSupa.from('news').insert([supaPayload]);
-                    }
-                } catch(err) {
-                    console.warn("Không thể lưu lên Supabase (RLS hoặc mạng):", err);
-                }
+            if (error) {
+                console.error("Lỗi lưu bài viết:", error);
+                alert("Lưu bài viết THẤT BẠI: " + (error.message || "bảng news có thể chưa cho phép ghi (kiểm tra RLS)."));
+                btnSave.innerText = "LƯU BÀI VIẾT";
+                btnSave.disabled = false;
+                return;
             }
 
             alert("Lưu bài viết thành công!");
@@ -364,20 +416,16 @@
         async function deleteArticle(id) {
             if (!confirm(`Bạn có chắc chắn muốn xóa bài viết mang mã #${id}?`)) return;
 
-            // Xóa ở Local Storage
-            let localList = getLocalNews();
-            localList = localList.filter(item => String(item.id) !== String(id));
-            saveLocalNews(localList);
+            if (!vctSupa) {
+                alert("Chưa kết nối được Supabase nên không thể xóa bài viết!");
+                return;
+            }
 
-            // Xóa ở Supabase nếu có thể
-            if (vctSupa) {
-                try {
-                    if (!isNaN(Number(id))) {
-                        await vctSupa.from('news').delete().eq('id', Number(id));
-                    }
-                } catch(err) {
-                    console.warn("Lỗi khi xóa từ Supabase:", err);
-                }
+            const { error } = await vctSupa.from('news').delete().eq('id', Number(id));
+            if (error) {
+                console.error("Lỗi xóa bài viết:", error);
+                alert("Xóa thất bại: " + (error.message || "bảng news có thể chưa cho phép xóa (kiểm tra RLS)."));
+                return;
             }
 
             alert("Đã xóa bài viết thành công!");
@@ -442,10 +490,11 @@
         }
 
         // Khởi động trang ngay lập tức
-        function startDashboard() {
+        async function startDashboard() {
             const hasAccess = verifyAdminAccess();
             if (hasAccess) {
                 initQuill();
+                await migrateLegacyLocalNews();
                 loadNewsList();
             }
         }

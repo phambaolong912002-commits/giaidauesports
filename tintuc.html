@@ -530,17 +530,8 @@
         const container = document.getElementById('news-container');
         if (!container) return;
 
-        // Lấy tin từ LocalStorage TRƯỚC (bài do Admin vừa tạo/sửa - ưu tiên cao nhất)
-        let localNews = [];
-        try {
-          const raw = localStorage.getItem('vct_local_news');
-          if (raw) {
-            localNews = JSON.parse(raw).filter(item => item.status === 'published');
-          }
-        } catch(e) {}
-
-        // Thử lấy thêm từ Supabase (dùng window.vctSupabase tránh xung đột tên biến)
-        let supaNews = [];
+        // Nguồn duy nhất: Supabase (admin thêm/sửa/xóa thì mọi máy đều thấy như nhau)
+        let allNews = [];
         const vctSupa = window.vctSupabase;
         if (vctSupa) {
           try {
@@ -550,21 +541,14 @@
               .eq('status', 'published')
               .order('created_at', { ascending: false });
             if (!error && Array.isArray(data)) {
-              supaNews = data;
+              allNews = data;
+            } else if (error) {
+              console.warn("Lỗi đọc Supabase:", error);
             }
           } catch(err) {
             console.warn("Lỗi kết nối Supabase:", err);
           }
         }
-
-        // Gộp tin tức: LocalStorage ưu tiên hơn Supabase (admin tạo local luôn hiển thị)
-        const newsMap = new Map();
-        supaNews.forEach(item => newsMap.set(String(item.id), item));   // Supabase trước
-        localNews.forEach(item => newsMap.set(String(item.id), item));  // LocalStorage ghi đè
-
-        const allNews = Array.from(newsMap.values()).sort((a, b) => {
-          return new Date(b.created_at || 0) - new Date(a.created_at || 0);
-        });
 
         // Nếu chưa có tin nào, hiển thị tin tức mẫu mặc định cực đẹp
         if (allNews.length === 0) {
