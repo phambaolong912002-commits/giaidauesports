@@ -1070,82 +1070,9 @@
             </h2>
             <span class="h-0.5 w-10 bg-[#ff4655]"></span>
           </div>
-          <!-- News Article 1 -->
-          <article
-            class="group cursor-pointer mb-4 pb-3 border-b border-[#181820]"
-          >
-            <div
-              class="h-24 w-full rounded-md bg-gradient-to-r from-blue-900/60 to-purple-900/40 border border-[#22222c] overflow-hidden mb-2 relative"
-            >
-              <div
-                class="absolute inset-0 bg-[#0d0d12]/40 group-hover:bg-transparent transition-colors"
-              ></div>
-              <span
-                class="absolute bottom-2 left-2 bg-[#ff4655] text-white text-[9px] font-black uppercase px-1.5 py-0.5 rounded"
-              >
-                VCT 2026
-              </span>
-            </div>
-            <h4
-              class="text-xs font-bold text-gray-200 group-hover:text-[#ff4655] transition-colors line-clamp-2 leading-relaxed"
-            >
-              Lịch thi đấu chính thức vòng Khởi Động VCT 2026 khu vực Pacific và
-              Americas
-            </h4>
-            <span class="text-[10px] text-gray-500 mt-1 block"
-              >2 giờ trước</span
-            >
-          </article>
-          <!-- News Article 2 -->
-          <article
-            class="group cursor-pointer mb-4 pb-3 border-b border-[#181820]"
-          >
-            <div
-              class="h-24 w-full rounded-md bg-gradient-to-r from-red-950/60 to-zinc-900/50 border border-[#22222c] overflow-hidden mb-2 relative"
-            >
-              <div
-                class="absolute inset-0 bg-[#0d0d12]/40 group-hover:bg-transparent transition-colors"
-              ></div>
-              <span
-                class="absolute bottom-2 left-2 bg-zinc-800 text-gray-300 text-[9px] font-black uppercase px-1.5 py-0.5 rounded border border-gray-700"
-              >
-                CHIẾN THUẬT
-              </span>
-            </div>
-            <h4
-              class="text-xs font-bold text-gray-200 group-hover:text-[#ff4655] transition-colors line-clamp-2 leading-relaxed"
-            >
-              Phân tích tỷ lệ chọn đặc vụ tại bản đồ Sunset mới nhất tại VCT
-              Masters
-            </h4>
-            <span class="text-[10px] text-gray-500 mt-1 block"
-              >5 giờ trước</span
-            >
-          </article>
-          <!-- News Article 3 -->
-          <article class="group cursor-pointer pb-2">
-            <div
-              class="h-24 w-full rounded-md bg-gradient-to-r from-emerald-950/60 to-zinc-900/50 border border-[#22222c] overflow-hidden mb-2 relative"
-            >
-              <div
-                class="absolute inset-0 bg-[#0d0d12]/40 group-hover:bg-transparent transition-colors"
-              ></div>
-              <span
-                class="absolute bottom-2 left-2 bg-emerald-700 text-white text-[9px] font-black uppercase px-1.5 py-0.5 rounded"
-              >
-                QUỐC TẾ
-              </span>
-            </div>
-            <h4
-              class="text-xs font-bold text-gray-200 group-hover:text-[#ff4655] transition-colors line-clamp-2 leading-relaxed"
-            >
-              Riot Games công bố thể thức thi đấu vòng loại giải đấu Masters
-              Santiago
-            </h4>
-            <span class="text-[10px] text-gray-500 mt-1 block"
-              >1 ngày trước</span
-            >
-          </article>
+          <div id="home-news-container" class="space-y-4 text-sm text-gray-400">
+            Đang tải tin tức...
+          </div>
         </section>
       </aside>
       <!-- END: RightSidebar -->
@@ -1173,6 +1100,61 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
     <script src="auth-nav.js"></script>
+    <script>
+      async function loadHomeNews() {
+        const container = document.getElementById("home-news-container");
+        if (!container) return;
+        if (!window.vctSupabase) {
+          container.textContent = "Chưa kết nối được máy chủ tin tức.";
+          return;
+        }
+
+        try {
+          const { data, error } = await window.vctSupabase
+            .from("news")
+            .select("title, thumbnail, category, created_at")
+            .eq("status", "published")
+            .order("created_at", { ascending: false })
+            .limit(3);
+          if (error) throw error;
+          container.replaceChildren();
+          if (!data || data.length === 0) {
+            container.textContent = "Hiện chưa có bài viết nào được đăng.";
+            return;
+          }
+
+          data.forEach((article) => {
+            const item = document.createElement("article");
+            item.className = "group mb-4 pb-3 border-b border-[#181820]";
+            const image = document.createElement("img");
+            image.className = "h-24 w-full rounded-md object-cover border border-[#22222c] mb-2";
+            image.alt = "";
+            const defaultImage = "https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg";
+            try {
+              const parsedImage = new URL(article.thumbnail || defaultImage, window.location.href);
+              image.src = ["http:", "https:"].includes(parsedImage.protocol) ? parsedImage.href : defaultImage;
+            } catch {
+              image.src = defaultImage;
+            }
+            const category = document.createElement("span");
+            category.className = "bg-[#ff4655] text-white text-[9px] font-black uppercase px-1.5 py-0.5 rounded";
+            category.textContent = article.category || "TIN TỨC";
+            const title = document.createElement("h4");
+            title.className = "mt-2 text-xs font-bold text-gray-200 group-hover:text-[#ff4655] transition-colors line-clamp-2 leading-relaxed";
+            title.textContent = article.title || "";
+            const date = document.createElement("span");
+            date.className = "text-[10px] text-gray-500 mt-1 block";
+            date.textContent = new Date(article.created_at || Date.now()).toLocaleDateString("vi-VN");
+            item.append(image, category, title, date);
+            container.appendChild(item);
+          });
+        } catch (error) {
+          console.error("Lỗi tải tin tức trang chủ:", error);
+          container.textContent = "Không tải được tin tức: " + error.message;
+        }
+      }
+      window.addEventListener("DOMContentLoaded", loadHomeNews);
+    </script>
     <!-- Dán đoạn này ngay trên thẻ </body> -->
 <script>
     // Dữ liệu mẫu tạm thời

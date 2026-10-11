@@ -529,86 +529,89 @@
       async function loadNews() {
         const container = document.getElementById('news-container');
         if (!container) return;
-
-        // Nguồn duy nhất: Supabase (admin thêm/sửa/xóa thì mọi máy đều thấy như nhau)
-        let allNews = [];
         const vctSupa = window.vctSupabase;
-        if (vctSupa) {
-          try {
-            const { data, error } = await vctSupa
-              .from('news')
-              .select('*')
-              .eq('status', 'published')
-              .order('created_at', { ascending: false });
-            if (!error && Array.isArray(data)) {
-              allNews = data;
-            } else if (error) {
-              console.warn("Lỗi đọc Supabase:", error);
-            }
-          } catch(err) {
-            console.warn("Lỗi kết nối Supabase:", err);
-          }
+        container.replaceChildren();
+        if (!vctSupa) {
+          container.textContent = "Chưa kết nối được máy chủ tin tức. Vui lòng thử lại sau.";
+          return;
         }
 
-        // Nếu chưa có tin nào, hiển thị tin tức mẫu mặc định cực đẹp
+        let allNews;
+        try {
+          const { data, error } = await vctSupa
+            .from('news')
+            .select('id, title, thumbnail, category, content, created_at')
+            .eq('status', 'published')
+            .order('created_at', { ascending: false });
+          if (error) throw error;
+          allNews = Array.isArray(data) ? data : [];
+        } catch (error) {
+          console.error("Lỗi tải tin tức:", error);
+          container.textContent = "Không tải được tin tức: " + error.message;
+          return;
+        }
+
         if (allNews.length === 0) {
-          allNews.push(
-            {
-              id: 'sample-1',
-              title: 'MASTERS SANTIAGO 2026: LỊCH THI ĐẤU VÀ TẤT CẢ NHỮNG ĐIỀU CẦN BIẾT',
-              category: 'VCT 2026',
-              thumbnail: 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg',
-              content: 'Giải đấu quốc tế đầu tiên của mùa giải VCT 2026 đã chính thức công bố thể thức và lịch thi đấu chi tiết cho các đội tuyển hàng đầu thế giới.',
-              created_at: new Date().toISOString()
-            },
-            {
-              id: 'sample-2',
-              title: 'TỔNG HỢP META VALORANT 2026: SỰ TRỖI DẬY CỦA CÁC ĐẶC VỤ CHIẾN THUẬT',
-              category: 'CHIẾN THUẬT',
-              thumbnail: 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blteaa1e7bc8a7f4577/64b5bc0599a4e370a250325b/Champions_2023_Ticket_Sales_Header.jpg',
-              content: 'Khám phá sự thay đổi chóng mặt của meta chiến thuật trong giai đoạn đầu năm 2026 cùng các phân tích từ các chuyên gia hàng đầu.',
-              created_at: new Date(Date.now() - 86400000).toISOString()
-            }
-          );
+          container.textContent = "Hiện chưa có bài viết nào được đăng.";
+          return;
         }
 
-        container.innerHTML = '';
-
+        const fallbackImage = 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg';
         allNews.forEach(article => {
-          const imgUrl = article.thumbnail || 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg';
-          const dateObj = new Date(article.created_at || Date.now());
-          const dateStr = dateObj.toLocaleDateString('vi-VN', { day: 'numeric', month: 'long', year: 'numeric' });
+          const card = document.createElement("article");
+          card.className = "news-card bg-white text-gray-900 rounded-[2px] overflow-hidden flex flex-col group shadow-lg";
 
-          let tempDiv = document.createElement("div");
-          tempDiv.innerHTML = article.content || '';
-          let shortText = tempDiv.textContent || tempDiv.innerText || "";
+          const imageArea = document.createElement("div");
+          imageArea.className = "relative w-full aspect-[16/10] bg-neutral-900 overflow-hidden";
+          const category = document.createElement("span");
+          category.className = "absolute top-2.5 left-2.5 z-20 bg-black/85 border border-riotRed text-riotRed text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider font-esports";
+          category.textContent = article.category || "TIN TỨC";
+          const image = document.createElement("img");
+          image.alt = article.title || "Tin tức";
+          image.className = "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300";
+          const candidateImage = article.thumbnail || fallbackImage;
+          try {
+            const parsedImage = new URL(candidateImage, window.location.href);
+            image.src = ["http:", "https:"].includes(parsedImage.protocol) ? parsedImage.href : fallbackImage;
+          } catch {
+            image.src = fallbackImage;
+          }
+          const overlay = document.createElement("div");
+          overlay.className = "absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 flex flex-col justify-end p-3";
+          const updateLabel = document.createElement("span");
+          updateLabel.className = "text-white text-[10px] font-bold tracking-widest uppercase";
+          updateLabel.textContent = "CẬP NHẬT MỚI";
+          const overlayTitle = document.createElement("span");
+          overlayTitle.className = "text-cyan-400 font-esports font-black text-xl leading-tight line-clamp-1";
+          overlayTitle.textContent = article.title || "";
+          overlay.append(updateLabel, overlayTitle);
+          imageArea.append(category, image, overlay);
 
-          const cardHTML = `
-            <article class="news-card bg-white text-gray-900 rounded-[2px] overflow-hidden flex flex-col cursor-pointer group shadow-lg">
-              <div class="relative w-full aspect-[16/10] bg-neutral-900 overflow-hidden">
-                <span class="absolute top-2.5 left-2.5 z-20 bg-black/85 border border-riotRed text-riotRed text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider font-esports">
-                  ${article.category || 'TIN TỨC'}
-                </span>
-                <img alt="${article.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="${imgUrl}" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 flex flex-col justify-end p-3">
-                  <span class="text-white text-[10px] font-bold tracking-widest uppercase">CẬP NHẬT MỚI</span>
-                  <span class="text-cyan-400 font-esports font-black text-xl leading-tight line-clamp-1">${article.title}</span>
-                </div>
-              </div>
-              <div class="p-5 flex-1 flex flex-col justify-between bg-white">
-                <div>
-                  <h2 class="font-extrabold text-[17px] leading-snug tracking-tight text-neutral-900 group-hover:text-riotRed transition-colors line-clamp-2">
-                    ${article.title}
-                  </h2>
-                  <p class="text-[12px] text-gray-600 mt-2 line-clamp-2">${shortText}</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-neutral-100 text-[11px] text-neutral-500 font-medium">
-                  Đấu Trường Esports • ${dateStr}
-                </div>
-              </div>
-            </article>
-          `;
-          container.innerHTML += cardHTML;
+          const body = document.createElement("div");
+          body.className = "p-5 flex-1 flex flex-col justify-between bg-white";
+          const title = document.createElement("h2");
+          title.className = "font-extrabold text-[17px] leading-snug tracking-tight text-neutral-900 group-hover:text-riotRed transition-colors line-clamp-2";
+          title.textContent = article.title || "";
+          const contentText = new DOMParser().parseFromString(article.content || "", "text/html").body.textContent.trim();
+          const excerpt = document.createElement("p");
+          excerpt.className = "text-[12px] text-gray-600 mt-2 line-clamp-2";
+          excerpt.textContent = contentText;
+          const date = new Date(article.created_at || Date.now());
+          const dateLabel = document.createElement("div");
+          dateLabel.className = "mt-5 pt-3 border-t border-neutral-100 text-[11px] text-neutral-500 font-medium";
+          dateLabel.textContent = "Đấu Trường Esports • " + date.toLocaleDateString('vi-VN', { day: 'numeric', month: 'long', year: 'numeric' });
+          const fullArticle = document.createElement("details");
+          fullArticle.className = "mt-3 text-sm text-gray-700";
+          const readMore = document.createElement("summary");
+          readMore.className = "cursor-pointer font-bold text-riotRed";
+          readMore.textContent = "Đọc toàn bộ bài viết";
+          const fullContent = document.createElement("p");
+          fullContent.className = "mt-2 whitespace-pre-wrap";
+          fullContent.textContent = contentText;
+          fullArticle.append(readMore, fullContent);
+          body.append(title, excerpt, dateLabel, fullArticle);
+          card.append(imageArea, body);
+          container.appendChild(card);
         });
       }
 

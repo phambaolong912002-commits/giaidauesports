@@ -237,34 +237,59 @@
         }
 
         // ==================================================
-        // KIỂM TRA PHÂN QUYỀN ADMIN (BẢO VỆ DASHBOARD)
-        // Chỉ dùng localStorage - không gọi Supabase để tránh bị treo
+        // KIỂM TRA PHÂN QUYỀN ADMIN BẰNG SUPABASE AUTH
         // ==================================================
-        function verifyAdminAccess() {
-            // Ẩn màn hình chờ NGAY LẬP TỨC trước tiên
+        async function verifyAdminAccess() {
             const loadingScreen = document.getElementById('auth-loading');
-            if (loadingScreen) loadingScreen.style.display = 'none';
-
-            const adminEmailDisplay = document.getElementById('admin-email');
-
-            const isLoggedIn = localStorage.getItem("vctLoggedIn") === "true";
-            const role = localStorage.getItem("vctUserRole");
-            let user = null;
             try {
-                user = JSON.parse(localStorage.getItem("vctCurrentUser") || "null");
-            } catch(e) {}
+                if (!vctSupa) {
+                    throw new Error("Chưa kết nối được Supabase. Hãy kiểm tra supabase-config.js.");
+                }
 
-            const userEmail = user?.email || "";
-            const isAdmin = isLoggedIn && (role === "admin" || ADMIN_EMAILS.includes(userEmail));
+                const { data, error } = await vctSupa.auth.getSession();
+                if (error) throw error;
 
-            if (!isAdmin) {
-                alert("Bạn chưa đăng nhập hoặc không có quyền Admin. Vui lòng đăng nhập với tài khoản Admin!");
+                const user = data.session?.user;
+                if (!user) {
+                    window.location.href = "login.html";
+                    return false;
+                }
+
+                let isAdmin = ADMIN_EMAILS.includes((user.email || "").toLowerCase())
+                    || user.app_metadata?.role === "admin";
+                if (!isAdmin) {
+                    const { data: profile, error: profileError } = await vctSupa
+                        .from('profiles')
+                        .select('role')
+                        .eq('id', user.id)
+                        .maybeSingle();
+                    if (profileError) console.warn("Không thể kiểm tra quyền admin trong profiles:", profileError);
+                    isAdmin = profile?.role === "admin";
+                }
+
+                if (!isAdmin) {
+                    alert("Tài khoản Supabase hiện tại không có quyền Admin.");
+                    window.location.href = "index.html";
+                    return false;
+                }
+
+                localStorage.setItem("vctLoggedIn", "true");
+                localStorage.setItem("vctUserRole", "admin");
+                localStorage.setItem("vctCurrentUser", JSON.stringify({
+                    id: user.id,
+                    email: user.email,
+                    role: "admin"
+                }));
+                document.getElementById('admin-email').textContent = (user.email || "") + " (Admin)";
+                return true;
+            } catch (error) {
+                console.error("Không thể xác minh quyền admin:", error);
+                alert("Không thể xác minh quyền Admin với Supabase: " + error.message);
                 window.location.href = "login.html";
                 return false;
+            } finally {
+                if (loadingScreen) loadingScreen.style.display = 'none';
             }
-
-            if (adminEmailDisplay) adminEmailDisplay.textContent = userEmail + " (Admin)";
-            return true;
         }
 
         // ==================================================
@@ -321,7 +346,12 @@
             const { data, error } = await vctSupa.from('news').select('*').order('created_at', { ascending: false });
             if (error) {
                 console.error("Lỗi tải bài viết:", error);
-                tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-red-400">Không đọc được bảng news từ Supabase. Kiểm tra chính sách RLS của bảng.</td></tr>';
+                tbody.innerHTML = '';
+                const row = tbody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 5;
+                cell.className = "p-8 text-center text-red-400";
+                cell.textContent = "Không tải được tin tức: " + error.message + " Hãy chạy supabase-news-policies.sql trong Supabase SQL Editor.";
                 return;
             }
 
@@ -335,21 +365,36 @@
             tbody.innerHTML = '';
             allArticlesCache.forEach(item => {
                 const statusBadge = item.status === 'published' 
-                    ? `<span class="bg-green-500/20 text-green-400 border border-green-500/30 px-2 py-1 rounded text-xs font-bold">ĐÃ ĐĂNG</span>` 
-                    : `<span class="bg-gray-500/20 text-gray-400 border border-gray-500/30 px-2 py-1 rounded text-xs font-bold">NHÁP</span>`;
-
-                tbody.innerHTML += `
-                    <tr class="border-b border-[#202025] hover:bg-[#1a1a20] transition-colors">
-                        <td class="p-4 text-center font-mono text-xs text-gray-400">${item.id}</td>
-                        <td class="p-4 font-bold text-white max-w-xs truncate">${item.title}</td>
-                        <td class="p-4 text-sm text-gray-400">${item.category || 'VCT 2026'}</td>
-                        <td class="p-4 text-center">${statusBadge}</td>
-                        <td class="p-4 text-center">
-                            <button onclick="editArticle('${item.id}')" class="text-blue-400 hover:text-blue-300 font-bold mr-3 transition"><i class="fas fa-edit"></i> Sửa</button>
-                            <button onclick="deleteArticle('${item.id}')" class="text-red-500 hover:text-red-400 font-bold transition"><i class="fas fa-trash"></i> Xóa</button>
-                        </td>
-                    </tr>
-                `;
+                    ? ["bg-green-500/20", "text-green-400", "border-green-500/30", "ĐÃ ĐĂNG"]
+                    : ["bg-gray-500/20", "text-gray-400", "border-gray-500/30", "NHÁP"];
+                const row = tbody.insertRow();
+                row.className = "border-b border-[#202025] hover:bg-[#1a1a20] transition-colors";
+                const idCell = row.insertCell();
+                idCell.className = "p-4 text-center font-mono text-xs text-gray-400";
+                idCell.textContent = item.id;
+                const titleCell = row.insertCell();
+                titleCell.className = "p-4 font-bold text-white max-w-xs truncate";
+                titleCell.textContent = item.title || "";
+                const categoryCell = row.insertCell();
+                categoryCell.className = "p-4 text-sm text-gray-400";
+                categoryCell.textContent = item.category || "VCT 2026";
+                const statusCell = row.insertCell();
+                statusCell.className = "p-4 text-center";
+                const badge = document.createElement("span");
+                badge.className = `${statusBadge[0]} ${statusBadge[1]} border ${statusBadge[2]} px-2 py-1 rounded text-xs font-bold`;
+                badge.textContent = statusBadge[3];
+                statusCell.appendChild(badge);
+                const actionCell = row.insertCell();
+                actionCell.className = "p-4 text-center";
+                const editButton = document.createElement("button");
+                editButton.className = "text-blue-400 hover:text-blue-300 font-bold mr-3 transition";
+                editButton.innerHTML = '<i class="fas fa-edit"></i> Sửa';
+                editButton.addEventListener("click", () => editArticle(item.id));
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "text-red-500 hover:text-red-400 font-bold transition";
+                deleteButton.innerHTML = '<i class="fas fa-trash"></i> Xóa';
+                deleteButton.addEventListener("click", () => deleteArticle(item.id));
+                actionCell.append(editButton, deleteButton);
             });
         }
 
@@ -378,38 +423,31 @@
             btnSave.innerText = "ĐANG LƯU...";
             btnSave.disabled = true;
 
-            const articleData = {
-                title,
-                thumbnail: thumbnail || 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg',
-                category,
-                status,
-                content
-            };
+            try {
+                const articleData = {
+                    title,
+                    thumbnail: thumbnail || 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg',
+                    category,
+                    status,
+                    content
+                };
 
-            let error = null;
-            if (idInput) {
-                // Cập nhật bài cũ: giữ nguyên id và created_at thật từ server
-                const result = await vctSupa.from('news').update(articleData).eq('id', Number(idInput));
-                error = result.error;
-            } else {
-                // Chèn bài mới: server tự sinh id, không lưu bản local nữa
-                const result = await vctSupa.from('news').insert([{ ...articleData, created_at: new Date().toISOString() }]);
-                error = result.error;
-            }
+                const query = idInput
+                    ? vctSupa.from('news').update(articleData).eq('id', Number(idInput))
+                    : vctSupa.from('news').insert({ ...articleData, created_at: new Date().toISOString() });
+                const { error } = await query.select('id').single();
+                if (error) throw error;
 
-            if (error) {
+                alert("Lưu bài viết thành công!");
+                hideForm();
+                await loadNewsList();
+            } catch (error) {
                 console.error("Lỗi lưu bài viết:", error);
-                alert("Lưu bài viết THẤT BẠI: " + (error.message || "bảng news có thể chưa cho phép ghi (kiểm tra RLS)."));
+                alert("Lưu bài viết THẤT BẠI: " + error.message + "\n\nHãy chạy supabase-news-policies.sql trong Supabase SQL Editor và đăng nhập bằng tài khoản admin Supabase.");
+            } finally {
                 btnSave.innerText = "LƯU BÀI VIẾT";
                 btnSave.disabled = false;
-                return;
             }
-
-            alert("Lưu bài viết thành công!");
-            btnSave.innerText = "LƯU BÀI VIẾT";
-            btnSave.disabled = false;
-            hideForm();
-            loadNewsList();
         }
 
         // 3. XÓA BÀI VIẾT
@@ -421,10 +459,14 @@
                 return;
             }
 
-            const { error } = await vctSupa.from('news').delete().eq('id', Number(id));
+            const { data, error } = await vctSupa.from('news').delete().eq('id', Number(id)).select('id').single();
             if (error) {
                 console.error("Lỗi xóa bài viết:", error);
                 alert("Xóa thất bại: " + (error.message || "bảng news có thể chưa cho phép xóa (kiểm tra RLS)."));
+                return;
+            }
+            if (!data) {
+                alert("Không tìm thấy bài viết để xóa.");
                 return;
             }
 
@@ -491,7 +533,7 @@
 
         // Khởi động trang ngay lập tức
         async function startDashboard() {
-            const hasAccess = verifyAdminAccess();
+            const hasAccess = await verifyAdminAccess();
             if (hasAccess) {
                 initQuill();
                 await migrateLegacyLocalNews();
