@@ -453,122 +453,271 @@
     <script src="auth-nav.js"></script>
 
     <script>
+      // ════════════════════════════════════════════════════════════════
+      // TIỆN ÍCH: Chờ Supabase sẵn sàng (CDN có thể load chậm hơn HTML)
+      // ════════════════════════════════════════════════════════════════
+      function waitForSupabase(timeoutMs = 8000) {
+        return new Promise((resolve) => {
+          // Đã có sẵn rồi
+          if (window.vctSupabase) { resolve(window.vctSupabase); return; }
+
+          const startTime = Date.now();
+          const interval = setInterval(() => {
+            // supabase-config.js chạy sau khi CDN load → gán vctSupabase
+            if (window.vctSupabase) {
+              clearInterval(interval);
+              resolve(window.vctSupabase);
+              return;
+            }
+            // Nếu CDN đã load nhưng config chưa tạo client thì tạo lại
+            if (window.supabase && window.VCT_SUPABASE_URL && window.VCT_SUPABASE_ANON_KEY) {
+              window.vctSupabase = window.supabase.createClient(
+                window.VCT_SUPABASE_URL,
+                window.VCT_SUPABASE_ANON_KEY
+              );
+              clearInterval(interval);
+              resolve(window.vctSupabase);
+              return;
+            }
+            // Hết timeout
+            if (Date.now() - startTime > timeoutMs) {
+              clearInterval(interval);
+              resolve(null); // resolve null = không có Supabase
+            }
+          }, 100);
+        });
+      }
+
+      // ════════════════════════════════════════════════════════════════
+      // LOAD TIN TỨC TỪ SUPABASE
+      // ════════════════════════════════════════════════════════════════
+      const FALLBACK_IMAGE = 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg';
+
+      function safeImageSrc(url) {
+        if (!url) return FALLBACK_IMAGE;
+        try {
+          const p = new URL(url, window.location.href);
+          return ['http:', 'https:'].includes(p.protocol) ? p.href : FALLBACK_IMAGE;
+        } catch { return FALLBACK_IMAGE; }
+      }
+
+      function buildNewsCard(article) {
+        const articleId = article.id;
+        const detailUrl = 'chitiet-tintuc.html?id=' + encodeURIComponent(articleId);
+
+        // ─── Wrapper: thẻ <a> toàn bộ card ───
+        const card = document.createElement('a');
+        card.href = detailUrl;
+        card.className = 'news-card bg-white text-gray-900 rounded-[2px] overflow-hidden flex flex-col group shadow-lg';
+        card.style.cssText = 'cursor:pointer; text-decoration:none; display:flex;';
+        card.setAttribute('aria-label', 'Đọc bài: ' + (article.title || 'Tin tức'));
+
+        // ─── Phần ảnh ───
+        const imageArea = document.createElement('div');
+        imageArea.className = 'relative w-full bg-neutral-900 overflow-hidden';
+        imageArea.style.aspectRatio = '16/10';
+
+        // Badge danh mục
+        const catBadge = document.createElement('span');
+        catBadge.className = 'absolute top-2.5 left-2.5 z-20 bg-black/85 border border-[#FF4655] text-[#FF4655] text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider';
+        catBadge.style.fontFamily = "'Oswald', sans-serif";
+        catBadge.textContent = article.category || 'TIN TỨC';
+
+        // Ảnh thumbnail
+        const img = document.createElement('img');
+        img.src = safeImageSrc(article.thumbnail);
+        img.alt = article.title || 'Tin tức';
+        img.className = 'w-full h-full object-cover transition-transform duration-300';
+        img.style.display = 'block';
+        img.onerror = () => { img.src = FALLBACK_IMAGE; };
+        // hover scale qua JS vì không có Tailwind group-hover cho thẻ <a>
+        card.addEventListener('mouseenter', () => { img.style.transform = 'scale(1.05)'; });
+        card.addEventListener('mouseleave', () => { img.style.transform = 'scale(1)'; });
+
+        // Gradient overlay + tiêu đề nhỏ
+        const overlay = document.createElement('div');
+        overlay.className = 'absolute inset-0 z-10 flex flex-col justify-end p-3';
+        overlay.style.background = 'linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 55%, rgba(0,0,0,0.28) 100%)';
+        const updateLabel = document.createElement('span');
+        updateLabel.className = 'text-white text-[10px] font-bold tracking-widest uppercase';
+        updateLabel.textContent = 'CẬP NHẬT MỚI';
+        const overlayTitle = document.createElement('span');
+        overlayTitle.className = 'text-cyan-400 font-black text-xl leading-tight';
+        overlayTitle.style.fontFamily = "'Oswald', sans-serif";
+        overlayTitle.style.display = '-webkit-box';
+        overlayTitle.style.webkitLineClamp = '1';
+        overlayTitle.style.webkitBoxOrient = 'vertical';
+        overlayTitle.style.overflow = 'hidden';
+        overlayTitle.textContent = article.title || '';
+        overlay.append(updateLabel, overlayTitle);
+
+        imageArea.append(catBadge, img, overlay);
+
+        // ─── Phần body text ───
+        const body = document.createElement('div');
+        body.className = 'p-5 flex-1 flex flex-col justify-between bg-white';
+
+        const titleEl = document.createElement('h2');
+        titleEl.className = 'font-extrabold text-[17px] leading-snug tracking-tight text-neutral-900 transition-colors';
+        titleEl.style.display = '-webkit-box';
+        titleEl.style.webkitLineClamp = '2';
+        titleEl.style.webkitBoxOrient = 'vertical';
+        titleEl.style.overflow = 'hidden';
+        titleEl.textContent = article.title || '';
+        card.addEventListener('mouseenter', () => { titleEl.style.color = '#FF4655'; });
+        card.addEventListener('mouseleave', () => { titleEl.style.color = ''; });
+
+        // Trích đoạn (strip HTML nếu content là rich text)
+        const plainContent = new DOMParser()
+          .parseFromString(article.content || '', 'text/html')
+          .body.textContent.trim();
+        const excerpt = document.createElement('p');
+        excerpt.className = 'text-[12px] text-gray-600 mt-2';
+        excerpt.style.display = '-webkit-box';
+        excerpt.style.webkitLineClamp = '2';
+        excerpt.style.webkitBoxOrient = 'vertical';
+        excerpt.style.overflow = 'hidden';
+        excerpt.textContent = plainContent || 'Nhấn để đọc chi tiết...';
+
+        // Ngày đăng
+        const date = new Date(article.created_at || Date.now());
+        const dateLabel = document.createElement('div');
+        dateLabel.className = 'mt-5 pt-3 border-t border-neutral-100 text-[11px] text-neutral-500 font-medium';
+        dateLabel.textContent = 'Đấu Trường Esports • ' + date.toLocaleDateString('vi-VN', {
+          day: 'numeric', month: 'long', year: 'numeric'
+        });
+
+        // Nút ĐỌC TIẾP
+        const readBtn = document.createElement('div');
+        readBtn.className = 'mt-3 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider';
+        readBtn.style.color = '#FF4655';
+        readBtn.style.fontFamily = "'Oswald', sans-serif";
+        readBtn.innerHTML = 'ĐỌC TIẾP <svg style="width:12px;height:12px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>';
+
+        body.append(titleEl, excerpt, dateLabel, readBtn);
+        card.append(imageArea, body);
+        card.onclick = (e) => {
+          // Cho phép mở tab mới nếu nhấn giữ Ctrl/Cmd
+          if (e.ctrlKey || e.metaKey) return;
+          e.preventDefault();
+          window.location.href = detailUrl;
+        };
+        return card;
+      }
+
       async function loadNews() {
         const container = document.getElementById('news-container');
         if (!container) return;
-        const vctSupa = window.vctSupabase;
-        container.replaceChildren();
-        if (!vctSupa) {
-          container.textContent = "Chưa kết nối được máy chủ tin tức. Vui lòng thử lại sau.";
+
+        // Hiện spinner
+        container.innerHTML = `
+          <div class="col-span-full flex flex-col items-center justify-center py-20">
+            <div class="w-10 h-10 border-4 border-neutral-800 border-t-[#FF4655] rounded-full animate-spin mb-4"></div>
+            <p style="font-family:'Oswald',sans-serif;color:#9ca3af;text-transform:uppercase;letter-spacing:.15em">Đang tải tin tức...</p>
+          </div>`;
+
+        // Chờ Supabase sẵn sàng
+        const supa = await waitForSupabase();
+
+        if (!supa) {
+          container.innerHTML = `
+            <div class="col-span-full text-center py-16">
+              <p class="text-red-400 font-bold mb-2">⚠ Không kết nối được máy chủ</p>
+              <p class="text-neutral-400 text-sm">Vui lòng kiểm tra kết nối mạng và tải lại trang.</p>
+              <button onclick="loadNews()" class="mt-4 px-5 py-2 bg-[#FF4655] text-white text-sm font-bold rounded">Thử lại</button>
+            </div>`;
           return;
         }
 
-        let allNews;
+        let articles = [];
         try {
-          const { data, error } = await vctSupa
+          const { data, error } = await supa
             .from('news')
             .select('id, title, thumbnail, category, content, created_at')
             .eq('status', 'published')
             .order('created_at', { ascending: false });
           if (error) throw error;
-          allNews = Array.isArray(data) ? data : [];
-        } catch (error) {
-          console.error("Lỗi tải tin tức:", error);
-          container.textContent = "Không tải được tin tức: " + error.message;
+          articles = Array.isArray(data) ? data : [];
+        } catch (err) {
+          console.error('Lỗi tải tin tức:', err);
+          container.innerHTML = `
+            <div class="col-span-full text-center py-16">
+              <p class="text-red-400 font-bold mb-2">⚠ Không tải được tin tức</p>
+              <p class="text-neutral-400 text-sm">${err.message || ''}</p>
+              <button onclick="loadNews()" class="mt-4 px-5 py-2 bg-[#FF4655] text-white text-sm font-bold rounded">Thử lại</button>
+            </div>`;
           return;
         }
 
-        if (allNews.length === 0) {
-          container.textContent = "Hiện chưa có bài viết nào được đăng.";
+        if (articles.length === 0) {
+          container.innerHTML = `
+            <div class="col-span-full text-center py-16">
+              <p class="text-neutral-400" style="font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em">Chưa có bài viết nào được đăng.</p>
+            </div>`;
           return;
         }
 
-        const fallbackImage = 'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg';
-        allNews.forEach(article => {
-          // Toàn bộ card là <a> dẫn tới trang chi tiết tin tức
-          const card = document.createElement("a");
-          card.href = "chitiet-tintuc.html?id=" + encodeURIComponent(article.id);
-          card.className = "news-card bg-white text-gray-900 rounded-[2px] overflow-hidden flex flex-col group shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-riotRed";
-          card.setAttribute("aria-label", article.title || "Xem chi tiết tin tức");
-
-          const imageArea = document.createElement("div");
-          imageArea.className = "relative w-full aspect-[16/10] bg-neutral-900 overflow-hidden";
-          const category = document.createElement("span");
-          category.className = "absolute top-2.5 left-2.5 z-20 bg-black/85 border border-riotRed text-riotRed text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider font-esports";
-          category.textContent = article.category || "TIN TỨC";
-          const image = document.createElement("img");
-          image.alt = article.title || "Tin tức";
-          image.className = "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300";
-          const candidateImage = article.thumbnail || fallbackImage;
-          try {
-            const parsedImage = new URL(candidateImage, window.location.href);
-            image.src = ["http:", "https:"].includes(parsedImage.protocol) ? parsedImage.href : fallbackImage;
-          } catch {
-            image.src = fallbackImage;
-          }
-          const overlay = document.createElement("div");
-          overlay.className = "absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 flex flex-col justify-end p-3";
-          const updateLabel = document.createElement("span");
-          updateLabel.className = "text-white text-[10px] font-bold tracking-widest uppercase";
-          updateLabel.textContent = "CẬP NHẬT MỚI";
-          const overlayTitle = document.createElement("span");
-          overlayTitle.className = "text-cyan-400 font-esports font-black text-xl leading-tight line-clamp-1";
-          overlayTitle.textContent = article.title || "";
-          overlay.append(updateLabel, overlayTitle);
-          imageArea.append(category, image, overlay);
-
-          const body = document.createElement("div");
-          body.className = "p-5 flex-1 flex flex-col justify-between bg-white";
-          const title = document.createElement("h2");
-          title.className = "font-extrabold text-[17px] leading-snug tracking-tight text-neutral-900 group-hover:text-riotRed transition-colors line-clamp-2";
-          title.textContent = article.title || "";
-          const contentText = new DOMParser().parseFromString(article.content || "", "text/html").body.textContent.trim();
-          const excerpt = document.createElement("p");
-          excerpt.className = "text-[12px] text-gray-600 mt-2 line-clamp-2";
-          excerpt.textContent = contentText;
-          const date = new Date(article.created_at || Date.now());
-          const dateLabel = document.createElement("div");
-          dateLabel.className = "mt-5 pt-3 border-t border-neutral-100 text-[11px] text-neutral-500 font-medium";
-          dateLabel.textContent = "Đấu Trường Esports • " + date.toLocaleDateString('vi-VN', { day: 'numeric', month: 'long', year: 'numeric' });
-          // Nút "ĐỌC TIẾP" trang trí – click sẽ theo href của thẻ <a> cha
-          const readMoreBtn = document.createElement("div");
-          readMoreBtn.className = "mt-3 inline-flex items-center gap-1 text-xs font-bold text-riotRed font-esports uppercase tracking-wider";
-          readMoreBtn.innerHTML = 'ĐỌC TIẾP <svg class="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>';
-          body.append(title, excerpt, dateLabel, readMoreBtn);
-          card.append(imageArea, body);
+        container.innerHTML = '';
+        articles.forEach(article => {
+          const card = buildNewsCard(article);
           container.appendChild(card);
         });
       }
 
-      window.addEventListener('DOMContentLoaded', loadNews);
-
-      // ── BANNER CỘNG ĐỒNG ──────────────────────────────────────────
+      // ════════════════════════════════════════════════════════════════
+      // BANNER CỘNG ĐỒNG
+      // ════════════════════════════════════════════════════════════════
       const COMMUNITY_BANNERS_DEFAULT = [
         {
-          slot: 1, label: "NHẠC CHỦ ĐỀ", color: "text-riotRed",
-          title: "SUPER HUMAN // STAGE 2",
-          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCncmBXe_yrYb5GQTnHVXq2DrO09YTLSO4P8D-bAB2Gy_lFG7F2sBZp7v1WXztbJteEl707ESah8guzNXa15pTDfThImQe8AmyVlG9RHVQLXk7x8JEE06Wo6J8IAzrq5ggqs53qXdBoi38xMPDT78QCW8ZPop78qT4ohiu2snO7Vdx3X59HyUYCEJEi9tAmVwoD-HqdKXgTNIzQ82llRczp7PXAFAuK9Op0u_vBAJ1g3tyHvrdWMwWY"
+          slot: 1, label: 'NHẠC CHỦ ĐỀ', color: '#FF4655',
+          title: 'SUPER HUMAN // STAGE 2',
+          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCncmBXe_yrYb5GQTnHVXq2DrO09YTLSO4P8D-bAB2Gy_lFG7F2sBZp7v1WXztbJteEl707ESah8guzNXa15pTDfThImQe8AmyVlG9RHVQLXk7x8JEE06Wo6J8IAzrq5ggqs53qXdBoi38xMPDT78QCW8ZPop78qT4ohiu2snO7Vdx3X59HyUYCEJEi9tAmVwoD-HqdKXgTNIzQ82llRczp7PXAFAuK9Op0u_vBAJ1g3tyHvrdWMwWY',
+          content: `Ca khúc chủ đề chính thức cho VCT 2026 Stage 2 mang tên "SUPER HUMAN" đã chính thức được phát hành trên toàn cầu.
+
+Được sáng tác và biểu diễn bởi các nghệ sĩ hàng đầu, ca khúc mang giai điệu điện tử sôi động, thể hiện tinh thần bứt phá giới hạn và khát khao vươn tới đỉnh cao vinh quang của các tuyển thủ VALORANT thế hệ mới.
+
+Các điểm nhấn đáng chú ý:
+- Giai điệu bùng nổ kết hợp giữa âm thanh synthesizer hiện đại và nhịp trống dồn dập.
+- MV tái hiện hành trình từ những trận đấu xếp hạng căng thẳng đến sàn đấu chuyên nghiệp rực rỡ ánh đèn.
+- Hiện ca khúc đã có mặt trên tất cả các nền tảng nghe nhạc trực tuyến như Spotify, Apple Music và YouTube Music.`
         },
         {
-          slot: 2, label: "QUY ĐỊNH TỔ CHỨC", color: "text-amber-400",
-          title: "VALORANT COMMUNITY GUIDELINES",
-          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDXUtkgbhrNSberkGY19S5zqMzUINLavJ5G9vM881f-got8Nb2q79Ds0Ulk1MPGfIOn_IB9MH3zch5KmxqqJuwg-KjvZOBVtxr3xNK7GlbSziSIe8AFM5wxwhtl4MxkqYNlPmPJMwq1CV5vPQyn5DYf21T2VojkwKDW92CzySdef6KNsQnO2Ben-gtlgtcpu4xMiPOns0Xy-1FNBAtKeG5nBZ3Fj5K6PpAU5Pl1tFS31c8B2fKGTGi4"
+          slot: 2, label: 'QUY ĐỊNH TỔ CHỨC', color: '#FBBF24',
+          title: 'VALORANT COMMUNITY GUIDELINES',
+          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDXUtkgbhrNSberkGY19S5zqMzUINLavJ5G9vM881f-got8Nb2q79Ds0Ulk1MPGfIOn_IB9MH3zch5KmxqqJuwg-KjvZOBVtxr3xNK7GlbSziSIe8AFM5wxwhtl4MxkqYNlPmPJMwq1CV5vPQyn5DYf21T2VojkwKDW92CzySdef6KNsQnO2Ben-gtlgtcpu4xMiPOns0Xy-1FNBAtKeG5nBZ3Fj5K6PpAU5Pl1tFS31c8B2fKGTGi4',
+          content: `Bộ Quy chuẩn Cộng đồng VALORANT được thiết kế nhằm xây dựng một môi trường thể thao điện tử trong sạch, công bằng và tôn trọng lẫn nhau.
+
+Nguyên tắc cốt lõi:
+1. Giao tiếp tích cực và tôn trọng đồng đội cũng như đối thủ.
+2. Tuyệt đối không gian lận, sử dụng phần mềm can thiệp hoặc khai thác lỗi game.
+3. Bảo đảm an toàn thông tin cá nhân và tài khoản thi đấu.
+4. Tôn vinh tinh thần thể thao công bằng trong mọi giải đấu phong trào lẫn chuyên nghiệp.
+
+Mọi hành vi vi phạm sẽ bị xử lý nghiêm khắc từ cảnh cáo, khóa tài khoản đến cấm thi đấu theo khung hình phạt của Riot Games.`
         },
         {
-          slot: 3, label: "MỞ BÁN VÉ", color: "text-cyan-400",
-          title: "VÉ THAM DỰ GROUP STAGE",
-          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBHQucBgrajbgC7IIsF9DHQsb_HajO7SsA5dwOCyWDrS2updSbvJHi2OWBpdZfRmNvt6nw0RTPlxWZv2Z6dvF4EGyM1yrXMEjsthI7eo6eiuJ0o8kLc3vsjTElyPQareJ2bfiAiYPY99w0AmlnDnSVrYZWNThg20G542G5AN-rPxvxH13EKSLjyllxsYv8TasZg7gCIkHglpCwXqHNtpTaNWMyCEqs2uDTo5cYAAYFDGwGD_qZCova4"
+          slot: 3, label: 'MỞ BÁN VÉ', color: '#22D3EE',
+          title: 'VÉ THAM DỰ GROUP STAGE',
+          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBHQucBgrajbgC7IIsF9DHQsb_HajO7SsA5dwOCyWDrS2updSbvJHi2OWBpdZfRmNvt6nw0RTPlxWZv2Z6dvF4EGyM1yrXMEjsthI7eo6eiuJ0o8kLc3vsjTElyPQareJ2bfiAiYPY99w0AmlnDnSVrYZWNThg20G542G5AN-rPxvxH13EKSLjyllxsYv8TasZg7gCIkHglpCwXqHNtpTaNWMyCEqs2uDTo5cYAAYFDGwGD_qZCova4',
+          content: `Ban tổ chức giải đấu Đấu Trường Esports VCT 2026 chính thức mở bán vé tham dự Vòng Bảng (Group Stage) trực tiếp tại nhà thi đấu!
+
+Thông tin sự kiện:
+- Thời gian thi đấu: Bắt đầu từ 17:30 mỗi ngày thi đấu.
+- Địa điểm: Sân vận động Quốc gia Mỹ Đình, Hà Nội.
+
+Hạng vé & Quyền lợi:
+- Vé Phổ thông: Chỗ ngồi khán đài tiêu chuẩn + Vòng tay lưu niệm.
+- Vé VIP: Chỗ ngồi cận sàn đấu + Áo thun VCT phiên bản giới hạn + Cơ hội Meet & Greet cùng các tuyển thủ sau trận đấu.
+
+Lưu ý: Vé là vé điện tử có mã QR định danh, khán giả vui lòng chuẩn bị CCCD khi làm thủ tục check-in tại cổng.`
         }
       ];
 
-      // Map màu Tailwind class → CSS inline color
-      const BANNER_COLOR_MAP = {
-        'text-riotRed':   '#FF4655',
-        'text-amber-400': '#FBBF24',
-        'text-cyan-400':  '#22D3EE',
-        'text-green-400': '#4ADE80',
-        'text-purple-400':'#C084FC',
-        'text-white':     '#ffffff'
+      // Map class Tailwind → hex
+      const TAILWIND_COLOR = {
+        'text-riotRed': '#FF4655', 'text-amber-400': '#FBBF24',
+        'text-cyan-400': '#22D3EE', 'text-green-400': '#4ADE80',
+        'text-purple-400': '#C084FC', 'text-white': '#ffffff'
       };
 
       async function loadCommunityBanners() {
@@ -578,22 +727,23 @@
         let banners = null;
 
         // 1. Thử Supabase
-        if (window.vctSupabase) {
+        const supa = await waitForSupabase(5000);
+        if (supa) {
           try {
-            const { data, error } = await window.vctSupabase
+            const { data, error } = await supa
               .from('community_banners')
               .select('*')
               .order('slot', { ascending: true });
             if (!error && Array.isArray(data) && data.length > 0) banners = data;
-          } catch(e) {}
+          } catch (e) { /* bảng chưa tồn tại */ }
         }
 
-        // 2. Fallback localStorage (admin đã sửa)
+        // 2. Fallback: localStorage (admin đã lưu)
         if (!banners) {
           try {
             const stored = localStorage.getItem('vct_community_banners');
             if (stored) banners = JSON.parse(stored);
-          } catch(e) {}
+          } catch (e) {}
         }
 
         // 3. Dữ liệu mặc định
@@ -602,31 +752,72 @@
         }
 
         grid.innerHTML = '';
-        banners.forEach(b => {
-          const colorHex = BANNER_COLOR_MAP[b.color] || '#ffffff';
-          const card = document.createElement('div');
-          card.className = 'banner-card relative rounded-[2px] overflow-hidden h-52 bg-[#11161d] border border-neutral-800 cursor-pointer group';
-          card.innerHTML = `
-            <img alt="${b.title || ''}"
-              class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 brightness-75"
-              src="${b.image || ''}"
-              onerror="this.src='https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg'">
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
-            <div class="absolute bottom-0 left-0 right-0 p-5 z-20">
-              <span class="text-[11px] font-bold tracking-wider uppercase font-esports block mb-1"
-                style="color:${colorHex}">${b.label || ''}</span>
-              <h4 class="text-lg font-black text-white uppercase tracking-tight font-esports transition-colors"
-                style="--hover-color:${colorHex}"
-                onmouseenter="this.style.color='${colorHex}'"
-                onmouseleave="this.style.color='white'">
-                ${b.title || ''}
-              </h4>
-            </div>`;
+        banners.forEach((b, i) => {
+          const slot = b.slot || (i + 1);
+          const detailUrl = 'chitiet-tintuc.html?bannerSlot=' + encodeURIComponent(slot);
+
+          // Hỗ trợ cả trường `color` dạng hex lẫn Tailwind class
+          const colorHex = b.color && b.color.startsWith('#')
+            ? b.color
+            : (TAILWIND_COLOR[b.color] || '#ffffff');
+
+          const card = document.createElement('a');
+          card.href = detailUrl;
+          card.className = 'relative rounded-[2px] overflow-hidden bg-[#11161d] border border-neutral-800 cursor-pointer group block text-inherit no-underline transition-all';
+          card.style.height = '13rem'; // h-52
+          card.onclick = (e) => {
+            if (e.ctrlKey || e.metaKey) return;
+            e.preventDefault();
+            window.location.href = detailUrl;
+          };
+
+          const imgEl = document.createElement('img');
+          imgEl.src = b.image || FALLBACK_IMAGE;
+          imgEl.alt = b.title || '';
+          imgEl.className = 'absolute inset-0 w-full h-full object-cover brightness-75 transition-transform duration-300';
+          imgEl.onerror = () => { imgEl.src = FALLBACK_IMAGE; };
+          card.addEventListener('mouseenter', () => { imgEl.style.transform = 'scale(1.05)'; card.style.borderColor = colorHex; });
+          card.addEventListener('mouseleave', () => { imgEl.style.transform = 'scale(1)'; card.style.borderColor = ''; });
+
+          const grad = document.createElement('div');
+          grad.className = 'absolute inset-0 z-10 pointer-events-none';
+          grad.style.background = 'linear-gradient(to top, black 0%, rgba(0,0,0,.5) 50%, transparent 100%)';
+
+          const textBox = document.createElement('div');
+          textBox.className = 'absolute bottom-0 left-0 right-0 p-5 z-20';
+
+          const labelEl = document.createElement('span');
+          labelEl.className = 'block text-[11px] font-bold tracking-wider uppercase mb-1';
+          labelEl.style.fontFamily = "'Oswald', sans-serif";
+          labelEl.style.color = colorHex;
+          labelEl.textContent = b.label || '';
+
+          const titleEl2 = document.createElement('h4');
+          titleEl2.className = 'text-lg font-black text-white uppercase tracking-tight transition-colors';
+          titleEl2.style.fontFamily = "'Oswald', sans-serif";
+          titleEl2.textContent = b.title || '';
+          card.addEventListener('mouseenter', () => { titleEl2.style.color = colorHex; });
+          card.addEventListener('mouseleave', () => { titleEl2.style.color = ''; });
+
+          textBox.append(labelEl, titleEl2);
+          card.append(imgEl, grad, textBox);
           grid.appendChild(card);
         });
       }
 
-      window.addEventListener('DOMContentLoaded', loadCommunityBanners);
+      // ════════════════════════════════════════════════════════════════
+      // KHỞI ĐỘNG — chạy sau khi DOM sẵn sàng
+      // ════════════════════════════════════════════════════════════════
+      function startPage() {
+        loadNews();
+        loadCommunityBanners();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startPage);
+      } else {
+        startPage();
+      }
     </script>
   </body>
 </html>

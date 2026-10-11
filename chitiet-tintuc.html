@@ -442,30 +442,184 @@
         });
       }
 
-      async function loadArticle() {
-        const articleId = getArticleId();
+      function waitForSupabase(timeoutMs = 8000) {
+        return new Promise((resolve) => {
+          if (window.vctSupabase) { resolve(window.vctSupabase); return; }
+          const startTime = Date.now();
+          const interval = setInterval(() => {
+            if (window.vctSupabase) {
+              clearInterval(interval);
+              resolve(window.vctSupabase);
+              return;
+            }
+            if (window.supabase && window.VCT_SUPABASE_URL && window.VCT_SUPABASE_ANON_KEY) {
+              window.vctSupabase = window.supabase.createClient(
+                window.VCT_SUPABASE_URL,
+                window.VCT_SUPABASE_ANON_KEY
+              );
+              clearInterval(interval);
+              resolve(window.vctSupabase);
+              return;
+            }
+            if (Date.now() - startTime > timeoutMs) {
+              clearInterval(interval);
+              resolve(null);
+            }
+          }, 100);
+        });
+      }
 
+      const COMMUNITY_BANNERS_DEFAULT = [
+        {
+          slot: 1, label: 'NHẠC CHỦ ĐỀ', color: '#FF4655',
+          title: 'SUPER HUMAN // STAGE 2',
+          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCncmBXe_yrYb5GQTnHVXq2DrO09YTLSO4P8D-bAB2Gy_lFG7F2sBZp7v1WXztbJteEl707ESah8guzNXa15pTDfThImQe8AmyVlG9RHVQLXk7x8JEE06Wo6J8IAzrq5ggqs53qXdBoi38xMPDT78QCW8ZPop78qT4ohiu2snO7Vdx3X59HyUYCEJEi9tAmVwoD-HqdKXgTNIzQ82llRczp7PXAFAuK9Op0u_vBAJ1g3tyHvrdWMwWY',
+          content: `Ca khúc chủ đề chính thức cho VCT 2026 Stage 2 mang tên "SUPER HUMAN" đã chính thức được phát hành trên toàn cầu.
+
+Được sáng tác và biểu diễn bởi các nghệ sĩ hàng đầu, ca khúc mang giai điệu điện tử sôi động, thể hiện tinh thần bứt phá giới hạn và khát khao vươn tới đỉnh cao vinh quang của các tuyển thủ VALORANT thế hệ mới.
+
+Các điểm nhấn đáng chú ý:
+- Giai điệu bùng nổ kết hợp giữa âm thanh synthesizer hiện đại và nhịp trống dồn dập.
+- MV tái hiện hành trình từ những trận đấu xếp hạng căng thẳng đến sàn đấu chuyên nghiệp rực rỡ ánh đèn.
+- Hiện ca khúc đã có mặt trên tất cả các nền tảng nghe nhạc trực tuyến như Spotify, Apple Music và YouTube Music.`
+        },
+        {
+          slot: 2, label: 'QUY ĐỊNH TỔ CHỨC', color: '#FBBF24',
+          title: 'VALORANT COMMUNITY GUIDELINES',
+          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDXUtkgbhrNSberkGY19S5zqMzUINLavJ5G9vM881f-got8Nb2q79Ds0Ulk1MPGfIOn_IB9MH3zch5KmxqqJuwg-KjvZOBVtxr3xNK7GlbSziSIe8AFM5wxwhtl4MxkqYNlPmPJMwq1CV5vPQyn5DYf21T2VojkwKDW92CzySdef6KNsQnO2Ben-gtlgtcpu4xMiPOns0Xy-1FNBAtKeG5nBZ3Fj5K6PpAU5Pl1tFS31c8B2fKGTGi4',
+          content: `Bộ Quy chuẩn Cộng đồng VALORANT được thiết kế nhằm xây dựng một môi trường thể thao điện tử trong sạch, công bằng và tôn trọng lẫn nhau.
+
+Nguyên tắc cốt lõi:
+1. Giao tiếp tích cực và tôn trọng đồng đội cũng như đối thủ.
+2. Tuyệt đối không gian lận, sử dụng phần mềm can thiệp hoặc khai thác lỗi game.
+3. Bảo đảm an toàn thông tin cá nhân và tài khoản thi đấu.
+4. Tôn vinh tinh thần thể thao công bằng trong mọi giải đấu phong trào lẫn chuyên nghiệp.
+
+Mọi hành vi vi phạm sẽ bị xử lý nghiêm khắc từ cảnh cáo, khóa tài khoản đến cấm thi đấu theo khung hình phạt của Riot Games.`
+        },
+        {
+          slot: 3, label: 'MỞ BÁN VÉ', color: '#22D3EE',
+          title: 'VÉ THAM DỰ GROUP STAGE',
+          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBHQucBgrajbgC7IIsF9DHQsb_HajO7SsA5dwOCyWDrS2updSbvJHi2OWBpdZfRmNvt6nw0RTPlxWZv2Z6dvF4EGyM1yrXMEjsthI7eo6eiuJ0o8kLc3vsjTElyPQareJ2bfiAiYPY99w0AmlnDnSVrYZWNThg20G542G5AN-rPxvxH13EKSLjyllxsYv8TasZg7gCIkHglpCwXqHNtpTaNWMyCEqs2uDTo5cYAAYFDGwGD_qZCova4',
+          content: `Ban tổ chức giải đấu Đấu Trường Esports VCT 2026 chính thức mở bán vé tham dự Vòng Bảng (Group Stage) trực tiếp tại nhà thi đấu!
+
+Thông tin sự kiện:
+- Thời gian thi đấu: Bắt đầu từ 17:30 mỗi ngày thi đấu.
+- Địa điểm: Sân vận động Quốc gia Mỹ Đình, Hà Nội.
+
+Hạng vé & Quyền lợi:
+- Vé Phổ thông: Chỗ ngồi khán đài tiêu chuẩn + Vòng tay lưu niệm.
+- Vé VIP: Chỗ ngồi cận sàn đấu + Áo thun VCT phiên bản giới hạn + Cơ hội Meet & Greet cùng các tuyển thủ sau trận đấu.
+
+Lưu ý: Vé là vé điện tử có mã QR định danh, khán giả vui lòng chuẩn bị CCCD khi làm thủ tục check-in tại cổng.`
+        }
+      ];
+
+      async function loadBannerArticle(slotNumber) {
+        let banners = null;
+
+        // 1. Thử Supabase
+        const vctSupa = await waitForSupabase(5000);
+        if (vctSupa) {
+          try {
+            const { data, error } = await vctSupa
+              .from('community_banners')
+              .select('*')
+              .eq('slot', Number(slotNumber))
+              .maybeSingle();
+            if (!error && data) {
+              banners = [data];
+            }
+          } catch(e) {}
+        }
+
+        // 2. Thử localStorage
+        if (!banners) {
+          try {
+            const stored = localStorage.getItem('vct_community_banners');
+            if (stored) {
+              const parsed = JSON.parse(stored);
+              if (Array.isArray(parsed)) banners = parsed;
+            }
+          } catch(e) {}
+        }
+
+        // 3. Fallback default
+        if (!Array.isArray(banners) || banners.length === 0) {
+          banners = COMMUNITY_BANNERS_DEFAULT;
+        }
+
+        const banner = banners.find(b => String(b.slot) === String(slotNumber)) || banners[Number(slotNumber) - 1] || banners[0];
+        if (!banner) {
+          document.getElementById('loading-skeleton').classList.add('hidden');
+          document.getElementById('error-state').classList.remove('hidden');
+          return;
+        }
+
+        // Đưa banner vào khuôn khổ article
+        const article = {
+          id: 'banner-' + (banner.slot || slotNumber),
+          title: banner.title || 'Tiêu Điểm Cộng Đồng',
+          thumbnail: banner.image || fallbackImage,
+          category: banner.label || 'TIÊU ĐIỂM CỘNG ĐỒNG',
+          content: banner.content || `Nội dung chi tiết về ${banner.title || 'tiêu điểm cộng đồng'} đang được cập nhật. Vui lòng quay lại sau!`,
+          created_at: new Date().toISOString()
+        };
+
+        renderArticle(article);
+      }
+
+      async function loadArticle() {
+        const params = new URLSearchParams(window.location.search);
+        const bannerSlot = params.get('bannerSlot');
+        const articleId = params.get('id');
+
+        // Trường hợp 1: Nhấn vào Banner Tiêu Điểm Cộng Đồng
+        if (bannerSlot) {
+          await loadBannerArticle(bannerSlot);
+          return;
+        }
+
+        // Trường hợp 2: Bài viết tin tức thường
         if (!articleId) {
           document.getElementById('loading-skeleton').classList.add('hidden');
           document.getElementById('error-state').classList.remove('hidden');
           return;
         }
 
-        const vctSupa = window.vctSupabase;
+        const vctSupa = await waitForSupabase();
         if (!vctSupa) {
-          // Supabase chưa kết nối, thử lại sau 500ms
-          setTimeout(loadArticle, 500);
+          document.getElementById('loading-skeleton').classList.add('hidden');
+          const errorMsg = document.querySelector('#error-state p');
+          if (errorMsg) errorMsg.textContent = 'Không thể kết nối với máy chủ tin tức. Vui lòng kiểm tra lại mạng.';
+          document.getElementById('error-state').classList.remove('hidden');
           return;
         }
 
         try {
+          // Thử tìm theo id số trước nếu là số, hoặc id chuỗi
+          let queryId = articleId;
+          if (!isNaN(articleId) && !isNaN(parseFloat(articleId))) {
+            queryId = Number(articleId);
+          }
+
           const { data, error } = await vctSupa
             .from('news')
             .select('id, title, thumbnail, category, content, created_at')
-            .eq('id', articleId)
-            .single();
+            .eq('id', queryId)
+            .maybeSingle();
 
-          if (error || !data) throw error || new Error('Not found');
+          if (error || !data) {
+            // Nếu không tìm thấy bằng số thì thử lại bằng chuỗi
+            const retry = await vctSupa
+              .from('news')
+              .select('id, title, thumbnail, category, content, created_at')
+              .eq('id', String(articleId))
+              .maybeSingle();
+            if (retry.error || !retry.data) throw error || retry.error || new Error('Not found');
+            renderArticle(retry.data);
+            return;
+          }
 
           renderArticle(data);
         } catch (err) {
@@ -475,7 +629,11 @@
         }
       }
 
-      window.addEventListener('DOMContentLoaded', loadArticle);
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadArticle);
+      } else {
+        loadArticle();
+      }
     </script>
   </body>
 </html>
