@@ -504,9 +504,7 @@
             document.getElementById('news-id').value = '';
             document.getElementById('news-title').value = '';
             document.getElementById('news-thumbnail').value = '';
-            if (quill) {
-                quill.root.innerHTML = '';
-            }
+            if (quill) { quill.root.innerHTML = ''; }
             document.getElementById('form-title').textContent = "Thêm bài viết mới";
             document.getElementById('view-list').classList.add('hidden');
             document.getElementById('view-form').classList.remove('hidden');
@@ -516,6 +514,241 @@
             document.getElementById('view-form').classList.add('hidden');
             document.getElementById('view-list').classList.remove('hidden');
         }
+
+        // ==================================================
+        // CHUYỂN TAB SIDEBAR
+        // ==================================================
+        function switchTab(tab) {
+            // Ẩn tất cả view
+            ['view-list','view-form','view-banners'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+            // Bỏ active tất cả sidebar link
+            ['tab-news-link','tab-banners-link'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.className = 'flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg font-bold transition'; }
+            });
+
+            if (tab === 'news') {
+                document.getElementById('view-list').classList.remove('hidden');
+                const link = document.getElementById('tab-news-link');
+                if (link) link.className = 'flex items-center space-x-3 bg-vct-red/10 text-vct-red px-4 py-3 rounded-lg font-bold';
+                document.querySelector('header h1').textContent = 'QUẢN LÝ BÀI VIẾT';
+            } else if (tab === 'banners') {
+                document.getElementById('view-banners').classList.remove('hidden');
+                const link = document.getElementById('tab-banners-link');
+                if (link) link.className = 'flex items-center space-x-3 bg-vct-red/10 text-vct-red px-4 py-3 rounded-lg font-bold';
+                document.querySelector('header h1').textContent = 'BANNER CỘNG ĐỒNG';
+                loadBanners();
+            }
+        }
+
+        // ==================================================
+        // QUẢN LÝ BANNER CỘNG ĐỒNG
+        // ==================================================
+
+        // Dữ liệu mặc định nếu chưa có gì trong DB/localStorage
+        const DEFAULT_BANNERS = [
+            {
+                slot: 1,
+                label: "NHẠC CHỦ ĐỀ",
+                title: "SUPER HUMAN // STAGE 2",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCncmBXe_yrYb5GQTnHVXq2DrO09YTLSO4P8D-bAB2Gy_lFG7F2sBZp7v1WXztbJteEl707ESah8guzNXa15pTDfThImQe8AmyVlG9RHVQLXk7x8JEE06Wo6J8IAzrq5ggqs53qXdBoi38xMPDT78QCW8ZPop78qT4ohiu2snO7Vdx3X59HyUYCEJEi9tAmVwoD-HqdKXgTNIzQ82llRczp7PXAFAuK9Op0u_vBAJ1g3tyHvrdWMwWY",
+                color: "text-riotRed"
+            },
+            {
+                slot: 2,
+                label: "QUY ĐỊNH TỔ CHỨC",
+                title: "VALORANT COMMUNITY GUIDELINES",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDXUtkgbhrNSberkGY19S5zqMzUINLavJ5G9vM881f-got8Nb2q79Ds0Ulk1MPGfIOn_IB9MH3zch5KmxqqJuwg-KjvZOBVtxr3xNK7GlbSziSIe8AFM5wxwhtl4MxkqYNlPmPJMwq1CV5vPQyn5DYf21T2VojkwKDW92CzySdef6KNsQnO2Ben-gtlgtcpu4xMiPOns0Xy-1FNBAtKeG5nBZ3Fj5K6PpAU5Pl1tFS31c8B2fKGTGi4",
+                color: "text-amber-400"
+            },
+            {
+                slot: 3,
+                label: "MỞ BÁN VÉ",
+                title: "VÉ THAM DỰ GROUP STAGE",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBHQucBgrajbgC7IIsF9DHQsb_HajO7SsA5dwOCyWDrS2updSbvJHi2OWBpdZfRmNvt6nw0RTPlxWZv2Z6dvF4EGyM1yrXMEjsthI7eo6eiuJ0o8kLc3vsjTElyPQareJ2bfiAiYPY99w0AmlnDnSVrYZWNThg20G542G5AN-rPxvxH13EKSLjyllxsYv8TasZg7gCIkHglpCwXqHNtpTaNWMyCEqs2uDTo5cYAAYFDGwGD_qZCova4",
+                color: "text-cyan-400"
+            }
+        ];
+
+        let bannersCache = [];
+
+        // Đọc banner: thử Supabase trước, fallback localStorage, rồi default
+        async function loadBanners() {
+            const listEl = document.getElementById('banner-list');
+            if (!listEl) return;
+            listEl.innerHTML = '<p class="text-gray-400 text-center py-8">Đang tải dữ liệu banner...</p>';
+
+            let banners = null;
+
+            // 1. Thử đọc từ Supabase (bảng community_banners)
+            if (vctSupa) {
+                try {
+                    const { data, error } = await vctSupa
+                        .from('community_banners')
+                        .select('*')
+                        .order('slot', { ascending: true });
+                    if (!error && Array.isArray(data) && data.length > 0) {
+                        banners = data;
+                    }
+                } catch(e) { /* bảng chưa tồn tại, bỏ qua */ }
+            }
+
+            // 2. Fallback: localStorage
+            if (!banners) {
+                try {
+                    const stored = localStorage.getItem('vct_community_banners');
+                    if (stored) banners = JSON.parse(stored);
+                } catch(e) {}
+            }
+
+            // 3. Fallback: dữ liệu mặc định
+            if (!Array.isArray(banners) || banners.length === 0) {
+                banners = DEFAULT_BANNERS;
+            }
+
+            bannersCache = banners;
+            renderBannerList(banners);
+        }
+
+        // Màu nhãn sang tên đẹp
+        const COLOR_NAMES = {
+            'text-riotRed': { label: 'Đỏ', hex: '#FF4655' },
+            'text-amber-400': { label: 'Vàng', hex: '#FBBF24' },
+            'text-cyan-400': { label: 'Xanh lam', hex: '#22D3EE' },
+            'text-green-400': { label: 'Xanh lá', hex: '#4ADE80' },
+            'text-purple-400': { label: 'Tím', hex: '#C084FC' },
+            'text-white': { label: 'Trắng', hex: '#FFFFFF' }
+        };
+
+        function renderBannerList(banners) {
+            const listEl = document.getElementById('banner-list');
+            listEl.innerHTML = '';
+            banners.forEach((b, i) => {
+                const colorInfo = COLOR_NAMES[b.color] || { label: b.color, hex: '#ffffff' };
+                const card = document.createElement('div');
+                card.className = 'bg-vct-cardBg border border-vct-borderDark rounded-lg overflow-hidden flex flex-col md:flex-row gap-0';
+                card.innerHTML = `
+                    <div class="relative w-full md:w-56 h-36 md:h-auto shrink-0 bg-[#111] overflow-hidden">
+                        <img src="${b.image || ''}" alt="${b.title || ''}"
+                            class="w-full h-full object-cover"
+                            onerror="this.src='https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltc18991475c4ab9bb/644ab6903f7a111b7dfb07ca/VCT23_Masters_Tokyo_Logo_v2.jpg'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none"></div>
+                        <span class="absolute bottom-2 left-3 text-[10px] font-black uppercase tracking-wider"
+                            style="color:${colorInfo.hex}">${b.label || ''}</span>
+                    </div>
+                    <div class="flex-1 p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Banner ${b.slot || (i+1)}</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded font-bold" style="background:${colorInfo.hex}22; color:${colorInfo.hex}">
+                                    ${colorInfo.label}
+                                </span>
+                            </div>
+                            <p class="font-black text-white text-base uppercase tracking-tight">${b.title || '(Chưa có tiêu đề)'}</p>
+                            <p class="text-xs text-gray-500 mt-1 truncate">${b.image ? b.image.substring(0, 60) + '...' : 'Chưa có ảnh'}</p>
+                        </div>
+                        <button onclick="editBanner(${i})"
+                            class="mt-3 self-start bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 border border-blue-600/40 font-bold text-xs px-4 py-2 rounded transition">
+                            <i class="fas fa-edit mr-1"></i> Chỉnh sửa
+                        </button>
+                    </div>`;
+                listEl.appendChild(card);
+            });
+
+            // Thêm chú thích lưu ý
+            const note = document.createElement('div');
+            note.className = 'mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded text-xs text-amber-300';
+            note.innerHTML = '<i class="fas fa-info-circle mr-1"></i> Thay đổi banner sẽ được lưu vào <strong>localStorage</strong> (dùng ngay) hoặc <strong>Supabase</strong> nếu bảng <code>community_banners</code> đã được tạo.';
+            listEl.appendChild(note);
+        }
+
+        function editBanner(index) {
+            const b = bannersCache[index];
+            if (!b) return;
+            document.getElementById('banner-index').value = index;
+            document.getElementById('banner-label').value = b.label || '';
+            document.getElementById('banner-title').value = b.title || '';
+            document.getElementById('banner-image').value = b.image || '';
+            document.getElementById('banner-color').value = b.color || 'text-riotRed';
+            document.getElementById('banner-form-title').textContent = 'Chỉnh sửa Banner ' + (b.slot || (index+1));
+
+            // Cập nhật preview ảnh
+            updateBannerPreview();
+
+            document.getElementById('banner-form').classList.remove('hidden');
+            document.getElementById('banner-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function updateBannerPreview() {
+            const imgUrl = document.getElementById('banner-image').value.trim();
+            let previewEl = document.getElementById('banner-img-preview');
+            if (!previewEl) {
+                const container = document.getElementById('banner-image').parentElement;
+                previewEl = document.createElement('div');
+                previewEl.id = 'banner-img-preview';
+                previewEl.className = 'mt-2 rounded overflow-hidden h-32 bg-[#111] relative';
+                container.appendChild(previewEl);
+            }
+            previewEl.innerHTML = imgUrl
+                ? `<img src="${imgUrl}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<p class=\\'text-red-400 text-xs p-2\\'>Link ảnh không hợp lệ</p>'">`
+                : '<p class="text-gray-500 text-xs p-3">Nhập link ảnh để xem trước</p>';
+        }
+
+        // Gắn sự kiện live preview cho input ảnh banner
+        document.addEventListener('DOMContentLoaded', () => {
+            const imgInput = document.getElementById('banner-image');
+            if (imgInput) imgInput.addEventListener('input', updateBannerPreview);
+        });
+
+        function closeBannerForm() {
+            document.getElementById('banner-form').classList.add('hidden');
+        }
+
+        async function saveBanner() {
+            const index = parseInt(document.getElementById('banner-index').value);
+            const label = document.getElementById('banner-label').value.trim();
+            const title = document.getElementById('banner-title').value.trim();
+            const image = document.getElementById('banner-image').value.trim();
+            const color = document.getElementById('banner-color').value;
+
+            if (!title) { alert('Vui lòng nhập tiêu đề banner!'); return; }
+
+            bannersCache[index] = { ...bannersCache[index], label, title, image, color };
+
+            // 1. Cố lưu lên Supabase
+            let savedToSupabase = false;
+            if (vctSupa) {
+                try {
+                    const b = bannersCache[index];
+                    const payload = { slot: b.slot || (index+1), label, title, image, color };
+                    // Upsert theo slot
+                    const { error } = await vctSupa
+                        .from('community_banners')
+                        .upsert(payload, { onConflict: 'slot' });
+                    if (!error) savedToSupabase = true;
+                } catch(e) {}
+            }
+
+            // 2. Luôn lưu localStorage (backup)
+            try {
+                localStorage.setItem('vct_community_banners', JSON.stringify(bannersCache));
+            } catch(e) {}
+
+            closeBannerForm();
+            renderBannerList(bannersCache);
+
+            const msg = savedToSupabase
+                ? '✅ Đã lưu banner lên Supabase thành công!'
+                : '✅ Đã lưu banner vào localStorage (sẽ hiển thị ngay trên trang Tin Tức).\n\nĐể lưu vĩnh viễn, hãy tạo bảng community_banners trên Supabase.';
+            alert(msg);
+        }
+
+        // ==================================================
+        // CÁC HÀM ĐIỀU KHIỂN FORM TIN TỨC
+        // ==================================================
 
         // Xử lý nút Đăng xuất
         const btnLogout = document.getElementById('btn-logout');
