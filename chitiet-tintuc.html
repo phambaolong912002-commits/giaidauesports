@@ -139,83 +139,164 @@
     <!-- Watermark -->
     <div aria-hidden="true" class="watermark-vct">INT</div>
 
-    <!-- ===== HEADER ===== -->
-    <header class="sticky top-0 z-50 bg-[#0c1014]/98 backdrop-blur-md border-b border-[#21262d] text-white select-none">
-      <div class="max-w-[1580px] mx-auto px-4 lg:px-7 h-16 flex items-center justify-between">
-        <!-- Left: Logo + Nav -->
-        <div class="flex items-center space-x-3 lg:space-x-5">
-          <a class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors py-1 group shrink-0" href="index.html">
-            <img
-              class="w-5 h-5 shrink-0"
-              src="assets/riot-games-mark.svg"
-              alt=""
-            />
-            <div class="flex flex-col font-bold text-[11px] leading-[1.05] tracking-wider uppercase font-sans text-white">
-              <span>RIOT</span><span>GAMES</span>
+    <!-- BEGIN: MainNavbar -->
+    <header
+      class="relative h-[74px] bg-[#09090b] border-b border-[#1a1a20] flex items-center justify-between px-4 lg:px-7 sticky top-0 z-[9999]"
+    >
+      <!-- Left: Logo Group -->
+      <div class="flex items-center space-x-4 shrink-0">
+        <a
+          href="index.html"
+          class="flex items-center space-x-2 text-white hover:text-[#ff4655] transition-colors group"
+        >
+          <img
+            class="w-5 h-5 shrink-0 transition-opacity group-hover:opacity-80"
+            src="assets/riot-games-mark.svg"
+            alt="Riot Games"
+          />
+          <span
+            class="font-display font-black tracking-wider text-sm uppercase text-white"
+            >RIOT GAMES</span
+          >
+        </a>
+        <div class="h-5 w-[1px] bg-zinc-700"></div>
+        <a href="index.html" class="flex items-center space-x-2.5 group">
+          <img
+            class="w-6 h-6 shrink-0 transition-transform duration-200 group-hover:scale-105"
+            src="assets/dautruong-esports-mark.svg"
+            alt="DauTruongEsports"
+          />
+          <div class="flex flex-col justify-center">
+            <div class="flex items-center space-x-1.5 leading-none">
+              <span
+                class="text-sm font-black tracking-wider uppercase text-white font-display"
+                >DauTruongEsports</span
+              >
+              <span
+                class="text-[9px] font-black uppercase text-[#ff4655] bg-[#ff4655]/10 border border-[#ff4655]/40 px-1 py-0.5 rounded font-mono leading-none"
+                >VCT</span
+              >
             </div>
-            <svg class="w-3 h-3 text-neutral-400 group-hover:text-white shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+            <span
+              class="text-[9px] font-extrabold tracking-[0.22em] text-gray-400 uppercase font-mono leading-none mt-1"
+              >CHAMPIONS TOUR</span
+            >
+          </div>
+        </a>
+      </div>
+
+      <!-- Center: Main Navigation Menu (Được đưa ra giữa) -->
+      <nav
+        class="hidden md:flex items-center space-x-6 lg:space-x-8 text-[12px] font-bold tracking-wider uppercase h-full absolute left-1/2 -translate-x-1/2 pointer-events-auto"
+      >
+        <a
+          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          href="index.html"
+          >TRANG CHỦ</a
+        >
+        <a
+          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          href="xephangsucmanh.html"
+          >XẾP HẠNG SỨC MẠNH</a
+        >
+        <a
+          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          href="dudoan.html"
+          >DỰ ĐOÁN</a
+        >
+        <a
+          class="relative text-white font-extrabold flex items-center h-full px-1.5 transition-colors"
+          href="tintuc.html"
+        >
+          <span>TIN TỨC</span>
+          <span
+            class="absolute bottom-0 left-0 w-full h-[2px] bg-[#ff4655]"
+          ></span>
+        </a>
+      </nav>
+
+      <!-- Right Controls -->
+      <div class="flex items-center space-x-3 shrink-0">
+        <a
+          href="tournament-register.html"
+          class="hidden sm:inline-flex border border-[#ff4655] text-[#ff4655] hover:bg-[#ff4655] hover:text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-4 py-[9px] rounded transition-all duration-200"
+        >
+          ĐĂNG KÝ THI ĐẤU
+        </a>
+        <a
+          id="loginLink"
+          href="login.html"
+          class="bg-[#ff4655] hover:bg-[#c42636] border border-transparent text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-6 py-[9px] rounded transition-all duration-200 shadow-sm"
+        >
+          ĐĂNG NHẬP
+        </a>
+        <div id="accountMenu" class="relative hidden">
+          <button
+            id="accountButton"
+            type="button"
+            aria-expanded="false"
+            aria-controls="accountDropdown"
+            class="flex items-center gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-3 py-2 text-xs font-bold text-white transition-colors"
+          >
+            <span
+              id="userAvatarIcon"
+              class="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff4655] text-white font-black text-xs uppercase"
+              aria-hidden="true"
+            >
+              U
+            </span>
+            <span id="accountName" class="hidden sm:inline font-sans">TÀI KHOẢN</span>
+            <span id="adminBadge" class="hidden bg-[#ff4655] text-[10px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>
+            <svg
+              class="h-3 w-3 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m6 9 6 6 6-6"
+              />
             </svg>
-          </a>
-          <div class="h-6 w-px bg-neutral-800"></div>
-          <a class="flex items-center space-x-2.5 group shrink-0" href="index.html">
-            <img
-              class="w-6 h-6 shrink-0"
-              src="assets/dautruong-esports-mark.svg"
-              alt=""
-            />
-            <div class="flex flex-col justify-center">
-              <div class="flex items-center space-x-1.5 leading-none">
-                <span class="font-sans font-black tracking-tight text-[15px] sm:text-[16px] text-white uppercase">DAUTRUONGESPORTS</span>
-                <span class="border border-riotRed text-riotRed text-[9px] font-extrabold px-1.5 py-[1px] rounded-full tracking-wider leading-none bg-riotRed/10">VCT</span>
-              </div>
-              <span class="text-[9px] text-neutral-400 tracking-[0.2em] font-bold uppercase mt-1 leading-none font-sans">CHAMPIONS TOUR</span>
-            </div>
-          </a>
-          <!-- Desktop Nav -->
-          <nav class="hidden lg:flex items-center space-x-4 xl:space-x-7 ml-4 text-[13px] font-bold uppercase tracking-wider font-esports text-neutral-300">
-            <a class="hover:text-white transition-colors" href="index.html">TRANG CHỦ</a>
-            <a class="hover:text-white transition-colors" href="xephangsucmanh.html">XẾP HẠNG SỨC MẠNH</a>
-            <a class="hover:text-white transition-colors" href="dudoan.html">DỰ ĐOÁN</a>
-            <a class="text-white relative pb-1 after:absolute after:bottom-[-20px] after:left-0 after:w-full after:h-[3px] after:bg-riotRed" href="tintuc.html">TIN TỨC</a>
-          </nav>
-        </div>
-        <!-- Right: Lang + Auth -->
-        <div class="flex items-center space-x-4">
-          <button class="flex items-center space-x-1.5 text-neutral-300 hover:text-white transition-colors p-1" title="Ngôn ngữ: Tiếng Việt">
-            <svg class="w-4 h-4 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-            </svg>
-            <span class="text-xs font-semibold text-neutral-300">VN</span>
           </button>
-          <a id="loginLink" class="bg-riotRed hover:bg-[#e03a48] text-white font-esports font-bold text-xs px-5 py-2 rounded-[3px] shadow transition-all uppercase tracking-wider flex items-center justify-center" href="login.html">
-            ĐĂNG NHẬP
-          </a>
-          <div id="accountMenu" class="relative hidden">
-            <button id="accountButton" type="button" aria-expanded="false" aria-controls="accountDropdown"
-              class="flex items-center gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-3 py-1.5 text-xs font-bold text-white transition-colors">
-              <span id="userAvatarIcon" class="flex h-7 w-7 items-center justify-center rounded-full bg-riotRed text-white font-black text-xs uppercase" aria-hidden="true">U</span>
-              <span id="accountName" class="hidden sm:inline font-esports">TÀI KHOẢN</span>
-              <span id="adminBadge" class="hidden bg-riotRed text-[10px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>
-              <svg class="h-3 w-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6" />
-              </svg>
-            </button>
-            <div id="accountDropdown" class="absolute right-0 mt-2 hidden w-52 rounded-lg border border-white/10 bg-[#151518] p-1.5 shadow-2xl z-50 text-left font-sans">
-              <div id="dropdownUserInfo" class="px-3 py-2 border-b border-white/10 mb-1 text-xs">
-                <p id="dropdownUserName" class="font-bold text-white truncate">Tài khoản</p>
-                <p id="dropdownUserEmail" class="text-[11px] text-gray-400 truncate"></p>
-              </div>
-              <a id="adminDashboardLink" href="admin.html" class="hidden items-center gap-2 rounded px-3 py-2 text-xs font-black text-riotRed hover:bg-riotRed/15 transition">⚡ ADMIN DASHBOARD</a>
-              <a href="profile.html" class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition">HỒ SƠ NGƯỜI DÙNG</a>
-              <a href="settings.html" class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition">CÀI ĐẶT</a>
-              <button id="logoutButton" type="button" class="block w-full rounded px-3 py-2 text-left text-xs font-bold text-riotRed hover:bg-riotRed/10 transition">ĐĂNG XUẤT</button>
+          <div
+            id="accountDropdown"
+            class="absolute right-0 mt-2 hidden w-52 rounded-lg border border-white/10 bg-[#151518] p-1.5 shadow-2xl z-50 text-left font-sans"
+          >
+            <div id="dropdownUserInfo" class="px-3 py-2 border-b border-white/10 mb-1 text-xs">
+              <p id="dropdownUserName" class="font-bold text-white truncate">Tài khoản</p>
+              <p id="dropdownUserEmail" class="text-[11px] text-gray-400 truncate"></p>
             </div>
+            <a
+              id="adminDashboardLink"
+              href="admin.html"
+              class="hidden items-center gap-2 rounded px-3 py-2 text-xs font-black text-[#ff4655] hover:bg-[#ff4655]/15 transition"
+              >⚡ ADMIN DASHBOARD</a
+            >
+            <a
+              href="profile.html"
+              class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition"
+              >HỒ SƠ NGƯỜI DÙNG</a
+            >
+            <a
+              href="settings.html"
+              class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition"
+              >CÀI ĐẶT</a
+            >
+            <button
+              id="logoutButton"
+              type="button"
+              class="block w-full rounded px-3 py-2 text-left text-xs font-bold text-[#ff4655] hover:bg-[#ff4655]/10 transition"
+            >
+              ĐĂNG XUẤT
+            </button>
           </div>
         </div>
       </div>
     </header>
-    <!-- ===== END HEADER ===== -->
+    <!-- END: MainNavbar -->
 
     <!-- ===== MAIN ===== -->
     <main class="flex-1 w-full relative z-10">

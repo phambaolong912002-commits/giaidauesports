@@ -34,6 +34,7 @@
                 "Roboto",
                 "sans-serif",
               ],
+              display: ["Oswald", "Impact", "sans-serif"],
             },
           },
         },
@@ -75,210 +76,164 @@
   <body
     class="min-h-screen flex flex-col bg-[#0b0e13] text-[#e6e8ea] antialiased selection:bg-[#ff4655] selection:text-white"
   >
-    <!-- BEGIN: TopNavigationBar -->
+    <!-- BEGIN: MainNavbar -->
     <header
-      class="w-full bg-[#05070a] border-b border-[#151921] sticky top-0 z-50"
+      class="relative h-[74px] bg-[#09090b] border-b border-[#1a1a20] flex items-center justify-between px-4 lg:px-7 sticky top-0 z-[9999]"
     >
-      <div
-        class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between"
-      >
-        <!-- Brand Logos and Primary Navigation Links -->
-        <div class="flex items-center space-x-5 lg:space-x-7">
-          <!-- Brand Group: Riot Games & DAUTRUONGESPORTS -->
-          <div class="flex items-center space-x-4 pr-1">
-            <!-- Riot Games Fist Icon + Wordmark with Caret -->
-            <a
-              class="flex items-center space-x-1.5 hover:opacity-80 transition-opacity text-white group"
-              href="index.html"
-              title="Riot Games"
-            >
-              <img
-                class="w-4 h-4 shrink-0"
-                src="assets/riot-games-mark.svg"
-                alt=""
-              />
+      <!-- Left: Logo Group -->
+      <div class="flex items-center space-x-4 shrink-0">
+        <a
+          href="index.html"
+          class="flex items-center space-x-2 text-white hover:text-[#ff4655] transition-colors group"
+        >
+          <img
+            class="w-5 h-5 shrink-0 transition-opacity group-hover:opacity-80"
+            src="assets/riot-games-mark.svg"
+            alt="Riot Games"
+          />
+          <span
+            class="font-display font-black tracking-wider text-sm uppercase text-white"
+            >RIOT GAMES</span
+          >
+        </a>
+        <div class="h-5 w-[1px] bg-zinc-700"></div>
+        <a href="index.html" class="flex items-center space-x-2.5 group">
+          <img
+            class="w-6 h-6 shrink-0 transition-transform duration-200 group-hover:scale-105"
+            src="assets/dautruong-esports-mark.svg"
+            alt="DauTruongEsports"
+          />
+          <div class="flex flex-col justify-center">
+            <div class="flex items-center space-x-1.5 leading-none">
               <span
-                class="font-extrabold text-[12px] tracking-wider uppercase text-white font-sans"
-                >RIOT GAMES</span
+                class="text-sm font-black tracking-wider uppercase text-white font-display"
+                >DauTruongEsports</span
               >
-              <svg
-                class="w-3 h-3 text-white/70 group-hover:text-white transition-colors"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                viewBox="0 0 24 24"
+              <span
+                class="text-[9px] font-black uppercase text-[#ff4655] bg-[#ff4655]/10 border border-[#ff4655]/40 px-1 py-0.5 rounded font-mono leading-none"
+                >VCT</span
               >
-                <path
-                  d="M19 9l-7 7-7-7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
-              </svg>
-            </a>
-            <!-- Subtle vertical divider -->
-            <div class="h-5 w-[1px] bg-[#222834]"></div>
-            <!-- Tour Section: VCT Logo + DAUTRUONGESPORTS + VCT Pill + Subtitle -->
-            <div class="flex items-center space-x-2.5">
-              <!-- Red VCT Spark -->
-              <a
-                class="flex items-center group shrink-0"
-                href="index.html"
-                title="VALORANT Champions Tour"
-              >
-                <img
-                  class="w-6 h-6 group-hover:scale-105 transition-transform"
-                  src="assets/dautruong-esports-mark.svg"
-                  alt=""
-                />
-              </a>
-              <div class="flex flex-col justify-center leading-none">
-                <div class="flex items-center space-x-1.5">
-                  <span
-                    class="text-white font-black text-[13px] tracking-tight uppercase"
-                    >DAUTRUONGESPORTS</span
-                  >
-                  <span
-                    class="border border-[#e11d48] text-[#ff4655] text-[9px] font-bold px-1 py-0.2 rounded tracking-tighter scale-90 inline-flex items-center justify-center"
-                    >VCT</span
-                  >
-                </div>
-                <span
-                  class="text-[9px] text-[#8e98a8] tracking-[0.16em] uppercase font-semibold mt-0.5"
-                  >CHAMPIONS TOUR</span
-                >
-              </div>
             </div>
+            <span
+              class="text-[9px] font-extrabold tracking-[0.22em] text-gray-400 uppercase font-mono leading-none mt-1"
+              >CHAMPIONS TOUR</span
+            >
           </div>
-          <!-- Desktop Navigation Items (Vietnamese) -->
-          <nav
-            aria-label="Main Navigation"
-            class="hidden md:flex items-center space-x-6 text-[12px] tracking-wide font-bold uppercase"
-          >
-            <!-- TRANG CHỦ with red bottom indicator -->
-            <a
-              class="text-white border-[#ff4655] pb-0.5 pt-0.5 tracking-wide"
-              href="index.html"
-              >TRANG CHỦ</a
-            >
-            <!-- XẾP HẠNG SỨC MẠNH -->
-            <a
-              class="text-white border-[#ff4655] pb-0.5 pt-0.5 tracking-wide"
-              href="xephangsucmanh.html"
-              >XẾP HẠNG SỨC MẠNH</a
-            >
-            <!-- DỰ ĐOÁN -->
-            <a
-              class="text-[#96a0b2] hover:text-white transition-colors duration-150 py-1 tracking-wide"
-              href="dudoan.html"
-              >DỰ ĐOÁN</a
-            >
-            <!-- TIN TỨC -->
-            <a
-              class="text-[#96a0b2] hover:text-white transition-colors duration-150 py-1 tracking-wide"
-              href="tintuc.html"
-              >TIN TỨC</a
-            >
-          </nav>
-        </div>
-        <!-- Right Control Action Buttons -->
-        <div class="flex items-center space-x-3.5">
-          <!-- Language / Globe Button -->
+        </a>
+      </div>
+
+      <!-- Center: Main Navigation Menu (Được đưa ra giữa) -->
+      <nav
+        class="hidden md:flex items-center space-x-6 lg:space-x-8 text-[12px] font-bold tracking-wider uppercase h-full absolute left-1/2 -translate-x-1/2 pointer-events-auto"
+      >
+        <a
+          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          href="index.html"
+          >TRANG CHỦ</a
+        >
+        <a
+          class="relative text-white font-extrabold flex items-center h-full px-1.5 transition-colors"
+          href="xephangsucmanh.html"
+        >
+          <span>XẾP HẠNG SỨC MẠNH</span>
+          <span
+            class="absolute bottom-0 left-0 w-full h-[2px] bg-[#ff4655]"
+          ></span>
+        </a>
+        <a
+          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          href="dudoan.html"
+          >DỰ ĐOÁN</a
+        >
+        <a
+          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          href="tintuc.html"
+          >TIN TỨC</a
+        >
+      </nav>
+
+      <!-- Right Controls -->
+      <div class="flex items-center space-x-3 shrink-0">
+        <a
+          href="tournament-register.html"
+          class="hidden sm:inline-flex border border-[#ff4655] text-[#ff4655] hover:bg-[#ff4655] hover:text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-4 py-[9px] rounded transition-all duration-200"
+        >
+          ĐĂNG KÝ THI ĐẤU
+        </a>
+        <a
+          id="loginLink"
+          href="login.html"
+          class="bg-[#ff4655] hover:bg-[#c42636] border border-transparent text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-6 py-[9px] rounded transition-all duration-200 shadow-sm"
+        >
+          ĐĂNG NHẬP
+        </a>
+        <div id="accountMenu" class="relative hidden">
           <button
-            aria-label="Chọn Ngôn Ngữ"
-            class="text-[#96a0b2] hover:text-white p-1 rounded transition-colors"
+            id="accountButton"
             type="button"
+            aria-expanded="false"
+            aria-controls="accountDropdown"
+            class="flex items-center gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-3 py-2 text-xs font-bold text-white transition-colors"
           >
+            <span
+              id="userAvatarIcon"
+              class="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff4655] text-white font-black text-xs uppercase"
+              aria-hidden="true"
+            >
+              U
+            </span>
+            <span id="accountName" class="hidden sm:inline font-sans">TÀI KHOẢN</span>
+            <span id="adminBadge" class="hidden bg-[#ff4655] text-[10px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>
             <svg
-              class="w-4 h-4"
+              class="h-3 w-3 text-gray-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <circle cx="12" cy="12" r="9" stroke-width="1.8"></circle>
               <path
-                d="M3.6 9h16.8M3.6 15h16.8M12 3a14.5 14.5 0 010 18M12 3a14.5 14.5 0 000 18"
-                stroke-width="1.8"
-              ></path>
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m6 9 6 6 6-6"
+              />
             </svg>
           </button>
-          <!-- Red Login Button in Vietnamese -->
-          <a
-            id="loginLink"
-            href="login.html"
-            class="bg-[#ff4655] hover:bg-[#d63845] active:scale-95 text-white font-bold text-[11px] tracking-wider uppercase px-4 py-1.5 rounded transition duration-150 flex items-center justify-center"
+          <div
+            id="accountDropdown"
+            class="absolute right-0 mt-2 hidden w-52 rounded-lg border border-white/10 bg-[#151518] p-1.5 shadow-2xl z-50 text-left font-sans"
           >
-            ĐĂNG NHẬP
-          </a>
-
-          <!-- Menu tài khoản khi đã đăng nhập -->
-          <div id="accountMenu" class="relative hidden">
-            <button
-              id="accountButton"
-              type="button"
-              aria-expanded="false"
-              aria-controls="accountDropdown"
-              class="flex items-center gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-3 py-1.5 text-xs font-bold text-white transition-colors"
-            >
-              <span
-                id="userAvatarIcon"
-                class="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff4655] text-white font-black text-xs uppercase"
-                aria-hidden="true"
-              >
-                U
-              </span>
-              <span id="accountName" class="hidden sm:inline font-bold">TÀI KHOẢN</span>
-              <span id="adminBadge" class="hidden bg-[#ff4655] text-[10px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>
-              <svg
-                class="h-3 w-3 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m6 9 6 6 6-6"
-                />
-              </svg>
-            </button>
-            <div
-              id="accountDropdown"
-              class="absolute right-0 mt-2 hidden w-52 rounded-lg border border-white/10 bg-[#151518] p-1.5 shadow-2xl z-50 text-left font-sans"
-            >
-              <div id="dropdownUserInfo" class="px-3 py-2 border-b border-white/10 mb-1 text-xs">
-                <p id="dropdownUserName" class="font-bold text-white truncate">Tài khoản</p>
-                <p id="dropdownUserEmail" class="text-[11px] text-gray-400 truncate"></p>
-              </div>
-              <a
-                id="adminDashboardLink"
-                href="admin.html"
-                class="hidden items-center gap-2 rounded px-3 py-2 text-xs font-black text-[#ff4655] hover:bg-[#ff4655]/15 transition"
-                >⚡ ADMIN DASHBOARD</a
-              >
-              <a
-                href="profile.html"
-                class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition"
-                >HỒ SƠ NGƯỜI DÙNG</a
-              >
-              <a
-                href="settings.html"
-                class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition"
-                >CÀI ĐẶT</a
-              >
-              <button
-                id="logoutButton"
-                type="button"
-                class="block w-full rounded px-3 py-2 text-left text-xs font-bold text-[#ff4655] hover:bg-[#ff4655]/10 transition"
-              >
-                ĐĂNG XUẤT
-              </button>
+            <div id="dropdownUserInfo" class="px-3 py-2 border-b border-white/10 mb-1 text-xs">
+              <p id="dropdownUserName" class="font-bold text-white truncate">Tài khoản</p>
+              <p id="dropdownUserEmail" class="text-[11px] text-gray-400 truncate"></p>
             </div>
+            <a
+              id="adminDashboardLink"
+              href="admin.html"
+              class="hidden items-center gap-2 rounded px-3 py-2 text-xs font-black text-[#ff4655] hover:bg-[#ff4655]/15 transition"
+              >⚡ ADMIN DASHBOARD</a
+            >
+            <a
+              href="profile.html"
+              class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition"
+              >HỒ SƠ NGƯỜI DÙNG</a
+            >
+            <a
+              href="settings.html"
+              class="block rounded px-3 py-2 text-xs font-bold text-gray-200 hover:bg-white/10 transition"
+              >CÀI ĐẶT</a
+            >
+            <button
+              id="logoutButton"
+              type="button"
+              class="block w-full rounded px-3 py-2 text-left text-xs font-bold text-[#ff4655] hover:bg-[#ff4655]/10 transition"
+            >
+              ĐĂNG XUẤT
+            </button>
           </div>
         </div>
       </div>
     </header>
-    <!-- END: TopNavigationBar -->
+    <!-- END: MainNavbar -->
     <!-- BEGIN: HeroBanner -->
     <section
       class="relative w-full border-b border-[#1b222d] overflow-hidden bg-[#05070a]"
