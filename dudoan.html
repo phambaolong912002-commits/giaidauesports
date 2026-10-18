@@ -924,8 +924,8 @@
     <!-- SCRIPT XỬ LÝ LỰA CHỌN ĐỘI THẮNG & ĐẶT CƯỢC -->
     <script>
       (function() {
-        // 1. Danh sách 12 đội tuyển phong phú
-        const VCT_TEAMS = [
+        // 1. Danh sách mặc định 12 đội tuyển
+        const VCT_TEAMS_DEFAULT = [
           { id: "lev", name: "Leviatán", tag: "LEV", region: "Americas", seed: "#1 Americas", color: "#38bdf8", bg: "#0c2738", border: "#0284c7", winRate: "78%", odds: 1.85, star: "aspas" },
           { id: "prx", name: "Paper Rex", tag: "PRX", region: "Pacific", seed: "#1 Pacific", color: "#38bdf8", bg: "#1e1b4b", border: "#06b6d4", winRate: "75%", odds: 2.10, star: "f0rsakeN" },
           { id: "fnc", name: "Fnatic", tag: "FNC", region: "EMEA", seed: "#1 EMEA", color: "#fb923c", bg: "#431407", border: "#ea580c", winRate: "72%", odds: 2.25, star: "Boaster" },
@@ -939,6 +939,20 @@
           { id: "ns", name: "Nongshim RedForce", tag: "NS", region: "Pacific", seed: "Challengers", color: "#f87171", bg: "#350909", border: "#b91c1c", winRate: "52%", odds: 4.20, star: "Dext" },
           { id: "loud", name: "LOUD", tag: "LOUD", region: "Americas", seed: "#4 Americas", color: "#34d399", bg: "#064e3b", border: "#059669", winRate: "59%", odds: 3.40, star: "Less" }
         ];
+
+        // Load từ admin localStorage nếu có, fallback về mặc định
+        let VCT_TEAMS;
+        try {
+          const stored = localStorage.getItem('vct_prediction_teams');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            VCT_TEAMS = Array.isArray(parsed) && parsed.length > 0 ? parsed : VCT_TEAMS_DEFAULT;
+          } else {
+            VCT_TEAMS = VCT_TEAMS_DEFAULT;
+          }
+        } catch(e) {
+          VCT_TEAMS = VCT_TEAMS_DEFAULT;
+        }
 
         let currentSelectedTeam = null;
         let currentActiveRegion = "all";
@@ -1152,6 +1166,7 @@
             odds: currentSelectedTeam.odds,
             points: points,
             payout: payout,
+            timestamp: timeStr,
             createdAt: timeStr
           };
 
@@ -1260,5 +1275,61 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
     <script src="auth-nav.js"></script>
+
+    <!-- ======================================================== -->
+    <!-- ĐỒNG BỘ DỮ LIỆU DỰ ĐOÁN TỪ ADMIN LOCALSTORAGE           -->
+    <!-- ======================================================== -->
+    <script>
+    (function() {
+        // Cập nhật event cards dựa vào vct_prediction_events từ admin
+        function applyAdminPredictionEvents() {
+            try {
+                const stored = localStorage.getItem('vct_prediction_events');
+                if (!stored) return;
+                const events = JSON.parse(stored);
+                if (!Array.isArray(events) || events.length === 0) return;
+
+                // Cập nhật trạng thái event Shanghai (active event chính)
+                const shanghaiEvent = events.find(e => e.id === 'shanghai' || e.status === 'active');
+                if (shanghaiEvent) {
+                    // Cập nhật tiêu đề trong modal
+                    const modalBadge = document.querySelector('#pickEmsModal .text-\\[10px\\].font-black.uppercase.tracking-wider.px-2');
+                    if (modalBadge) modalBadge.textContent = shanghaiEvent.name.toUpperCase();
+
+                    // Cập nhật thông tin ngày trên event card
+                    const shanghaiBadge = document.querySelector('#eventCardShanghai h2');
+                    if (shanghaiBadge) shanghaiBadge.textContent = shanghaiEvent.name;
+                    const shanghaiBadgeDates = document.querySelector('#eventCardShanghai h2 + p');
+                    if (shanghaiBadgeDates) shanghaiBadgeDates.textContent = shanghaiEvent.dates;
+                }
+
+                // Cập nhật Santiago event
+                const santiagoEvent = events.find(e => e.id === 'santiago');
+                if (santiagoEvent) {
+                    const santiagoH2 = document.querySelector('#eventCardSantiago h2');
+                    if (santiagoH2) santiagoH2.textContent = santiagoEvent.name;
+                    const santiagoP = document.querySelector('#eventCardSantiago h2 + p');
+                    if (santiagoP) santiagoP.textContent = santiagoEvent.dates;
+                }
+
+                // Cập nhật London event
+                const londonEvent = events.find(e => e.id === 'london');
+                if (londonEvent) {
+                    const londonH2 = document.querySelector('#eventCardLondon h2');
+                    if (londonH2) londonH2.textContent = londonEvent.name;
+                    const londonP = document.querySelector('#eventCardLondon h2 + p');
+                    if (londonP) londonP.textContent = londonEvent.dates;
+                }
+            } catch(e) {
+                console.warn('Lỗi đồng bộ prediction events từ admin:', e);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', applyAdminPredictionEvents);
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'vct_prediction_events') applyAdminPredictionEvents();
+        });
+    })();
+    </script>
   </body>
 </html>

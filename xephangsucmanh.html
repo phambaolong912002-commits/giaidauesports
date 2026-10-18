@@ -372,7 +372,7 @@
                   </th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-[#181e2b] text-xs">
+              <tbody id="rankingsTableBody" class="divide-y divide-[#181e2b] text-xs">
                 <!-- ROW 1: LEVIATÁN -->
                 <tr
                   class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]"
@@ -1461,5 +1461,74 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
     <script src="auth-nav.js"></script>
+
+    <!-- ======================================================== -->
+    <!-- ĐỒNG BỘ BẢNG XẾP HẠNG TỪ ADMIN LOCALSTORAGE             -->
+    <!-- ======================================================== -->
+    <script>
+    function applyAdminRankingsData() {
+        try {
+            const stored = localStorage.getItem('vct_rankings_data');
+            if (!stored) return;
+            const list = JSON.parse(stored);
+            if (!Array.isArray(list) || list.length === 0) return;
+
+            const tbody = document.getElementById('rankingsTableBody');
+            if (!tbody) return;
+
+            tbody.innerHTML = list.map(t => {
+                let changeColor = 'text-[#64748b] bg-[#1f242d]';
+                if (t.change && t.change.startsWith('+')) changeColor = 'text-emerald-400 bg-emerald-500/10 font-bold';
+                else if (t.change && t.change.startsWith('-') && t.change !== '-') changeColor = 'text-red-400 bg-red-500/10 font-bold';
+
+                return `
+                  <tr class="hover:bg-[#151b26] transition-colors border-b border-[#181e2b]">
+                    <td class="py-3.5 px-3">
+                      <div class="flex items-center space-x-2">
+                        <span class="font-extrabold text-white text-sm w-4 text-center">${t.rank}</span>
+                        <span class="w-7 h-5 rounded ${changeColor} text-[11px] font-mono flex items-center justify-center">${t.change || '-'}</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-3">
+                      <div class="flex items-center space-x-3">
+                        <div class="w-7 h-7 rounded-full bg-[#1b2b3a] border border-[#2b4c6b] flex items-center justify-center p-1 shrink-0">
+                          <svg class="w-full h-full fill-[#38bdf8]" viewBox="0 0 24 24">
+                            <path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 3.5l5 3.1v6.8l-5 3.1-5-3.1V8.6l5-3.1z"></path>
+                          </svg>
+                        </div>
+                        <div>
+                          <div class="font-bold text-white hover:text-[#ff4655] cursor-pointer text-xs">${t.name}</div>
+                          <div class="text-[10px] text-[#718096]">${t.region || ''}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-3 font-bold text-white text-center">
+                      ${t.points} <span class="text-[10px] font-normal text-gray-400">đ</span>
+                    </td>
+                    <td class="py-3.5 px-3 text-center text-[#94a3b8]">
+                      ${t.wl || '0-0'} <span class="text-[10px] text-[#64748b]">${t.ratio || ''}</span>
+                    </td>
+                    <td class="py-3.5 px-3">
+                      <div class="flex items-center justify-center space-x-1.5">
+                        <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a220a] text-[#fbbf24] border border-[#854d0e] flex items-center gap-1">
+                          <span>✻</span> ${t.badge || 'Tham dự'}
+                        </span>
+                        <span class="w-5 h-5 rounded-full border border-[#242b38] flex items-center justify-center text-[9px] text-[#4b5563] font-mono">✻</span>
+                      </div>
+                    </td>
+                  </tr>
+                `;
+            }).join('');
+        } catch(e) {
+            console.warn("Lỗi đồng bộ BXH từ admin:", e);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', applyAdminRankingsData);
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'vct_rankings_data') applyAdminRankingsData();
+    });
+    </script>
   </body>
 </html>

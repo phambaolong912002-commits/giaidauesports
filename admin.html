@@ -50,11 +50,27 @@
             <a href="#" onclick="switchTab('banners'); return false;" id="tab-banners-link" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg font-bold transition">
                 <i class="fas fa-images w-5"></i> <span>Banner Cộng Đồng</span>
             </a>
-            <a href="tintuc.html" target="_blank" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg font-bold transition">
-                <i class="fas fa-external-link-alt w-5"></i> <span>Xem Trang Tin Tức</span>
+            <a href="#" onclick="switchTab('home'); return false;" id="tab-home-link" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg font-bold transition">
+                <i class="fas fa-desktop w-5"></i> <span>Quản lý Trang Chủ</span>
             </a>
-            <a href="index.html" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg font-bold transition">
-                <i class="fas fa-home w-5"></i> <span>Về Trang Chủ</span>
+            <a href="#" onclick="switchTab('rankings'); return false;" id="tab-rankings-link" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg font-bold transition">
+                <i class="fas fa-trophy w-5"></i> <span>Quản lý Xếp Hạng</span>
+            </a>
+            <a href="#" onclick="switchTab('predictions'); return false;" id="tab-predictions-link" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg font-bold transition">
+                <i class="fas fa-dice w-5"></i> <span>Quản lý Dự Đoán</span>
+            </a>
+            <div class="pt-2 border-t border-vct-borderDark my-2"></div>
+            <a href="index.html" target="_blank" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-2 rounded-lg font-medium text-xs transition">
+                <i class="fas fa-home w-4"></i> <span>Xem Trang Chủ</span>
+            </a>
+            <a href="xephangsucmanh.html" target="_blank" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-2 rounded-lg font-medium text-xs transition">
+                <i class="fas fa-chart-line w-4"></i> <span>Xem Bảng Xếp Hạng</span>
+            </a>
+            <a href="dudoan.html" target="_blank" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-2 rounded-lg font-medium text-xs transition">
+                <i class="fas fa-gamepad w-4"></i> <span>Xem Trang Dự Đoán</span>
+            </a>
+            <a href="tintuc.html" target="_blank" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-2 rounded-lg font-medium text-xs transition">
+                <i class="fas fa-external-link-alt w-4"></i> <span>Xem Trang Tin Tức</span>
             </a>
         </nav>
         <div class="p-4 border-t border-vct-borderDark text-center text-xs text-gray-500">
@@ -207,6 +223,525 @@
                     <div class="flex gap-3 pt-2">
                         <button onclick="saveBanner()" class="bg-vct-red hover:bg-red-600 text-white font-bold py-2 px-6 rounded transition">LƯU BANNER</button>
                         <button onclick="closeBannerForm()" class="border border-gray-600 text-gray-400 hover:text-white font-bold py-2 px-4 rounded transition">Hủy</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- MÀN HÌNH 4: QUẢN LÝ TRANG CHỦ              -->
+            <!-- ========================================== -->
+            <div id="view-home" class="hidden space-y-8">
+                <!-- Tiêu đề trang -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-vct-borderDark gap-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-white uppercase tracking-wider flex items-center gap-3">
+                            <i class="fas fa-desktop text-vct-red"></i> Quản Lý Nội Dung Trang Chủ
+                        </h2>
+                        <p class="text-xs text-gray-400 mt-1">Sửa & xóa thông tin Bản đồ thi đấu, Tuyển thủ MVP, và Các trận đấu trong ngày trên index.html</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="resetHomeDataToDefault()" class="border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-3 py-2 rounded text-xs font-bold transition">
+                            <i class="fas fa-undo mr-1"></i> Khôi phục mặc định
+                        </button>
+                        <a href="index.html" target="_blank" class="bg-vct-red hover:bg-red-600 text-white px-4 py-2 rounded text-xs font-bold transition inline-flex items-center">
+                            <i class="fas fa-external-link-alt mr-1.5"></i> Xem trang chủ
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PHẦN 1: BẢN ĐỒ THI ĐẤU & TỈ SỐ -->
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-5 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-vct-borderDark">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-4 bg-vct-red rounded-full"></span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wider">1. Bản Đồ Thi Đấu & Tỉ Số (Maps & Veto)</h3>
+                        </div>
+                        <button onclick="openHomeMapModal()" class="bg-vct-red hover:bg-red-600 text-white text-xs font-bold px-3 py-2 rounded transition flex items-center">
+                            <i class="fas fa-plus mr-1.5"></i> Thêm Bản Đồ
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-[#1c1c22] border-b border-vct-borderDark text-gray-400 uppercase tracking-wider">
+                                    <th class="p-3 w-16">Mã Map</th>
+                                    <th class="p-3">Tên Bản Đồ</th>
+                                    <th class="p-3">Lựa chọn (Pick)</th>
+                                    <th class="p-3 text-center">Tỉ Số</th>
+                                    <th class="p-3 text-center">Trạng Thái / Kết Quả</th>
+                                    <th class="p-3 text-center w-36">Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="home-maps-table-body" class="divide-y divide-vct-borderDark">
+                                <!-- Chèn bởi JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PHẦN 2: TUYỂN THỦ MVP TRẬN ĐẤU -->
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-5 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-vct-borderDark">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-4 bg-amber-400 rounded-full"></span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wider">2. Tuyển Thủ MVP Trận Đấu (Match MVP)</h3>
+                        </div>
+                        <span class="text-xs text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/30 font-bold">AWS Performance</span>
+                    </div>
+                    <form id="home-mvp-form" onsubmit="saveHomeMvp(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Tên Tuyển Thủ (*)</label>
+                            <input type="text" id="admin-mvp-name" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs focus:border-vct-red focus:outline-none" required placeholder="KR1STAL">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Viết Tắt Avatar (2 chữ cái)</label>
+                            <input type="text" id="admin-mvp-avatar" maxlength="3" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs focus:border-vct-red focus:outline-none" placeholder="KR">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Đặc Vụ Sử Dụng (Agent)</label>
+                            <input type="text" id="admin-mvp-agent" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs focus:border-vct-red focus:outline-none" placeholder="Jett">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">K / D / A (Hạ gục/Bị hạ/Hỗ trợ)</label>
+                            <input type="text" id="admin-mvp-kda" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs focus:border-vct-red focus:outline-none" placeholder="24 / 11 / 7">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Điểm ACS (*)</label>
+                            <input type="text" id="admin-mvp-acs" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs focus:border-vct-red focus:outline-none" placeholder="298">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Huy Hiệu (Badge)</label>
+                            <input type="text" id="admin-mvp-badge" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs focus:border-vct-red focus:outline-none" placeholder="TOP 1">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Ghi Chú Nguồn Đánh Giá</label>
+                            <input type="text" id="admin-mvp-note" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs focus:border-vct-red focus:outline-none" placeholder="Đánh giá hiệu suất bởi AWS">
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" class="w-full bg-vct-red hover:bg-red-600 text-white font-bold py-2.5 px-4 rounded text-xs transition">
+                                <i class="fas fa-save mr-1.5"></i> CẬP NHẬT MVP
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- PHẦN 3: CÁC TRẬN ĐẤU TIẾP THEO TRONG NGÀY -->
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-5 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-vct-borderDark">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-4 bg-cyan-400 rounded-full"></span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wider">3. Các Trận Đấu Tiếp Theo Trong Ngày (Upcoming Matches)</h3>
+                        </div>
+                        <button onclick="openHomeMatchModal()" class="bg-vct-red hover:bg-red-600 text-white text-xs font-bold px-3 py-2 rounded transition flex items-center">
+                            <i class="fas fa-plus mr-1.5"></i> Thêm Trận Đấu
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-[#1c1c22] border-b border-vct-borderDark text-gray-400 uppercase tracking-wider">
+                                    <th class="p-3">Giải Đấu</th>
+                                    <th class="p-3 text-center">Trạng Thái</th>
+                                    <th class="p-3">Đội 1</th>
+                                    <th class="p-3 text-center">VS</th>
+                                    <th class="p-3">Đội 2</th>
+                                    <th class="p-3 text-center">Giờ Đấu</th>
+                                    <th class="p-3 text-center w-36">Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="home-matches-table-body" class="divide-y divide-vct-borderDark">
+                                <!-- Chèn bởi JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- MÀN HÌNH 5: QUẢN LÝ XẾP HẠNG SỨC MẠNH      -->
+            <!-- ========================================== -->
+            <div id="view-rankings" class="hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-vct-borderDark gap-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-white uppercase tracking-wider flex items-center gap-3">
+                            <i class="fas fa-trophy text-amber-400"></i> Quản Lý Bảng Xếp Hạng Sức Mạnh
+                        </h2>
+                        <p class="text-xs text-gray-400 mt-1">Sửa điểm số, tỉ số thắng bại, thứ hạng và xóa đội tuyển trên trang xephangsucmanh.html</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="resetRankingsToDefault()" class="border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-3 py-2 rounded text-xs font-bold transition">
+                            <i class="fas fa-undo mr-1"></i> Khôi phục mặc định
+                        </button>
+                        <button onclick="openRankingsTeamModal()" class="bg-vct-red hover:bg-red-600 text-white px-4 py-2 rounded text-xs font-bold transition flex items-center">
+                            <i class="fas fa-plus mr-1.5"></i> Thêm Đội Tuyển Mới
+                        </button>
+                        <a href="xephangsucmanh.html" target="_blank" class="border border-vct-borderDark hover:border-white text-gray-300 hover:text-white px-3 py-2 rounded text-xs font-bold transition inline-flex items-center">
+                            <i class="fas fa-external-link-alt mr-1.5"></i> Xem BXH
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl overflow-hidden">
+                    <div class="p-4 bg-[#141419] border-b border-vct-borderDark flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="relative flex-1 max-w-sm">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-500 text-xs"></i>
+                            <input type="text" id="search-rankings-input" oninput="filterRankingsTable()" placeholder="Tìm kiếm tên đội hoặc khu vực..." class="w-full bg-[#1c1c22] border border-vct-borderDark rounded pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-vct-red">
+                        </div>
+                        <span id="rankings-count-badge" class="text-xs text-gray-400 font-medium">Tổng cộng: <b>0</b> đội tuyển</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-[#1c1c22] border-b border-vct-borderDark text-gray-400 uppercase tracking-wider">
+                                    <th class="p-3 w-16 text-center">Hạng</th>
+                                    <th class="p-3 w-16 text-center">Biến Động</th>
+                                    <th class="p-3">Đội Tuyển & Khu Vực</th>
+                                    <th class="p-3 text-center">Điểm Sức Mạnh</th>
+                                    <th class="p-3 text-center">Thắng - Bại (T/B)</th>
+                                    <th class="p-3 text-center">Sự Kiện Quốc Tế</th>
+                                    <th class="p-3 text-center w-36">Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rankings-table-body" class="divide-y divide-vct-borderDark">
+                                <!-- Chèn bởi JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- MÀN HÌNH 6: QUẢN LÝ DỰ ĐOÁN & PICK'EMS     -->
+            <!-- ========================================== -->
+            <div id="view-predictions" class="hidden space-y-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-vct-borderDark gap-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-white uppercase tracking-wider flex items-center gap-3">
+                            <i class="fas fa-dice text-vct-red"></i> Quản Lý Dự Đoán & Đặt Cược Pick'Ems
+                        </h2>
+                        <p class="text-xs text-gray-400 mt-1">Sửa & xóa sự kiện giải đấu, danh sách đội tuyển, tỷ lệ odds và quản lý phiếu cược trên dudoan.html</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="resetPredictionsToDefault()" class="border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-3 py-2 rounded text-xs font-bold transition">
+                            <i class="fas fa-undo mr-1"></i> Khôi phục mặc định
+                        </button>
+                        <a href="dudoan.html" target="_blank" class="bg-vct-red hover:bg-red-600 text-white px-4 py-2 rounded text-xs font-bold transition inline-flex items-center">
+                            <i class="fas fa-external-link-alt mr-1.5"></i> Xem trang dự đoán
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PHẦN 1: CÁC SỰ KIỆN GIẢI ĐẤU -->
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-5 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-vct-borderDark">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-4 bg-vct-red rounded-full"></span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wider">1. Sự Kiện Giải Đấu Dự Đoán (Tournament Events)</h3>
+                        </div>
+                        <button onclick="openPredictionEventModal()" class="bg-vct-red hover:bg-red-600 text-white text-xs font-bold px-3 py-2 rounded transition flex items-center">
+                            <i class="fas fa-plus mr-1.5"></i> Thêm Sự Kiện Mới
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-[#1c1c22] border-b border-vct-borderDark text-gray-400 uppercase tracking-wider">
+                                    <th class="p-3">Tên Giải Đấu</th>
+                                    <th class="p-3">Thời Gian Diễn Ra</th>
+                                    <th class="p-3 text-center">Trạng Thái</th>
+                                    <th class="p-3 text-center w-40">Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prediction-events-table-body" class="divide-y divide-vct-borderDark">
+                                <!-- Chèn bởi JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PHẦN 2: DANH SÁCH 12+ ĐỘI ĐẶT CƯỢC & ODDS -->
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-5 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-vct-borderDark">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-4 bg-amber-400 rounded-full"></span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wider">2. Danh Sách Đội Đặt Cược & Tỷ Lệ (Betting Teams & Odds)</h3>
+                        </div>
+                        <button onclick="openPredictionTeamModal()" class="bg-vct-red hover:bg-red-600 text-white text-xs font-bold px-3 py-2 rounded transition flex items-center">
+                            <i class="fas fa-plus mr-1.5"></i> Thêm Đội Tuyển
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-[#1c1c22] border-b border-vct-borderDark text-gray-400 uppercase tracking-wider">
+                                    <th class="p-3">Đội Tuyển & Tag</th>
+                                    <th class="p-3">Khu Vực / Hạt Giống</th>
+                                    <th class="p-3 text-center">Tỉ Lệ Thắng</th>
+                                    <th class="p-3 text-center">Tỷ Lệ Thưởng (Odds)</th>
+                                    <th class="p-3">Ngôi Sao Nổi Bật</th>
+                                    <th class="p-3 text-center w-36">Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prediction-teams-table-body" class="divide-y divide-vct-borderDark">
+                                <!-- Chèn bởi JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PHẦN 3: PHIẾU CƯỢC NGƯỜI DÙNG & RESET -->
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-5 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-vct-borderDark">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-4 bg-emerald-400 rounded-full"></span>
+                            <h3 class="text-base font-bold text-white uppercase tracking-wider">3. Phiếu Cược Đang Hoạt Động (User Bet Receipts)</h3>
+                        </div>
+                        <button onclick="clearUserBets()" class="border border-red-500/40 text-red-400 hover:bg-red-500/10 text-xs font-bold px-3 py-1.5 rounded transition flex items-center">
+                            <i class="fas fa-trash-alt mr-1.5"></i> Xóa Phiếu Cược Đã Đặt (Để Thử Lại)
+                        </button>
+                    </div>
+                    <div id="user-bets-receipt-container" class="bg-[#141720] border border-vct-borderDark p-4 rounded-lg text-xs">
+                        <!-- Hiển thị phiếu cược hoặc thông báo trống -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- CÁC MODAL DIALOGS CHO THÊM & SỬA           -->
+            <!-- ========================================== -->
+
+            <!-- MODAL 1: SỬA / THÊM BẢN ĐỒ THI ĐẤU (HOME MAP) -->
+            <div id="home-map-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-6 w-full max-w-md shadow-2xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-vct-borderDark pb-3">
+                        <h3 id="home-map-modal-title" class="font-bold text-base text-white">Thêm Bản Đồ Thi Đấu</h3>
+                        <button onclick="closeHomeMapModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                    </div>
+                    <input type="hidden" id="modal-map-id">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Mã Ván (vd: M1, M2, M3...)</label>
+                        <input type="text" id="modal-map-label" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="M1">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Tên Bản Đồ (vd: Sunset, Bind, Haven, Ascent...)</label>
+                        <input type="text" id="modal-map-name" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="Sunset">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Ghi Chú Lựa Chọn (vd: GE chọn, NS chọn, Quyết định...)</label>
+                        <input type="text" id="modal-map-picker" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="GE chọn">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Tỉ Số (vd: 13 - 9, 4 - 2...)</label>
+                        <input type="text" id="modal-map-score" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="13 - 9">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Nhãn Trạng Thái (vd: GE Thắng, NS Thắng, Hiệp 6...)</label>
+                        <input type="text" id="modal-map-status" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="GE Thắng">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Trạng Thái Bản Đồ</label>
+                        <select id="modal-map-state" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs">
+                            <option value="finished">Đã hoàn thành (Finished)</option>
+                            <option value="live">Đang thi đấu trực tiếp (Live)</option>
+                            <option value="upcoming">Chưa đấu (Upcoming)</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end gap-2 pt-2 border-t border-vct-borderDark">
+                        <button onclick="closeHomeMapModal()" class="px-4 py-2 border border-gray-600 rounded text-xs font-bold text-gray-400 hover:text-white">Hủy</button>
+                        <button onclick="saveHomeMap()" class="px-5 py-2 bg-vct-red hover:bg-red-600 rounded text-xs font-bold text-white">Lưu Bản Đồ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL 2: SỬA / THÊM TRẬN ĐẤU TIẾP THEO (HOME MATCH) -->
+            <div id="home-match-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-6 w-full max-w-lg shadow-2xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-vct-borderDark pb-3">
+                        <h3 id="home-match-modal-title" class="font-bold text-base text-white">Thêm Trận Đấu Tiếp Theo</h3>
+                        <button onclick="closeHomeMatchModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                    </div>
+                    <input type="hidden" id="modal-match-id">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Tên Giải Đấu</label>
+                            <input type="text" id="modal-match-league" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="VCT PACIFIC • BO3">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Trạng Thái Trận</label>
+                            <input type="text" id="modal-match-status" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="SẮP BẮT ĐẦU">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 p-3 bg-[#17171e] rounded-lg border border-vct-borderDark">
+                        <div>
+                            <label class="block text-xs font-bold text-cyan-400 mb-1">Đội 1 (Tag)</label>
+                            <input type="text" id="modal-match-team1-tag" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2 text-white text-xs" placeholder="PRX">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Tên Đầy Đủ Đội 1</label>
+                            <input type="text" id="modal-match-team1-name" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2 text-white text-xs" placeholder="Paper Rex">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 p-3 bg-[#17171e] rounded-lg border border-vct-borderDark">
+                        <div>
+                            <label class="block text-xs font-bold text-blue-400 mb-1">Đội 2 (Tag)</label>
+                            <input type="text" id="modal-match-team2-tag" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2 text-white text-xs" placeholder="DRX">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Tên Đầy Đủ Đội 2</label>
+                            <input type="text" id="modal-match-team2-name" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2 text-white text-xs" placeholder="DRX Esports">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Giờ Thi Đấu / Ghi Chú (vd: 17:00, 20:00...)</label>
+                        <input type="text" id="modal-match-time" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="17:00">
+                    </div>
+                    <div class="flex justify-end gap-2 pt-2 border-t border-vct-borderDark">
+                        <button onclick="closeHomeMatchModal()" class="px-4 py-2 border border-gray-600 rounded text-xs font-bold text-gray-400 hover:text-white">Hủy</button>
+                        <button onclick="saveHomeMatch()" class="px-5 py-2 bg-vct-red hover:bg-red-600 rounded text-xs font-bold text-white">Lưu Trận Đấu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL 3: SỬA / THÊM ĐỘI XẾP HẠNG (RANKINGS TEAM) -->
+            <div id="rankings-team-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-6 w-full max-w-lg shadow-2xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-vct-borderDark pb-3">
+                        <h3 id="rankings-team-modal-title" class="font-bold text-base text-white">Thêm Đội Vào Bảng Xếp Hạng</h3>
+                        <button onclick="closeRankingsTeamModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                    </div>
+                    <input type="hidden" id="modal-rank-id">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Thứ Hạng (Rank)</label>
+                            <input type="number" id="modal-rank-num" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="1">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Biến Động (-, +1, +2, -1...)</label>
+                            <input type="text" id="modal-rank-change" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="-">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Tên Đội Tuyển (*)</label>
+                            <input type="text" id="modal-rank-name" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="Leviatán Esports">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Khu Vực (Region)</label>
+                            <select id="modal-rank-region" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs">
+                                <option value="VCT Americas">VCT Americas</option>
+                                <option value="VCT Pacific">VCT Pacific</option>
+                                <option value="VCT EMEA">VCT EMEA</option>
+                                <option value="VCT CN">VCT CN</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Điểm Sức Mạnh (*)</label>
+                            <input type="number" id="modal-rank-points" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="1486">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Thắng - Bại (T/B)</label>
+                            <input type="text" id="modal-rank-wl" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="20-10">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Tỉ Lệ Thắng</label>
+                            <input type="text" id="modal-rank-ratio" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="(.667)">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Thành Tích Quốc Tế (vd: Hạng nhất, Top 4, Vô địch...)</label>
+                        <input type="text" id="modal-rank-badge" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="Hạng nhất">
+                    </div>
+                    <div class="flex justify-end gap-2 pt-2 border-t border-vct-borderDark">
+                        <button onclick="closeRankingsTeamModal()" class="px-4 py-2 border border-gray-600 rounded text-xs font-bold text-gray-400 hover:text-white">Hủy</button>
+                        <button onclick="saveRankingsTeam()" class="px-5 py-2 bg-vct-red hover:bg-red-600 rounded text-xs font-bold text-white">Lưu Đội Tuyển</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL 4: SỬA / THÊM SỰ KIỆN DỰ ĐOÁN (PREDICTION EVENT) -->
+            <div id="prediction-event-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-6 w-full max-w-md shadow-2xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-vct-borderDark pb-3">
+                        <h3 id="prediction-event-modal-title" class="font-bold text-base text-white">Thêm Sự Kiện Giải Đấu</h3>
+                        <button onclick="closePredictionEventModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                    </div>
+                    <input type="hidden" id="modal-event-id">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Tên Giải Đấu (*)</label>
+                        <input type="text" id="modal-event-name" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="Champions Shanghai">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Thời Gian Diễn Ra (*)</label>
+                        <input type="text" id="modal-event-dates" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="10/9/26 – 7/10/26">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Trạng Thái Sự Kiện</label>
+                        <select id="modal-event-status" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs">
+                            <option value="active">🔴 Đang Hoạt Động (Mở đặt cược)</option>
+                            <option value="finished">Đã Kết Thúc (Khóa cược)</option>
+                            <option value="upcoming">Sắp Diễn Ra</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end gap-2 pt-2 border-t border-vct-borderDark">
+                        <button onclick="closePredictionEventModal()" class="px-4 py-2 border border-gray-600 rounded text-xs font-bold text-gray-400 hover:text-white">Hủy</button>
+                        <button onclick="savePredictionEvent()" class="px-5 py-2 bg-vct-red hover:bg-red-600 rounded text-xs font-bold text-white">Lưu Sự Kiện</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL 5: SỬA / THÊM ĐỘI ĐẶT CƯỢC PICK'EMS (PREDICTION TEAM) -->
+            <div id="prediction-team-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-xl p-6 w-full max-w-lg shadow-2xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-vct-borderDark pb-3">
+                        <h3 id="prediction-team-modal-title" class="font-bold text-base text-white">Thêm Đội Đặt Cược</h3>
+                        <button onclick="closePredictionTeamModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                    </div>
+                    <input type="hidden" id="modal-pred-id">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Tên Đội Tuyển (*)</label>
+                            <input type="text" id="modal-pred-name" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="Paper Rex">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Viết Tắt (Tag)</label>
+                            <input type="text" id="modal-pred-tag" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="PRX">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Khu Vực (Region)</label>
+                            <select id="modal-pred-region" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs">
+                                <option value="Americas">Americas</option>
+                                <option value="Pacific">Pacific</option>
+                                <option value="EMEA">EMEA</option>
+                                <option value="China">China</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Vị Trí Hạt Giống (Seed)</label>
+                            <input type="text" id="modal-pred-seed" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="#1 Pacific">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Tỉ Lệ Thắng (%)</label>
+                            <input type="text" id="modal-pred-winrate" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="75%">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-amber-400 mb-1">Tỷ Lệ Odds (vd: 2.10)</label>
+                            <input type="number" step="0.05" id="modal-pred-odds" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="2.10">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1">Ngôi Sao Nổi Bật</label>
+                            <input type="text" id="modal-pred-star" class="w-full bg-[#1c1c22] border border-vct-borderDark rounded p-2.5 text-white text-xs" placeholder="f0rsakeN">
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-2 pt-2 border-t border-vct-borderDark">
+                        <button onclick="closePredictionTeamModal()" class="px-4 py-2 border border-gray-600 rounded text-xs font-bold text-gray-400 hover:text-white">Hủy</button>
+                        <button onclick="savePredictionTeam()" class="px-5 py-2 bg-vct-red hover:bg-red-600 rounded text-xs font-bold text-white">Lưu Đội Đặt Cược</button>
                     </div>
                 </div>
             </div>
@@ -524,27 +1059,47 @@
         // ==================================================
         function switchTab(tab) {
             // Ẩn tất cả view
-            ['view-list','view-form','view-banners'].forEach(id => {
+            ['view-list','view-form','view-banners','view-home','view-rankings','view-predictions'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.add('hidden');
             });
             // Bỏ active tất cả sidebar link
-            ['tab-news-link','tab-banners-link'].forEach(id => {
+            ['tab-news-link','tab-banners-link','tab-home-link','tab-rankings-link','tab-predictions-link'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) { el.className = 'flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg font-bold transition'; }
             });
+
+            const headerTitle = document.querySelector('header h1');
 
             if (tab === 'news') {
                 document.getElementById('view-list').classList.remove('hidden');
                 const link = document.getElementById('tab-news-link');
                 if (link) link.className = 'flex items-center space-x-3 bg-vct-red/10 text-vct-red px-4 py-3 rounded-lg font-bold';
-                document.querySelector('header h1').textContent = 'QUẢN LÝ BÀI VIẾT';
+                if (headerTitle) headerTitle.textContent = 'QUẢN LÝ BÀI VIẾT';
             } else if (tab === 'banners') {
                 document.getElementById('view-banners').classList.remove('hidden');
                 const link = document.getElementById('tab-banners-link');
                 if (link) link.className = 'flex items-center space-x-3 bg-vct-red/10 text-vct-red px-4 py-3 rounded-lg font-bold';
-                document.querySelector('header h1').textContent = 'BANNER CỘNG ĐỒNG';
+                if (headerTitle) headerTitle.textContent = 'BANNER CỘNG ĐỒNG';
                 loadBanners();
+            } else if (tab === 'home') {
+                document.getElementById('view-home').classList.remove('hidden');
+                const link = document.getElementById('tab-home-link');
+                if (link) link.className = 'flex items-center space-x-3 bg-vct-red/10 text-vct-red px-4 py-3 rounded-lg font-bold';
+                if (headerTitle) headerTitle.textContent = 'QUẢN LÝ TRANG CHỦ';
+                loadHomeManager();
+            } else if (tab === 'rankings') {
+                document.getElementById('view-rankings').classList.remove('hidden');
+                const link = document.getElementById('tab-rankings-link');
+                if (link) link.className = 'flex items-center space-x-3 bg-vct-red/10 text-vct-red px-4 py-3 rounded-lg font-bold';
+                if (headerTitle) headerTitle.textContent = 'QUẢN LÝ BẢNG XẾP HẠNG';
+                loadRankingsManager();
+            } else if (tab === 'predictions') {
+                document.getElementById('view-predictions').classList.remove('hidden');
+                const link = document.getElementById('tab-predictions-link');
+                if (link) link.className = 'flex items-center space-x-3 bg-vct-red/10 text-vct-red px-4 py-3 rounded-lg font-bold';
+                if (headerTitle) headerTitle.textContent = 'QUẢN LÝ DỰ ĐOÁN & CƯỢC';
+                loadPredictionsManager();
             }
         }
 
@@ -778,6 +1333,815 @@ Lưu ý: Vé là vé điện tử có mã QR định danh, khán giả vui lòng
                 ? '✅ Đã lưu banner lên Supabase thành công!'
                 : '✅ Đã lưu banner vào localStorage (sẽ hiển thị ngay trên trang Tin Tức).\n\nĐể lưu vĩnh viễn, hãy tạo bảng community_banners trên Supabase.';
             alert(msg);
+        }
+
+        // ==================================================
+        // PHẦN 1: QUẢN LÝ TRANG CHỦ (HOME MANAGER)
+        // ==================================================
+        const DEFAULT_HOME_DATA = {
+            maps: [
+                { id: 'm1', label: 'M1', name: 'Sunset', picker: 'GE chọn', score: '13 - 9', status: 'GE Thắng', state: 'finished' },
+                { id: 'm2', label: 'M2', name: 'Bind', picker: 'NS chọn', score: '13 - 11', status: 'GE Thắng', state: 'finished' },
+                { id: 'm3', label: 'M3', name: 'Haven', picker: 'Quyết định', score: '4 - 2', status: 'Hiệp 6', state: 'live' }
+            ],
+            mvp: {
+                name: 'KR1STAL',
+                avatar: 'KR',
+                agent: 'Jett',
+                kda: '24 / 11 / 7',
+                acs: '298',
+                badge: 'TOP 1',
+                note: 'Đánh giá hiệu suất bởi AWS'
+            },
+            upcoming: [
+                {
+                    id: 'up1',
+                    league: 'VCT PACIFIC • BO3',
+                    status: 'SẮP BẮT ĐẦU',
+                    team1: { tag: 'PRX', name: 'Paper Rex' },
+                    team2: { tag: 'DRX', name: 'DRX Esports' },
+                    time: '17:00'
+                },
+                {
+                    id: 'up2',
+                    league: 'VCT PACIFIC • BO3',
+                    status: 'CHƯA ĐẤU',
+                    team1: { tag: 'T1', name: 'T1 Esports' },
+                    team2: { tag: 'GEN', name: 'Gen.G Esports' },
+                    time: '20:00'
+                }
+            ]
+        };
+
+        function getHomeData() {
+            try {
+                const stored = localStorage.getItem('vct_home_data');
+                if (stored) return JSON.parse(stored);
+            } catch(e) {}
+            return JSON.parse(JSON.stringify(DEFAULT_HOME_DATA));
+        }
+
+        function saveHomeData(data) {
+            localStorage.setItem('vct_home_data', JSON.stringify(data));
+        }
+
+        function loadHomeManager() {
+            const data = getHomeData();
+            renderHomeMaps(data.maps || []);
+            populateHomeMvpForm(data.mvp || DEFAULT_HOME_DATA.mvp);
+            renderHomeMatches(data.upcoming || []);
+        }
+
+        // --- Maps CRUD ---
+        function renderHomeMaps(maps) {
+            const tbody = document.getElementById('home-maps-table-body');
+            if (!tbody) return;
+            if (maps.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-gray-500">Chưa có bản đồ nào. Bấm "Thêm Bản Đồ" để tạo mới!</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = maps.map(m => {
+                const isLive = m.state === 'live';
+                const statusBadge = isLive
+                    ? `<span class="inline-flex items-center text-[10px] bg-red-500/20 text-vct-red px-2 py-0.5 rounded font-bold border border-red-500/30"><span class="w-1.5 h-1.5 rounded-full bg-vct-red mr-1 animate-pulse"></span>${m.status || 'Đang đấu'}</span>`
+                    : `<span class="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">${m.status || 'GE Thắng'}</span>`;
+                return `
+                    <tr class="hover:bg-white/[0.02] border-b border-vct-borderDark">
+                        <td class="p-3 font-mono font-bold text-gray-400">${m.label || 'M1'}</td>
+                        <td class="p-3 font-bold text-white text-sm">${m.name}</td>
+                        <td class="p-3 text-gray-300">${m.picker || ''}</td>
+                        <td class="p-3 text-center font-mono font-black ${isLive ? 'text-yellow-400' : 'text-emerald-400'}">${m.score || '-'}</td>
+                        <td class="p-3 text-center">${statusBadge}</td>
+                        <td class="p-3 text-center space-x-2">
+                            <button onclick="openHomeMapModal('${m.id}')" class="text-blue-400 hover:text-blue-300 font-bold px-2 py-1 rounded hover:bg-blue-500/10 transition">
+                                <i class="fas fa-edit mr-1"></i> Sửa
+                            </button>
+                            <button onclick="deleteHomeMap('${m.id}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1 rounded hover:bg-red-500/10 transition">
+                                <i class="fas fa-trash-alt mr-1"></i> Xóa
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function openHomeMapModal(id = null) {
+            const modal = document.getElementById('home-map-modal');
+            const data = getHomeData();
+            if (id) {
+                const item = (data.maps || []).find(m => m.id === id);
+                if (item) {
+                    document.getElementById('home-map-modal-title').textContent = 'Chỉnh Sửa Bản Đồ Thi Đấu';
+                    document.getElementById('modal-map-id').value = item.id;
+                    document.getElementById('modal-map-label').value = item.label || '';
+                    document.getElementById('modal-map-name').value = item.name || '';
+                    document.getElementById('modal-map-picker').value = item.picker || '';
+                    document.getElementById('modal-map-score').value = item.score || '';
+                    document.getElementById('modal-map-status').value = item.status || '';
+                    document.getElementById('modal-map-state').value = item.state || 'finished';
+                }
+            } else {
+                document.getElementById('home-map-modal-title').textContent = 'Thêm Bản Đồ Thi Đấu';
+                document.getElementById('modal-map-id').value = '';
+                document.getElementById('modal-map-label').value = 'M' + ((data.maps || []).length + 1);
+                document.getElementById('modal-map-name').value = '';
+                document.getElementById('modal-map-picker').value = '';
+                document.getElementById('modal-map-score').value = '';
+                document.getElementById('modal-map-status').value = '';
+                document.getElementById('modal-map-state').value = 'finished';
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeHomeMapModal() {
+            const modal = document.getElementById('home-map-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function saveHomeMap() {
+            const id = document.getElementById('modal-map-id').value;
+            const label = document.getElementById('modal-map-label').value.trim() || 'M1';
+            const name = document.getElementById('modal-map-name').value.trim();
+            const picker = document.getElementById('modal-map-picker').value.trim();
+            const score = document.getElementById('modal-map-score').value.trim();
+            const status = document.getElementById('modal-map-status').value.trim();
+            const state = document.getElementById('modal-map-state').value;
+
+            if (!name) { alert('Vui lòng nhập tên bản đồ!'); return; }
+
+            const data = getHomeData();
+            if (!data.maps) data.maps = [];
+
+            if (id) {
+                const idx = data.maps.findIndex(m => m.id === id);
+                if (idx !== -1) {
+                    data.maps[idx] = { ...data.maps[idx], label, name, picker, score, status, state };
+                }
+            } else {
+                data.maps.push({
+                    id: 'map_' + Date.now(),
+                    label, name, picker, score, status, state
+                });
+            }
+
+            saveHomeData(data);
+            closeHomeMapModal();
+            renderHomeMaps(data.maps);
+            alert('✅ Đã lưu thông tin Bản đồ thi đấu thành công!');
+        }
+
+        function deleteHomeMap(id) {
+            if (!confirm('Bạn có chắc chắn muốn xóa bản đồ thi đấu này không?')) return;
+            const data = getHomeData();
+            data.maps = (data.maps || []).filter(m => m.id !== id);
+            saveHomeData(data);
+            renderHomeMaps(data.maps);
+            alert('🗑️ Đã xóa bản đồ thi đấu thành công!');
+        }
+
+        // --- MVP Save ---
+        function populateHomeMvpForm(mvp) {
+            document.getElementById('admin-mvp-name').value = mvp.name || '';
+            document.getElementById('admin-mvp-avatar').value = mvp.avatar || '';
+            document.getElementById('admin-mvp-agent').value = mvp.agent || '';
+            document.getElementById('admin-mvp-kda').value = mvp.kda || '';
+            document.getElementById('admin-mvp-acs').value = mvp.acs || '';
+            document.getElementById('admin-mvp-badge').value = mvp.badge || '';
+            document.getElementById('admin-mvp-note').value = mvp.note || '';
+        }
+
+        function saveHomeMvp(e) {
+            e.preventDefault();
+            const data = getHomeData();
+            data.mvp = {
+                name: document.getElementById('admin-mvp-name').value.trim(),
+                avatar: document.getElementById('admin-mvp-avatar').value.trim(),
+                agent: document.getElementById('admin-mvp-agent').value.trim(),
+                kda: document.getElementById('admin-mvp-kda').value.trim(),
+                acs: document.getElementById('admin-mvp-acs').value.trim(),
+                badge: document.getElementById('admin-mvp-badge').value.trim(),
+                note: document.getElementById('admin-mvp-note').value.trim()
+            };
+            saveHomeData(data);
+            alert('✅ Đã cập nhật tuyển thủ MVP trận đấu thành công!');
+        }
+
+        // --- Upcoming Matches CRUD ---
+        function renderHomeMatches(matches) {
+            const tbody = document.getElementById('home-matches-table-body');
+            if (!tbody) return;
+            if (matches.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-gray-500">Chưa có trận đấu tiếp theo nào. Bấm "Thêm Trận Đấu" để tạo!</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = matches.map(m => {
+                return `
+                    <tr class="hover:bg-white/[0.02] border-b border-vct-borderDark">
+                        <td class="p-3 font-bold text-gray-300">${m.league || 'VCT PACIFIC • BO3'}</td>
+                        <td class="p-3 text-center"><span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">${m.status || 'SẮP BẮT ĐẦU'}</span></td>
+                        <td class="p-3">
+                            <span class="font-bold text-white text-xs">${m.team1?.tag || ''}</span>
+                            <span class="text-[10px] text-gray-400 block">${m.team1?.name || ''}</span>
+                        </td>
+                        <td class="p-3 text-center font-mono text-gray-500 font-bold">VS</td>
+                        <td class="p-3">
+                            <span class="font-bold text-white text-xs">${m.team2?.tag || ''}</span>
+                            <span class="text-[10px] text-gray-400 block">${m.team2?.name || ''}</span>
+                        </td>
+                        <td class="p-3 text-center font-mono font-bold text-cyan-300">${m.time || '17:00'}</td>
+                        <td class="p-3 text-center space-x-2">
+                            <button onclick="openHomeMatchModal('${m.id}')" class="text-blue-400 hover:text-blue-300 font-bold px-2 py-1 rounded hover:bg-blue-500/10 transition">
+                                <i class="fas fa-edit mr-1"></i> Sửa
+                            </button>
+                            <button onclick="deleteHomeMatch('${m.id}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1 rounded hover:bg-red-500/10 transition">
+                                <i class="fas fa-trash-alt mr-1"></i> Xóa
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function openHomeMatchModal(id = null) {
+            const modal = document.getElementById('home-match-modal');
+            const data = getHomeData();
+            if (id) {
+                const item = (data.upcoming || []).find(m => m.id === id);
+                if (item) {
+                    document.getElementById('home-match-modal-title').textContent = 'Chỉnh Sửa Trận Đấu';
+                    document.getElementById('modal-match-id').value = item.id;
+                    document.getElementById('modal-match-league').value = item.league || '';
+                    document.getElementById('modal-match-status').value = item.status || '';
+                    document.getElementById('modal-match-team1-tag').value = item.team1?.tag || '';
+                    document.getElementById('modal-match-team1-name').value = item.team1?.name || '';
+                    document.getElementById('modal-match-team2-tag').value = item.team2?.tag || '';
+                    document.getElementById('modal-match-team2-name').value = item.team2?.name || '';
+                    document.getElementById('modal-match-time').value = item.time || '';
+                }
+            } else {
+                document.getElementById('home-match-modal-title').textContent = 'Thêm Trận Đấu Tiếp Theo';
+                document.getElementById('modal-match-id').value = '';
+                document.getElementById('modal-match-league').value = 'VCT PACIFIC • BO3';
+                document.getElementById('modal-match-status').value = 'SẮP BẮT ĐẦU';
+                document.getElementById('modal-match-team1-tag').value = '';
+                document.getElementById('modal-match-team1-name').value = '';
+                document.getElementById('modal-match-team2-tag').value = '';
+                document.getElementById('modal-match-team2-name').value = '';
+                document.getElementById('modal-match-time').value = '17:00';
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeHomeMatchModal() {
+            const modal = document.getElementById('home-match-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function saveHomeMatch() {
+            const id = document.getElementById('modal-match-id').value;
+            const league = document.getElementById('modal-match-league').value.trim() || 'VCT PACIFIC • BO3';
+            const status = document.getElementById('modal-match-status').value.trim() || 'SẮP BẮT ĐẦU';
+            const team1Tag = document.getElementById('modal-match-team1-tag').value.trim();
+            const team1Name = document.getElementById('modal-match-team1-name').value.trim();
+            const team2Tag = document.getElementById('modal-match-team2-tag').value.trim();
+            const team2Name = document.getElementById('modal-match-team2-name').value.trim();
+            const time = document.getElementById('modal-match-time').value.trim() || '17:00';
+
+            if (!team1Tag || !team2Tag) {
+                alert('Vui lòng nhập tên tag cho cả 2 đội tuyển!');
+                return;
+            }
+
+            const data = getHomeData();
+            if (!data.upcoming) data.upcoming = [];
+
+            const matchItem = {
+                id: id || ('up_' + Date.now()),
+                league,
+                status,
+                team1: { tag: team1Tag, name: team1Name || team1Tag },
+                team2: { tag: team2Tag, name: team2Name || team2Tag },
+                time
+            };
+
+            if (id) {
+                const idx = data.upcoming.findIndex(m => m.id === id);
+                if (idx !== -1) { data.upcoming[idx] = matchItem; }
+            } else {
+                data.upcoming.push(matchItem);
+            }
+
+            saveHomeData(data);
+            closeHomeMatchModal();
+            renderHomeMatches(data.upcoming);
+            alert('✅ Đã lưu thông tin trận đấu thành công!');
+        }
+
+        function deleteHomeMatch(id) {
+            if (!confirm('Bạn có chắc chắn muốn xóa trận đấu này không?')) return;
+            const data = getHomeData();
+            data.upcoming = (data.upcoming || []).filter(m => m.id !== id);
+            saveHomeData(data);
+            renderHomeMatches(data.upcoming);
+            alert('🗑️ Đã xóa trận đấu thành công!');
+        }
+
+        function resetHomeDataToDefault() {
+            if (!confirm('Khôi phục toàn bộ nội dung Trang chủ (Bản đồ, MVP, Trận đấu) về mặc định?')) return;
+            saveHomeData(DEFAULT_HOME_DATA);
+            loadHomeManager();
+            alert('🔄 Đã khôi phục dữ liệu trang chủ về mặc định!');
+        }
+
+        // ==================================================
+        // PHẦN 2: QUẢN LÝ XẾP HẠNG SỨC MẠNH (RANKINGS MANAGER)
+        // ==================================================
+        const DEFAULT_RANKINGS_DATA = [
+            { id: 'rk1', rank: 1, change: '-', name: 'Leviatán Esports', region: 'VCT Americas', points: 1486, wl: '20-10', ratio: '(.667)', badge: 'Hạng nhất' },
+            { id: 'rk2', rank: 2, change: '+1', name: 'Global Esports', region: 'VCT Pacific', points: 1420, wl: '18-11', ratio: '(.621)', badge: 'Top 4' },
+            { id: 'rk3', rank: 3, change: '-1', name: 'Fnatic', region: 'VCT EMEA', points: 1395, wl: '19-12', ratio: '(.613)', badge: 'Á quân' },
+            { id: 'rk4', rank: 4, change: '+2', name: 'Paper Rex', region: 'VCT Pacific', points: 1380, wl: '17-10', ratio: '(.630)', badge: 'Top 4' },
+            { id: 'rk5', rank: 5, change: '=', name: 'Sentinels', region: 'VCT Americas', points: 1362, wl: '16-12', ratio: '(.571)', badge: 'Vòng Bảng' },
+            { id: 'rk6', rank: 6, change: '+1', name: 'Gen.G Esports', region: 'VCT Pacific', points: 1340, wl: '15-13', ratio: '(.536)', badge: 'Top 8' },
+            { id: 'rk7', rank: 7, change: '-2', name: 'EDward Gaming', region: 'VCT CN', points: 1315, wl: '16-14', ratio: '(.533)', badge: 'Top 8' },
+            { id: 'rk8', rank: 8, change: '=', name: 'Team Heretics', region: 'VCT EMEA', points: 1290, wl: '14-12', ratio: '(.538)', badge: 'Vòng Bảng' }
+        ];
+
+        function getRankingsData() {
+            try {
+                const stored = localStorage.getItem('vct_rankings_data');
+                if (stored) return JSON.parse(stored);
+            } catch(e) {}
+            return JSON.parse(JSON.stringify(DEFAULT_RANKINGS_DATA));
+        }
+
+        function saveRankingsData(data) {
+            localStorage.setItem('vct_rankings_data', JSON.stringify(data));
+        }
+
+        let rankingsCache = [];
+
+        function loadRankingsManager() {
+            rankingsCache = getRankingsData();
+            renderRankingsTable(rankingsCache);
+        }
+
+        function renderRankingsTable(list) {
+            const tbody = document.getElementById('rankings-table-body');
+            const countBadge = document.getElementById('rankings-count-badge');
+            if (countBadge) countBadge.innerHTML = `Tổng cộng: <b>${list.length}</b> đội tuyển`;
+            if (!tbody) return;
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-gray-500">Không tìm thấy đội tuyển nào. Bấm "Thêm Đội Tuyển Mới" để tạo!</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = list.map(t => {
+                let changeColor = 'text-gray-400 bg-white/5';
+                if (t.change && t.change.startsWith('+')) changeColor = 'text-emerald-400 bg-emerald-500/10';
+                else if (t.change && t.change.startsWith('-') && t.change !== '-') changeColor = 'text-red-400 bg-red-500/10';
+
+                return `
+                    <tr class="hover:bg-white/[0.02] border-b border-vct-borderDark">
+                        <td class="p-3 text-center font-black text-white text-sm">${t.rank}</td>
+                        <td class="p-3 text-center">
+                            <span class="w-7 h-5 rounded ${changeColor} text-[11px] font-mono inline-flex items-center justify-center font-bold">${t.change || '-'}</span>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-bold text-white text-sm">${t.name}</div>
+                            <div class="text-[10px] text-gray-400">${t.region}</div>
+                        </td>
+                        <td class="p-3 text-center font-bold text-white font-mono text-sm">${t.points} <span class="text-[10px] text-gray-400 font-normal">đ</span></td>
+                        <td class="p-3 text-center text-gray-300 font-mono">${t.wl || '0-0'} <span class="text-[10px] text-gray-500">${t.ratio || ''}</span></td>
+                        <td class="p-3 text-center">
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a220a] text-[#fbbf24] border border-[#854d0e]">✻ ${t.badge || 'Tham dự'}</span>
+                        </td>
+                        <td class="p-3 text-center space-x-2">
+                            <button onclick="openRankingsTeamModal('${t.id}')" class="text-blue-400 hover:text-blue-300 font-bold px-2 py-1 rounded hover:bg-blue-500/10 transition">
+                                <i class="fas fa-edit mr-1"></i> Sửa
+                            </button>
+                            <button onclick="deleteRankingsTeam('${t.id}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1 rounded hover:bg-red-500/10 transition">
+                                <i class="fas fa-trash-alt mr-1"></i> Xóa
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterRankingsTable() {
+            const q = (document.getElementById('search-rankings-input')?.value || '').toLowerCase();
+            if (!q) { renderRankingsTable(rankingsCache); return; }
+            const filtered = rankingsCache.filter(t => (t.name || '').toLowerCase().includes(q) || (t.region || '').toLowerCase().includes(q));
+            renderRankingsTable(filtered);
+        }
+
+        function openRankingsTeamModal(id = null) {
+            const modal = document.getElementById('rankings-team-modal');
+            if (id) {
+                const item = rankingsCache.find(t => t.id === id);
+                if (item) {
+                    document.getElementById('rankings-team-modal-title').textContent = 'Chỉnh Sửa Đội Tuyển BXH';
+                    document.getElementById('modal-rank-id').value = item.id;
+                    document.getElementById('modal-rank-num').value = item.rank;
+                    document.getElementById('modal-rank-change').value = item.change || '-';
+                    document.getElementById('modal-rank-name').value = item.name;
+                    document.getElementById('modal-rank-region').value = item.region || 'VCT Americas';
+                    document.getElementById('modal-rank-points').value = item.points;
+                    document.getElementById('modal-rank-wl').value = item.wl || '';
+                    document.getElementById('modal-rank-ratio').value = item.ratio || '';
+                    document.getElementById('modal-rank-badge').value = item.badge || '';
+                }
+            } else {
+                document.getElementById('rankings-team-modal-title').textContent = 'Thêm Đội Tuyển Vào BXH';
+                document.getElementById('modal-rank-id').value = '';
+                document.getElementById('modal-rank-num').value = rankingsCache.length + 1;
+                document.getElementById('modal-rank-change').value = '-';
+                document.getElementById('modal-rank-name').value = '';
+                document.getElementById('modal-rank-region').value = 'VCT Americas';
+                document.getElementById('modal-rank-points').value = 1300;
+                document.getElementById('modal-rank-wl').value = '10-5';
+                document.getElementById('modal-rank-ratio').value = '(.667)';
+                document.getElementById('modal-rank-badge').value = 'Vòng Bảng';
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeRankingsTeamModal() {
+            const modal = document.getElementById('rankings-team-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function saveRankingsTeam() {
+            const id = document.getElementById('modal-rank-id').value;
+            const rank = parseInt(document.getElementById('modal-rank-num').value, 10) || 1;
+            const change = document.getElementById('modal-rank-change').value.trim() || '-';
+            const name = document.getElementById('modal-rank-name').value.trim();
+            const region = document.getElementById('modal-rank-region').value;
+            const points = parseInt(document.getElementById('modal-rank-points').value, 10) || 1000;
+            const wl = document.getElementById('modal-rank-wl').value.trim();
+            const ratio = document.getElementById('modal-rank-ratio').value.trim();
+            const badge = document.getElementById('modal-rank-badge').value.trim();
+
+            if (!name) { alert('Vui lòng nhập tên đội tuyển!'); return; }
+
+            const teamObj = {
+                id: id || ('rk_' + Date.now()),
+                rank, change, name, region, points, wl, ratio, badge
+            };
+
+            if (id) {
+                const idx = rankingsCache.findIndex(t => t.id === id);
+                if (idx !== -1) rankingsCache[idx] = teamObj;
+            } else {
+                rankingsCache.push(teamObj);
+            }
+
+            // Sắp xếp theo rank tăng dần
+            rankingsCache.sort((a, b) => a.rank - b.rank);
+
+            saveRankingsData(rankingsCache);
+            closeRankingsTeamModal();
+            renderRankingsTable(rankingsCache);
+            alert('✅ Đã lưu thông tin đội tuyển BXH thành công!');
+        }
+
+        function deleteRankingsTeam(id) {
+            if (!confirm('Bạn có chắc muốn xóa đội tuyển này khỏi Bảng xếp hạng?')) return;
+            rankingsCache = rankingsCache.filter(t => t.id !== id);
+            saveRankingsData(rankingsCache);
+            renderRankingsTable(rankingsCache);
+            alert('🗑️ Đã xóa đội tuyển khỏi Bảng xếp hạng!');
+        }
+
+        function resetRankingsToDefault() {
+            if (!confirm('Khôi phục toàn bộ Bảng Xếp Hạng về mặc định ban đầu?')) return;
+            rankingsCache = JSON.parse(JSON.stringify(DEFAULT_RANKINGS_DATA));
+            saveRankingsData(rankingsCache);
+            renderRankingsTable(rankingsCache);
+            alert('🔄 Đã khôi phục Bảng Xếp Hạng về mặc định!');
+        }
+
+        // ==================================================
+        // PHẦN 3: QUẢN LÝ DỰ ĐOÁN & PICK'EMS (PREDICTIONS MANAGER)
+        // ==================================================
+        const DEFAULT_PREDICTION_EVENTS = [
+            { id: 'shanghai', name: 'Champions Shanghai', dates: '10/9/26 – 7/10/26', status: 'active' },
+            { id: 'santiago', name: 'Masters Santiago', dates: '19/2/26 – 6/3/26', status: 'finished' },
+            { id: 'london', name: 'Masters London', dates: '27/5/26 – 12/6/26', status: 'finished' }
+        ];
+
+        const DEFAULT_PREDICTION_TEAMS = [
+            { id: "lev", name: "Leviatán", tag: "LEV", region: "Americas", seed: "#1 Americas", color: "#38bdf8", bg: "#0c2738", border: "#0284c7", winRate: "78%", odds: 1.85, star: "aspas" },
+            { id: "prx", name: "Paper Rex", tag: "PRX", region: "Pacific", seed: "#1 Pacific", color: "#38bdf8", bg: "#1e1b4b", border: "#06b6d4", winRate: "75%", odds: 2.10, star: "f0rsakeN" },
+            { id: "fnc", name: "Fnatic", tag: "FNC", region: "EMEA", seed: "#1 EMEA", color: "#fb923c", bg: "#431407", border: "#ea580c", winRate: "72%", odds: 2.25, star: "Boaster" },
+            { id: "sen", name: "Sentinels", tag: "SEN", region: "Americas", seed: "#2 Americas", color: "#f87171", bg: "#450a0a", border: "#dc2626", winRate: "70%", odds: 2.40, star: "TenZ" },
+            { id: "geng", name: "Gen.G Esports", tag: "GEN", region: "Pacific", seed: "#2 Pacific", color: "#facc15", bg: "#422006", border: "#ca8a04", winRate: "68%", odds: 2.50, star: "t3xture" },
+            { id: "edg", name: "EDward Gaming", tag: "EDG", region: "China", seed: "#1 China", color: "#ef4444", bg: "#27272a", border: "#991b1b", winRate: "65%", odds: 2.65, star: "ZmjjKK" },
+            { id: "100t", name: "100 Thieves", tag: "100T", region: "Americas", seed: "#3 Americas", color: "#ef4444", bg: "#360c0f", border: "#b91c1c", winRate: "62%", odds: 3.10, star: "Cryocells" },
+            { id: "th", name: "Team Heretics", tag: "TH", region: "EMEA", seed: "#2 EMEA", color: "#fbbf24", bg: "#291804", border: "#d97706", winRate: "60%", odds: 3.25, star: "RieNs" },
+            { id: "ge", name: "Global Esports", tag: "GE", region: "Pacific", seed: "#3 Pacific", color: "#818cf8", bg: "#1e1b4b", border: "#4f46e5", winRate: "55%", odds: 3.80, star: "Lightningfast" },
+            { id: "t1", name: "T1", tag: "T1", region: "Pacific", seed: "#4 Pacific", color: "#f43f5e", bg: "#3b0716", border: "#e11d48", winRate: "58%", odds: 3.50, star: "Sayaplayer" },
+            { id: "ns", name: "Nongshim RedForce", tag: "NS", region: "Pacific", seed: "Challengers", color: "#f87171", bg: "#350909", border: "#b91c1c", winRate: "52%", odds: 4.20, star: "Dext" },
+            { id: "loud", name: "LOUD", tag: "LOUD", region: "Americas", seed: "#4 Americas", color: "#34d399", bg: "#064e3b", border: "#059669", winRate: "59%", odds: 3.40, star: "Less" }
+        ];
+
+        let predEventsCache = [];
+        let predTeamsCache = [];
+
+        function loadPredictionsManager() {
+            try {
+                const storedEvents = localStorage.getItem('vct_prediction_events');
+                predEventsCache = storedEvents ? JSON.parse(storedEvents) : JSON.parse(JSON.stringify(DEFAULT_PREDICTION_EVENTS));
+            } catch(e) {
+                predEventsCache = JSON.parse(JSON.stringify(DEFAULT_PREDICTION_EVENTS));
+            }
+
+            try {
+                const storedTeams = localStorage.getItem('vct_prediction_teams');
+                predTeamsCache = storedTeams ? JSON.parse(storedTeams) : JSON.parse(JSON.stringify(DEFAULT_PREDICTION_TEAMS));
+            } catch(e) {
+                predTeamsCache = JSON.parse(JSON.stringify(DEFAULT_PREDICTION_TEAMS));
+            }
+
+            renderPredictionEvents();
+            renderPredictionTeams();
+            renderUserBetsReceipt();
+        }
+
+        // --- Events CRUD ---
+        function renderPredictionEvents() {
+            const tbody = document.getElementById('prediction-events-table-body');
+            if (!tbody) return;
+            if (predEventsCache.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-500">Chưa có sự kiện nào. Bấm "Thêm Sự Kiện Mới" để tạo!</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = predEventsCache.map(ev => {
+                const isActive = ev.status === 'active';
+                const statusHtml = isActive
+                    ? `<span class="inline-flex items-center text-[10px] bg-red-500/20 text-vct-red px-2.5 py-1 rounded-full font-bold border border-red-500/40"><span class="w-1.5 h-1.5 rounded-full bg-vct-red mr-1.5 animate-ping"></span>🔴 ĐANG HOẠT ĐỘNG</span>`
+                    : `<span class="inline-flex items-center text-[10px] bg-zinc-800 text-zinc-400 px-2.5 py-1 rounded-full font-bold border border-zinc-700">🔒 ĐÃ KẾT THÚC</span>`;
+
+                return `
+                    <tr class="hover:bg-white/[0.02] border-b border-vct-borderDark">
+                        <td class="p-3 font-extrabold text-white text-sm">${ev.name}</td>
+                        <td class="p-3 text-gray-300 font-mono text-xs">${ev.dates}</td>
+                        <td class="p-3 text-center">${statusHtml}</td>
+                        <td class="p-3 text-center space-x-2">
+                            <button onclick="toggleEventStatus('${ev.id}')" class="text-xs ${isActive ? 'text-amber-400 hover:text-amber-300' : 'text-emerald-400 hover:text-emerald-300'} font-bold px-2 py-1 rounded hover:bg-white/5 transition">
+                                <i class="fas fa-power-off mr-1"></i> ${isActive ? 'Khóa cược' : 'Mở cược'}
+                            </button>
+                            <button onclick="openPredictionEventModal('${ev.id}')" class="text-blue-400 hover:text-blue-300 font-bold px-2 py-1 rounded hover:bg-blue-500/10 transition">
+                                <i class="fas fa-edit mr-1"></i> Sửa
+                            </button>
+                            <button onclick="deletePredictionEvent('${ev.id}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1 rounded hover:bg-red-500/10 transition">
+                                <i class="fas fa-trash-alt mr-1"></i> Xóa
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function toggleEventStatus(id) {
+            const ev = predEventsCache.find(e => e.id === id);
+            if (!ev) return;
+            ev.status = ev.status === 'active' ? 'finished' : 'active';
+            localStorage.setItem('vct_prediction_events', JSON.stringify(predEventsCache));
+            renderPredictionEvents();
+        }
+
+        function openPredictionEventModal(id = null) {
+            const modal = document.getElementById('prediction-event-modal');
+            if (id) {
+                const ev = predEventsCache.find(e => e.id === id);
+                if (ev) {
+                    document.getElementById('prediction-event-modal-title').textContent = 'Chỉnh Sửa Sự Kiện';
+                    document.getElementById('modal-event-id').value = ev.id;
+                    document.getElementById('modal-event-name').value = ev.name;
+                    document.getElementById('modal-event-dates').value = ev.dates;
+                    document.getElementById('modal-event-status').value = ev.status || 'active';
+                }
+            } else {
+                document.getElementById('prediction-event-modal-title').textContent = 'Thêm Sự Kiện Giải Đấu Mới';
+                document.getElementById('modal-event-id').value = '';
+                document.getElementById('modal-event-name').value = '';
+                document.getElementById('modal-event-dates').value = '';
+                document.getElementById('modal-event-status').value = 'active';
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closePredictionEventModal() {
+            const modal = document.getElementById('prediction-event-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function savePredictionEvent() {
+            const id = document.getElementById('modal-event-id').value;
+            const name = document.getElementById('modal-event-name').value.trim();
+            const dates = document.getElementById('modal-event-dates').value.trim();
+            const status = document.getElementById('modal-event-status').value;
+
+            if (!name || !dates) { alert('Vui lòng nhập tên giải đấu và thời gian diễn ra!'); return; }
+
+            const evObj = {
+                id: id || ('ev_' + Date.now()),
+                name, dates, status
+            };
+
+            if (id) {
+                const idx = predEventsCache.findIndex(e => e.id === id);
+                if (idx !== -1) predEventsCache[idx] = evObj;
+            } else {
+                predEventsCache.push(evObj);
+            }
+
+            localStorage.setItem('vct_prediction_events', JSON.stringify(predEventsCache));
+            closePredictionEventModal();
+            renderPredictionEvents();
+            alert('✅ Đã lưu thông tin sự kiện giải đấu thành công!');
+        }
+
+        function deletePredictionEvent(id) {
+            if (!confirm('Bạn có chắc muốn xóa sự kiện giải đấu này?')) return;
+            predEventsCache = predEventsCache.filter(e => e.id !== id);
+            localStorage.setItem('vct_prediction_events', JSON.stringify(predEventsCache));
+            renderPredictionEvents();
+            alert('🗑️ Đã xóa sự kiện giải đấu thành công!');
+        }
+
+        // --- Betting Teams CRUD ---
+        function renderPredictionTeams() {
+            const tbody = document.getElementById('prediction-teams-table-body');
+            if (!tbody) return;
+            if (predTeamsCache.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-gray-500">Chưa có đội tuyển đặt cược nào. Bấm "Thêm Đội Tuyển" để tạo!</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = predTeamsCache.map(t => {
+                return `
+                    <tr class="hover:bg-white/[0.02] border-b border-vct-borderDark">
+                        <td class="p-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-8 h-8 rounded flex items-center justify-center font-black text-xs" style="background:${t.bg || '#1e1b4b'}; color:${t.color || '#38bdf8'}; border: 1px solid ${t.border || '#06b6d4'};">${t.tag}</span>
+                                <div>
+                                    <div class="font-bold text-white text-xs">${t.name}</div>
+                                    <div class="text-[10px] text-gray-400 font-mono">${t.tag}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-3 text-gray-300">${t.region} <span class="text-[10px] text-gray-500 block">${t.seed || ''}</span></td>
+                        <td class="p-3 text-center font-bold text-white font-mono">${t.winRate || '60%'}</td>
+                        <td class="p-3 text-center font-black text-amber-400 font-mono text-sm">x${Number(t.odds || 2.0).toFixed(2)}</td>
+                        <td class="p-3 text-gray-300 font-semibold">${t.star || '-'}</td>
+                        <td class="p-3 text-center space-x-2">
+                            <button onclick="openPredictionTeamModal('${t.id}')" class="text-blue-400 hover:text-blue-300 font-bold px-2 py-1 rounded hover:bg-blue-500/10 transition">
+                                <i class="fas fa-edit mr-1"></i> Sửa
+                            </button>
+                            <button onclick="deletePredictionTeam('${t.id}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1 rounded hover:bg-red-500/10 transition">
+                                <i class="fas fa-trash-alt mr-1"></i> Xóa
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function openPredictionTeamModal(id = null) {
+            const modal = document.getElementById('prediction-team-modal');
+            if (id) {
+                const item = predTeamsCache.find(t => t.id === id);
+                if (item) {
+                    document.getElementById('prediction-team-modal-title').textContent = 'Chỉnh Sửa Đội Đặt Cược';
+                    document.getElementById('modal-pred-id').value = item.id;
+                    document.getElementById('modal-pred-name').value = item.name;
+                    document.getElementById('modal-pred-tag').value = item.tag;
+                    document.getElementById('modal-pred-region').value = item.region || 'Americas';
+                    document.getElementById('modal-pred-seed').value = item.seed || '';
+                    document.getElementById('modal-pred-winrate').value = item.winRate || '';
+                    document.getElementById('modal-pred-odds').value = item.odds || 2.0;
+                    document.getElementById('modal-pred-star').value = item.star || '';
+                }
+            } else {
+                document.getElementById('prediction-team-modal-title').textContent = 'Thêm Đội Đặt Cược Mới';
+                document.getElementById('modal-pred-id').value = '';
+                document.getElementById('modal-pred-name').value = '';
+                document.getElementById('modal-pred-tag').value = '';
+                document.getElementById('modal-pred-region').value = 'Pacific';
+                document.getElementById('modal-pred-seed').value = '#1 Pacific';
+                document.getElementById('modal-pred-winrate').value = '70%';
+                document.getElementById('modal-pred-odds').value = 2.20;
+                document.getElementById('modal-pred-star').value = '';
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closePredictionTeamModal() {
+            const modal = document.getElementById('prediction-team-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function savePredictionTeam() {
+            const id = document.getElementById('modal-pred-id').value;
+            const name = document.getElementById('modal-pred-name').value.trim();
+            const tag = document.getElementById('modal-pred-tag').value.trim();
+            const region = document.getElementById('modal-pred-region').value;
+            const seed = document.getElementById('modal-pred-seed').value.trim();
+            const winRate = document.getElementById('modal-pred-winrate').value.trim() || '60%';
+            const odds = parseFloat(document.getElementById('modal-pred-odds').value) || 2.0;
+            const star = document.getElementById('modal-pred-star').value.trim() || '-';
+
+            if (!name || !tag) { alert('Vui lòng nhập tên và tag viết tắt của đội tuyển!'); return; }
+
+            const teamObj = {
+                id: id || ('team_' + Date.now()),
+                name, tag, region, seed, winRate, odds, star,
+                color: '#38bdf8', bg: '#1e1b4b', border: '#06b6d4'
+            };
+
+            if (id) {
+                const idx = predTeamsCache.findIndex(t => t.id === id);
+                if (idx !== -1) predTeamsCache[idx] = { ...predTeamsCache[idx], ...teamObj };
+            } else {
+                predTeamsCache.push(teamObj);
+            }
+
+            localStorage.setItem('vct_prediction_teams', JSON.stringify(predTeamsCache));
+            closePredictionTeamModal();
+            renderPredictionTeams();
+            alert('✅ Đã lưu thông tin đội tuyển cược thành công!');
+        }
+
+        function deletePredictionTeam(id) {
+            if (!confirm('Bạn có chắc muốn xóa đội tuyển đặt cược này?')) return;
+            predTeamsCache = predTeamsCache.filter(t => t.id !== id);
+            localStorage.setItem('vct_prediction_teams', JSON.stringify(predTeamsCache));
+            renderPredictionTeams();
+            alert('🗑️ Đã xóa đội tuyển khỏi danh sách cược!');
+        }
+
+        // --- User Bets Receipts ---
+        function renderUserBetsReceipt() {
+            const container = document.getElementById('user-bets-receipt-container');
+            if (!container) return;
+            try {
+                const bet = JSON.parse(localStorage.getItem('vct_bet_shanghai') || 'null');
+                if (!bet) {
+                    container.innerHTML = `
+                        <div class="flex items-center space-x-3 text-gray-400">
+                            <i class="fas fa-info-circle text-base text-gray-500"></i>
+                            <span>Hiện chưa có phiếu cược nào được đặt trên trình duyệt này. Hãy vào trang <b>dudoan.html</b> để thử đặt cược!</span>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div>
+                                <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-bold font-mono">PHIẾU CƯỢC HOẠT ĐỘNG</span>
+                                <h4 class="text-base font-bold text-white mt-1">Đội đặt: <b class="text-vct-red">${bet.teamName || 'Chưa rõ'} (${bet.teamTag || ''})</b></h4>
+                                <p class="text-gray-400 text-xs mt-0.5">Số điểm cược: <b class="text-white">${bet.points || 0} điểm</b> · Tỷ lệ thưởng: <b class="text-amber-400">x${Number(bet.odds || 1.0).toFixed(2)}</b> · Thưởng tiềm năng: <b class="text-emerald-400">${bet.payout || 0} điểm</b></p>
+                                <p class="text-gray-500 text-[11px] mt-0.5">Thời gian ghi nhận: ${bet.timestamp || 'Gần đây'}</p>
+                            </div>
+                            <button onclick="clearUserBets()" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/40 text-xs font-bold px-4 py-2 rounded transition">
+                                <i class="fas fa-trash-alt mr-1"></i> Xóa Phiếu Cược Này
+                            </button>
+                        </div>
+                    `;
+                }
+            } catch(e) {
+                container.innerHTML = `<span class="text-gray-500">Lỗi khi đọc phiếu cược.</span>`;
+            }
+        }
+
+        function clearUserBets() {
+            if (!confirm('Bạn có chắc muốn xóa toàn bộ phiếu cược đã đặt để test lại từ đầu không?')) return;
+            localStorage.removeItem('vct_bet_shanghai');
+            renderUserBetsReceipt();
+            alert('🗑️ Đã xóa phiếu cược thành công! Người dùng có thể vào dudoan.html để chọn đội và đặt cược lại.');
+        }
+
+        function resetPredictionsToDefault() {
+            if (!confirm('Khôi phục danh sách sự kiện và 12 đội đặt cược về mặc định ban đầu?')) return;
+            predEventsCache = JSON.parse(JSON.stringify(DEFAULT_PREDICTION_EVENTS));
+            predTeamsCache = JSON.parse(JSON.stringify(DEFAULT_PREDICTION_TEAMS));
+            localStorage.setItem('vct_prediction_events', JSON.stringify(predEventsCache));
+            localStorage.setItem('vct_prediction_teams', JSON.stringify(predTeamsCache));
+            renderPredictionEvents();
+            renderPredictionTeams();
+            alert('🔄 Đã khôi phục dữ liệu dự đoán về mặc định!');
         }
 
         // ==================================================

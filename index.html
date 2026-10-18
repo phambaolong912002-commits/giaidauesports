@@ -569,7 +569,7 @@
                 >CHỌN / CẤM</span
               >
             </div>
-            <div class="space-y-2.5">
+            <div id="homeMapsList" class="space-y-2.5">
               <!-- Map 1 -->
               <div
                 class="flex items-center justify-between bg-[#1a1a22] px-3 py-2 rounded-lg border border-[#262633]"
@@ -660,22 +660,24 @@
                   >MVP TRẬN ĐẤU</span
                 >
                 <span
+                  id="homeMvpBadge"
                   class="text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded font-bold"
                   >TOP 1</span
                 >
               </div>
               <div class="flex items-center space-x-3 mb-3">
                 <div
+                  id="homeMvpAvatar"
                   class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#ff4655] to-purple-800 flex items-center justify-center font-black text-lg text-white shadow-lg"
                 >
                   KR
                 </div>
                 <div>
-                  <h4 class="font-black text-base text-white leading-tight">
+                  <h4 id="homeMvpName" class="font-black text-base text-white leading-tight">
                     KR1STAL
                   </h4>
                   <span class="text-xs text-gray-400 font-medium"
-                    >Đặc vụ: <strong class="text-white">Jett</strong></span
+                    >Đặc vụ: <strong id="homeMvpAgent" class="text-white">Jett</strong></span
                   >
                 </div>
               </div>
@@ -687,7 +689,7 @@
                     class="text-[10px] text-gray-400 block uppercase font-bold"
                     >K / D / A</span
                   >
-                  <span class="text-sm font-black font-mono text-emerald-400"
+                  <span id="homeMvpKda" class="text-sm font-black font-mono text-emerald-400"
                     >24 / 11 / 7</span
                   >
                 </div>
@@ -696,13 +698,14 @@
                     class="text-[10px] text-gray-400 block uppercase font-bold"
                     >ĐIỂM ACS</span
                   >
-                  <span class="text-sm font-black font-mono text-white"
+                  <span id="homeMvpAcs" class="text-sm font-black font-mono text-white"
                     >298</span
                   >
                 </div>
               </div>
             </div>
             <span
+              id="homeMvpNote"
               class="text-[10px] text-gray-500 text-center block mt-2 font-mono"
               >Đánh giá hiệu suất bởi AWS</span
             >
@@ -725,7 +728,7 @@
               >Giờ Việt Nam (GMT+7)</span
             >
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div id="homeUpcomingMatchesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <!-- Upcoming Match 1 -->
             <div
               class="bg-[#191920] hover:bg-[#1f1f28] border border-[#252532] rounded-lg p-3.5 flex flex-col justify-between transition-colors"
@@ -1330,6 +1333,147 @@ function showToast(message, type) {
         setTimeout(() => toast.remove(), 300); // Chờ animation mờ đi rồi xóa khỏi DOM
     }, 3500);
 }
+</script>
+
+<!-- ======================================================== -->
+<!-- ĐỒNG BỘ DỮ LIỆU TỪ ADMIN (MAPS, MVP, UPCOMING MATCHES)    -->
+<!-- ======================================================== -->
+<script>
+function applyAdminHomeData() {
+    try {
+        const stored = localStorage.getItem('vct_home_data');
+        if (!stored) return;
+        const data = JSON.parse(stored);
+
+        // 1. Cập nhật Danh sách Bản đồ thi đấu & Tỉ số
+        if (data.maps && Array.isArray(data.maps)) {
+            const mapsContainer = document.getElementById('homeMapsList');
+            if (mapsContainer) {
+                mapsContainer.innerHTML = data.maps.map(m => {
+                    const isLive = m.state === 'live';
+                    if (isLive) {
+                        return `
+                          <div class="flex items-center justify-between bg-[#1f1d24] px-3 py-2 rounded-lg border border-[#ff4655]/40">
+                            <div class="flex items-center space-x-3">
+                              <span class="text-xs font-mono font-bold text-[#ff4655]">${m.label || 'M1'}</span>
+                              <span class="font-bold text-sm text-white">${m.name}</span>
+                              <span class="inline-flex items-center text-[10px] bg-[#ff4655]/20 text-[#ff4655] px-2 py-0.5 rounded font-bold">
+                                <span class="w-1.5 h-1.5 rounded-full bg-[#ff4655] mr-1 pulse-indicator"></span>${m.picker || 'Đang đấu'}
+                              </span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                              <span class="text-xs font-mono font-black text-yellow-400">${m.score || '-'}</span>
+                              <span class="text-[10px] font-bold uppercase text-gray-300">${m.status || 'Trực tiếp'}</span>
+                            </div>
+                          </div>
+                        `;
+                    } else {
+                        return `
+                          <div class="flex items-center justify-between bg-[#1a1a22] px-3 py-2 rounded-lg border border-[#262633]">
+                            <div class="flex items-center space-x-3">
+                              <span class="text-xs font-mono font-bold text-gray-400">${m.label || 'M1'}</span>
+                              <span class="font-bold text-sm text-white">${m.name}</span>
+                              <span class="text-[10px] bg-blue-900/60 text-blue-300 px-2 py-0.5 rounded font-medium">${m.picker || ''}</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                              <span class="text-xs font-mono font-black text-emerald-400">${m.score || '-'}</span>
+                              <span class="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">${m.status || 'GE Thắng'}</span>
+                            </div>
+                          </div>
+                        `;
+                    }
+                }).join('');
+            }
+        }
+
+        // 2. Cập nhật MVP Trận Đấu
+        if (data.mvp) {
+            const mvp = data.mvp;
+            const elName = document.getElementById('homeMvpName');
+            const elAvatar = document.getElementById('homeMvpAvatar');
+            const elAgent = document.getElementById('homeMvpAgent');
+            const elKda = document.getElementById('homeMvpKda');
+            const elAcs = document.getElementById('homeMvpAcs');
+            const elBadge = document.getElementById('homeMvpBadge');
+            const elNote = document.getElementById('homeMvpNote');
+
+            if (elName && mvp.name) elName.textContent = mvp.name;
+            if (elAvatar && mvp.avatar) elAvatar.textContent = mvp.avatar;
+            if (elAgent && mvp.agent) elAgent.textContent = mvp.agent;
+            if (elKda && mvp.kda) elKda.textContent = mvp.kda;
+            if (elAcs && mvp.acs) elAcs.textContent = mvp.acs;
+            if (elBadge && mvp.badge) elBadge.textContent = mvp.badge;
+            if (elNote && mvp.note) elNote.textContent = mvp.note;
+        }
+
+        // 3. Cập nhật Trận Đấu Tiếp Theo
+        if (data.upcoming && Array.isArray(data.upcoming)) {
+            const matchesGrid = document.getElementById('homeUpcomingMatchesGrid');
+            if (matchesGrid) {
+                matchesGrid.innerHTML = data.upcoming.map(m => {
+                    const t1Tag = m.team1?.tag || 'T1';
+                    const t1Name = m.team1?.name || t1Tag;
+                    const t2Tag = m.team2?.tag || 'T2';
+                    const t2Name = m.team2?.name || t2Tag;
+
+                    return `
+                      <div class="bg-[#191920] hover:bg-[#1f1f28] border border-[#252532] rounded-lg p-3.5 flex flex-col justify-between transition-colors">
+                        <div class="flex items-center justify-between mb-2">
+                          <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">${m.league || 'VCT PACIFIC • BO3'}</span>
+                          <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            ${m.status || 'SẮP BẮT ĐẦU'}
+                          </span>
+                        </div>
+                        <div class="flex items-center justify-between my-2">
+                          <!-- Team 1 -->
+                          <div class="flex items-center space-x-2.5">
+                            <div class="w-8 h-8 rounded bg-[#1e2337] border border-blue-400/40 flex items-center justify-center font-black text-xs text-cyan-300">
+                              ${t1Tag}
+                            </div>
+                            <div>
+                              <span class="font-bold text-sm text-white block leading-none">${t1Tag}</span>
+                              <span class="text-[10px] text-gray-400">${t1Name}</span>
+                            </div>
+                          </div>
+                          <!-- VS -->
+                          <span class="font-mono text-xs font-bold text-gray-500">VS</span>
+                          <!-- Team 2 -->
+                          <div class="flex items-center space-x-2.5">
+                            <div class="text-right">
+                              <span class="font-bold text-sm text-white block leading-none">${t2Tag}</span>
+                              <span class="text-[10px] text-gray-400">${t2Name}</span>
+                            </div>
+                            <div class="w-8 h-8 rounded bg-[#0f1d3a] border border-blue-500/40 flex items-center justify-center font-black text-xs text-blue-400">
+                              ${t2Tag}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-[#252530] mt-1">
+                          <span class="text-xs font-mono font-bold text-white flex items-center">
+                            <svg class="w-3.5 h-3.5 mr-1 text-[#ff4655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                              <polyline points="12 6 12 12 16 14" stroke-width="2"></polyline>
+                            </svg>
+                            ${m.time || '17:00'} (GMT+7)
+                          </span>
+                          <button class="text-gray-400 hover:text-white transition-colors p-1" title="Bật thông báo trận đấu">
+                            <svg class="w-4 h-4 fill-none stroke-current" stroke-width="1.8" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                          </button>
+                        </div>
+                      </div>
+                    `;
+                }).join('');
+            }
+        }
+    } catch(e) {
+        console.warn("Lỗi đồng bộ dữ liệu trang chủ từ admin:", e);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', applyAdminHomeData);
+window.addEventListener('storage', (e) => {
+    if (e.key === 'vct_home_data') applyAdminHomeData();
+});
 </script>
 <!-- Toast Notification Container -->
 <div id="toast-container" class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none"></div>
