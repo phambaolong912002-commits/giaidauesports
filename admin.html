@@ -2112,7 +2112,7 @@ Lưu ý: Vé là vé điện tử có mã QR định danh, khán giả vui lòng
                             <div>
                                 <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-bold font-mono">PHIẾU CƯỢC HOẠT ĐỘNG</span>
                                 <h4 class="text-base font-bold text-white mt-1">Đội đặt: <b class="text-vct-red">${bet.teamName || 'Chưa rõ'} (${bet.teamTag || ''})</b></h4>
-                                <p class="text-gray-400 text-xs mt-0.5">Số điểm cược: <b class="text-white">${bet.points || 0} điểm</b> · Tỷ lệ thưởng: <b class="text-amber-400">x${Number(bet.odds || 1.0).toFixed(2)}</b> · Thưởng tiềm năng: <b class="text-emerald-400">${bet.payout || 0} điểm</b></p>
+                                <p class="text-gray-400 text-xs mt-0.5">Số tiền cược: <b class="text-white">${bet.amountVND ? Number(bet.amountVND).toLocaleString('vi-VN') + ' ₫' : (bet.points || 0) + ' điểm'}</b> · Tỷ lệ thưởng: <b class="text-amber-400">x${Number(bet.odds || 1.0).toFixed(2)}</b> · Thưởng tiềm năng: <b class="text-emerald-400">${bet.payoutVND ? Number(bet.payoutVND).toLocaleString('vi-VN') + ' ₫' : (bet.payout || 0) + ' điểm'}</b></p>
                                 <p class="text-gray-500 text-[11px] mt-0.5">Thời gian ghi nhận: ${bet.timestamp || 'Gần đây'}</p>
                             </div>
                             <button onclick="clearUserBets()" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/40 text-xs font-bold px-4 py-2 rounded transition">

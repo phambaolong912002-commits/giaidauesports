@@ -748,14 +748,14 @@
 
         <!-- VIEW 1: Form chọn đội & đặt cược -->
         <div id="bettingFormView" class="p-5 sm:p-6 overflow-y-auto flex-1 space-y-6">
-          <!-- Hướng dẫn & Điểm khả dụng -->
+          <!-- Hướng dẫn & Số dư khả dụng -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/5">
             <p class="text-xs text-zinc-300">
-              ⚡ Hãy chọn 1 đội tuyển bạn tin tưởng sẽ nâng cao chiếc cúp vô địch thế giới và nhập điểm cược dự đoán.
+              ⚡ Hãy chọn 1 đội tuyển bạn tin tưởng sẽ nâng cao chiếc cúp vô địch thế giới và nhập số tiền cược dự đoán.
             </p>
             <div class="flex items-center space-x-2 text-xs shrink-0 font-bold bg-[#ff4655]/10 border border-[#ff4655]/30 px-3 py-1.5 rounded-lg text-[#ff4655]">
-              <span>Điểm khả dụng:</span>
-              <span id="userPointsDisplay" class="text-white text-sm font-black">1,000 pts</span>
+              <span>Số dư khả dụng:</span>
+              <span id="userPointsDisplay" class="text-white text-sm font-black">10.000.000 ₫</span>
             </div>
           </div>
 
@@ -789,32 +789,42 @@
               <div class="text-left sm:text-right">
                 <span class="text-[10px] uppercase font-bold text-zinc-400">Tỉ lệ cược thưởng</span>
                 <p id="selectedTeamOdds" class="text-base font-black text-amber-400">x0.00</p>
+                <span id="oddsMultiplierNote" class="text-[11px] text-zinc-400 block font-medium">(1 ₫ ăn 0.00 ₫)</span>
               </div>
             </div>
 
-            <!-- Nhập số điểm cược -->
+            <!-- Nhập số tiền cược (VNĐ / USD) -->
             <div>
               <div class="flex items-center justify-between mb-2">
                 <label for="betAmountInput" class="text-xs font-bold text-zinc-300 uppercase tracking-wider">
-                  Số điểm đặt cược (VCT Points)
+                  Số tiền đặt cược
                 </label>
-                <span class="text-xs text-zinc-400">Tối thiểu: 50 pts</span>
+                <div class="flex items-center gap-2">
+                  <span id="betMinLabel" class="text-xs text-zinc-400">Tối thiểu: 500.000 ₫</span>
+                  <!-- Toggle currency -->
+                  <button id="btnToggleCurrency" type="button"
+                    class="text-[10px] font-black uppercase px-2 py-0.5 rounded-md border border-amber-400/60 text-amber-400 hover:bg-amber-400/10 transition"
+                    title="Chuyển đổi tiền tệ">VNĐ ⇄ USD</button>
+                </div>
               </div>
               <div class="flex items-center gap-2">
-                <input
-                  id="betAmountInput"
-                  type="number"
-                  min="50"
-                  max="1000"
-                  step="50"
-                  value="250"
-                  class="flex-1 bg-black/40 border border-white/15 rounded-xl px-4 py-2.5 text-white font-bold text-sm focus:border-[#ff4655] focus:outline-none focus:ring-1 focus:ring-[#ff4655]"
-                />
+                <div class="relative flex-1">
+                  <span id="currencySymbol" class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 font-bold text-sm pointer-events-none">₫</span>
+                  <input
+                    id="betAmountInput"
+                    type="number"
+                    min="500000"
+                    max="50000000"
+                    step="500000"
+                    value="500000"
+                    class="w-full bg-black/40 border border-white/15 rounded-xl pl-7 pr-4 py-2.5 text-white font-bold text-sm focus:border-[#ff4655] focus:outline-none focus:ring-1 focus:ring-[#ff4655]"
+                  />
+                </div>
                 <!-- Presets -->
-                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt="100">100</button>
-                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt="250">250</button>
-                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt="500">500</button>
-                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt="1000">Tối đa</button>
+                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt-vnd="500000" data-amt-usd="20">500k</button>
+                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt-vnd="1000000" data-amt-usd="40">1tr</button>
+                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt-vnd="2000000" data-amt-usd="80">2tr</button>
+                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt-vnd="50000000" data-amt-usd="2000">Tối đa</button>
               </div>
             </div>
 
@@ -823,7 +833,7 @@
               <div>
                 <span class="text-[10px] uppercase font-bold text-zinc-400">Phần thưởng tiềm năng</span>
                 <p id="potentialPayout" class="text-xl font-black text-emerald-400">
-                  0 pts
+                  0 ₫
                 </p>
               </div>
               <button
@@ -873,12 +883,12 @@
               <span id="receiptTeamName" class="font-black text-sm text-white">Leviatán</span>
             </div>
             <div class="flex items-center justify-between pb-3 border-b border-white/10">
-              <span class="text-xs text-zinc-400">Số điểm đặt cược:</span>
-              <span id="receiptBetAmount" class="font-bold text-sm text-white">250 VCT Points</span>
+              <span class="text-xs text-zinc-400">Số tiền đặt cược:</span>
+              <span id="receiptBetAmount" class="font-bold text-sm text-white">500.000 ₫</span>
             </div>
             <div class="flex items-center justify-between pb-3 border-b border-white/10">
               <span class="text-xs text-zinc-400">Tiền thưởng tiềm năng:</span>
-              <span id="receiptPayout" class="font-black text-base text-emerald-400">462.5 VCT Points</span>
+              <span id="receiptPayout" class="font-black text-base text-emerald-400">0 ₫</span>
             </div>
             <div class="flex items-center justify-between">
               <span class="text-xs text-zinc-400">Thời gian ghi nhận:</span>
@@ -1015,16 +1025,23 @@
 
           // Khởi tạo đội mặc định nếu chưa chọn
           const savedBet = getSavedBet();
+          const input = document.getElementById("betAmountInput");
           if (savedBet && savedBet.teamId) {
             selectTeam(savedBet.teamId, false);
-            const input = document.getElementById("betAmountInput");
-            if (input && savedBet.points) input.value = savedBet.points;
-            updatePayout();
+            if (input) {
+              if (savedBet.amountVND && savedBet.amountVND >= 500000) {
+                input.value = currentCurrency === "USD" ? (savedBet.amountVND / USD_RATE) : savedBet.amountVND;
+              } else {
+                input.value = getMinAmount();
+              }
+            }
           } else {
             if (!currentSelectedTeam) {
               selectTeam(VCT_TEAMS[0].id, false);
             }
+            if (input) input.value = getMinAmount();
           }
+          updatePayout();
           renderTeamsGrid(currentActiveRegion);
         }
 
@@ -1092,6 +1109,7 @@
           const badge = document.getElementById("selectedTeamBadge");
           const nameEl = document.getElementById("selectedTeamName");
           const oddsEl = document.getElementById("selectedTeamOdds");
+          const oddsNoteEl = document.getElementById("oddsMultiplierNote");
 
           if (badge) {
             badge.textContent = found.tag;
@@ -1101,19 +1119,94 @@
           }
           if (nameEl) nameEl.textContent = `${found.name} (${found.tag}) - ${found.region}`;
           if (oddsEl) oddsEl.textContent = `x${found.odds.toFixed(2)}`;
+          if (oddsNoteEl) {
+            oddsNoteEl.textContent = currentCurrency === "USD"
+              ? `(1 $ ăn $${found.odds.toFixed(2)})`
+              : `(1 ₫ ăn ${found.odds.toFixed(2)} ₫)`;
+          }
 
           updatePayout();
           if (reRender) renderTeamsGrid(currentActiveRegion);
+        }
+
+        // --- Hệ thống tiền tệ ---
+        let currentCurrency = "VND"; // "VND" hoặc "USD"
+        const USD_RATE = 25000; // 1 USD = 25,000 VNĐ
+
+        function formatCurrency(amountVND) {
+          if (currentCurrency === "USD") {
+            const usd = amountVND / USD_RATE;
+            return "$" + usd.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          }
+          return amountVND.toLocaleString("vi-VN") + " ₫";
+        }
+
+        function getMinAmount() {
+          return currentCurrency === "USD" ? 20 : 500000; // $20 ≈ 500,000 VNĐ
+        }
+
+        function getMaxAmount() {
+          return currentCurrency === "USD" ? 2000 : 50000000;
+        }
+
+        function getStepAmount() {
+          return currentCurrency === "USD" ? 10 : 500000;
+        }
+
+        function updateCurrencyUI() {
+          const sym = document.getElementById("currencySymbol");
+          const minLabel = document.getElementById("betMinLabel");
+          const input = document.getElementById("betAmountInput");
+          const btn = document.getElementById("btnToggleCurrency");
+          const balanceEl = document.getElementById("userPointsDisplay");
+          const oddsNoteEl = document.getElementById("oddsMultiplierNote");
+
+          if (sym) sym.textContent = currentCurrency === "USD" ? "$" : "₫";
+          if (minLabel) minLabel.textContent = currentCurrency === "USD" ? "Tối thiểu: $20" : "Tối thiểu: 500.000 ₫";
+          if (input) {
+            input.min = getMinAmount();
+            input.max = getMaxAmount();
+            input.step = getStepAmount();
+            input.value = getMinAmount();
+          }
+          if (btn) btn.textContent = currentCurrency === "USD" ? "USD ⇄ VNĐ" : "VNĐ ⇄ USD";
+          if (balanceEl) {
+            balanceEl.textContent = currentCurrency === "USD" ? "$400.00" : "10.000.000 ₫";
+          }
+          if (oddsNoteEl && currentSelectedTeam) {
+            oddsNoteEl.textContent = currentCurrency === "USD"
+              ? `(1 $ ăn $${currentSelectedTeam.odds.toFixed(2)})`
+              : `(1 ₫ ăn ${currentSelectedTeam.odds.toFixed(2)} ₫)`;
+          }
+
+          // Cập nhật nhãn nút presets
+          const presetBtns = document.querySelectorAll(".btn-preset");
+          presetBtns.forEach(pBtn => {
+            if (currentCurrency === "USD") {
+              const usdVal = pBtn.getAttribute("data-amt-usd");
+              pBtn.textContent = usdVal === "2000" ? "Tối đa" : "$" + usdVal;
+            } else {
+              const vndVal = pBtn.getAttribute("data-amt-vnd");
+              if (vndVal === "500000") pBtn.textContent = "500k";
+              else if (vndVal === "1000000") pBtn.textContent = "1tr";
+              else if (vndVal === "2000000") pBtn.textContent = "2tr";
+              else pBtn.textContent = "Tối đa";
+            }
+          });
+
+          updatePayout();
         }
 
         function updatePayout() {
           if (!currentSelectedTeam) return;
           const input = document.getElementById("betAmountInput");
           const payoutEl = document.getElementById("potentialPayout");
-          const amount = parseInt(input?.value || "250", 10) || 0;
-          const payout = Math.round(amount * currentSelectedTeam.odds);
+          const amount = parseFloat(input?.value || "0") || 0;
+          // Chuyển về VNĐ để tính
+          const amountVND = currentCurrency === "USD" ? amount * USD_RATE : amount;
+          const payoutVND = Math.round(amountVND * currentSelectedTeam.odds);
           if (payoutEl) {
-            payoutEl.textContent = `${payout.toLocaleString()} pts`;
+            payoutEl.textContent = formatCurrency(payoutVND);
           }
         }
 
@@ -1133,7 +1226,10 @@
           if (!badge || !text) return;
 
           if (bet && bet.teamName) {
-            text.textContent = `✓ Đã đặt cược: ${bet.teamName} (${bet.points} pts)`;
+            const amountStr = bet.amountVND 
+              ? formatCurrency(bet.amountVND) 
+              : (bet.points ? `${bet.points.toLocaleString()} ₫` : '500.000 ₫');
+            text.textContent = `✓ Đã đặt cược: ${bet.teamName} (${amountStr})`;
             badge.classList.remove("hidden");
           } else {
             badge.classList.add("hidden");
@@ -1147,14 +1243,19 @@
             return;
           }
           const input = document.getElementById("betAmountInput");
-          const points = parseInt(input?.value || "250", 10);
-          if (isNaN(points) || points < 50) {
-            showToast("Điểm cược không hợp lệ", "Mức cược tối thiểu là 50 VCT Points!", "⚠️");
+          const amount = parseFloat(input?.value || "0");
+          const minAmount = getMinAmount();
+          if (isNaN(amount) || amount < minAmount) {
+            const minLabel = currentCurrency === "USD" ? "$20" : "500.000 ₫";
+            showToast("Số tiền không hợp lệ", `Mức cược tối thiểu là ${minLabel}!`, "⚠️");
             return;
           }
 
+          // Chuyển về VNĐ để lưu trữ thống nhất
+          const amountVND = currentCurrency === "USD" ? amount * USD_RATE : amount;
+          const payoutVND = Math.round(amountVND * currentSelectedTeam.odds);
+
           const betId = "VCT-SH-" + Math.floor(100000 + Math.random() * 900000);
-          const payout = Math.round(points * currentSelectedTeam.odds);
           const now = new Date();
           const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")} - ${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
 
@@ -1164,8 +1265,9 @@
             teamName: currentSelectedTeam.name,
             teamTag: currentSelectedTeam.tag,
             odds: currentSelectedTeam.odds,
-            points: points,
-            payout: payout,
+            amountVND: amountVND,
+            payoutVND: payoutVND,
+            currency: currentCurrency,
             timestamp: timeStr,
             createdAt: timeStr
           };
@@ -1175,8 +1277,8 @@
           // Cập nhật thông tin phiếu cược chi tiết
           document.getElementById("receiptBetId").textContent = "#" + betId;
           document.getElementById("receiptTeamName").textContent = `${currentSelectedTeam.name} (${currentSelectedTeam.tag})`;
-          document.getElementById("receiptBetAmount").textContent = `${points.toLocaleString()} VCT Points`;
-          document.getElementById("receiptPayout").textContent = `${payout.toLocaleString()} VCT Points`;
+          document.getElementById("receiptBetAmount").textContent = formatCurrency(amountVND);
+          document.getElementById("receiptPayout").textContent = formatCurrency(payoutVND);
           document.getElementById("receiptTime").textContent = timeStr;
 
           // Chuyển view sang màn hình chúc mừng
@@ -1248,19 +1350,26 @@
             });
           });
 
-          // Nút chọn nhanh điểm cược (Presets)
+          // Nút chọn nhanh số tiền cược (Presets)
           document.querySelectorAll(".btn-preset").forEach(btn => {
             btn.addEventListener("click", () => {
-              const amt = btn.getAttribute("data-amt");
+              const amtVnd = btn.getAttribute("data-amt-vnd");
+              const amtUsd = btn.getAttribute("data-amt-usd");
               const input = document.getElementById("betAmountInput");
               if (input) {
-                input.value = amt;
+                input.value = currentCurrency === "USD" ? amtUsd : amtVnd;
                 updatePayout();
               }
             });
           });
 
-          // Thay đổi input điểm cược
+          // Toggle tiền tệ VNĐ ⇄ USD
+          document.getElementById("btnToggleCurrency")?.addEventListener("click", () => {
+            currentCurrency = currentCurrency === "VND" ? "USD" : "VND";
+            updateCurrencyUI();
+          });
+
+          // Thay đổi input số tiền
           document.getElementById("betAmountInput")?.addEventListener("input", updatePayout);
 
           // Nút xác nhận đặt cược
