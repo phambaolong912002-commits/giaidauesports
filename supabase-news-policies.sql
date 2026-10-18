@@ -24,7 +24,7 @@ $$;
 
 revoke all on function public.is_news_admin() from public;
 grant execute on function public.is_news_admin() to anon, authenticated;
-
+      
 alter table public.news enable row level security;
 
 drop policy if exists "Published news is publicly readable" on public.news;

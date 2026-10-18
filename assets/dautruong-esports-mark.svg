@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">Đấu Trường Esports</title>
+  <path fill="#ff4655" d="M24 2 3 12v24l21 10 21-10V12L24 2Z"/>
+  <path fill="#0d0d0f" d="m24 7-15 7v20l15 7 15-7V14L24 7Z"/>
+  <path fill="#fff" d="M14 15h12c6 0 10 4 10 9s-4 9-10 9H14V15Zm7 5v8h5c2 0 3-1.5 3-4s-1-4-3-4h-5Z"/>
+</svg>

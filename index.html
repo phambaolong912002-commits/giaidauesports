@@ -98,14 +98,11 @@
             href="index.html"
             class="flex items-center space-x-2 text-white hover:text-[#ff4655] transition-colors group"
           >
-            <svg
-              class="w-5 h-5 fill-current text-white group-hover:text-[#ff4655] transition-colors"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M2 8.5L7.5 2.5L12 7.5L10 9L12.5 12L14.5 10.5L17.5 13.5L15 15.5L18 18.5L22 15L23 21L12.5 24L2 8.5Z"
-              ></path>
-            </svg>
+            <img
+              class="w-5 h-5 shrink-0 transition-opacity group-hover:opacity-80"
+              src="assets/riot-games-mark.svg"
+              alt=""
+            />
             <span
               class="font-display font-black tracking-wider text-sm uppercase text-white"
               >RIOT GAMES</span
@@ -113,15 +110,11 @@
           </a>
           <div class="h-5 w-[1px] bg-zinc-700"></div>
           <a href="index.html" class="flex items-center space-x-2.5 group">
-            <svg
-              class="w-6 h-6 text-[#ff4655] fill-current group-hover:scale-105 transition-transform duration-200 flex-shrink-0"
-              viewBox="0 0 100 100"
-            >
-              <polygon points="12,20 44,20 24,80 2,80"></polygon>
-              <polygon points="88,20 56,20 76,80 98,80"></polygon>
-              <polygon points="50,38 68,78 54,78 43,54 47,44"></polygon>
-              <polygon points="50,38 32,78 46,78 57,54 53,44"></polygon>
-            </svg>
+            <img
+              class="w-6 h-6 shrink-0 transition-transform duration-200 group-hover:scale-105"
+              src="assets/dautruong-esports-mark.svg"
+              alt=""
+            />
             <div class="flex flex-col justify-center">
               <div class="flex items-center space-x-1.5 leading-none">
                 <span
@@ -417,7 +410,7 @@
           class="bg-[#151518] border border-[#22222a] rounded-lg px-4 py-3 flex flex-wrap items-center justify-between gap-3 shadow-lg"
         >
           <!-- Title Heading -->
-          <h2 class="text-2xl font-black tracking-tight text-white">Hôm nay</h2>
+          <h2 id="match-date-heading" class="text-2xl font-black tracking-tight text-white">Hôm nay</h2>
           <!-- Middle Controls: Date Switcher & Tournament Selector -->
           <div class="flex items-center space-x-3">
             <!-- Date Prev/Next Navigator -->
@@ -441,7 +434,7 @@
               </button>
             <span id="current-date-display" class="px-2.5 text-xs text-gray-200">Hôm nay</span>
              
-              <button id="btn-next-day" class="text-gray-400 hover:text-white px-1.5 py-0.5 transition-colors" title="Ngày sau"> ...
+              <button id="btn-next-day" class="text-gray-400 hover:text-white px-1.5 py-0.5 transition-colors" title="Ngày sau">
                 <svg
                   class="w-4 h-4"
                   fill="none"
@@ -457,21 +450,8 @@
                 </svg>
               </button>
             </div>
-           
-            
-              <!-- Cup / Trophy SVG Icon -->
-              
-            </button>
           </div>
           <div id="matches-container" class="bg-[#111113] rounded-lg p-4">
-          
-          
-        </div>
-        <!-- Featured Live Match Card with Video Player Simulation -->
-        <article
-          class="relative w-full rounded-xl overflow-hidden border border-[#262633] bg-[#0c0d12] shadow-2xl flex flex-col group cursor-pointer"
-          data-purpose="featured-live-match"
-        >
           <!-- Featured Live Match Card with Video Player Simulation -->
         <article
           class="relative w-full rounded-xl overflow-hidden border border-[#262633] bg-[#0c0d12] shadow-2xl flex flex-col group"
@@ -570,8 +550,9 @@
             </div>
           </div>
         </article>
+        </div>
         <!-- NỘI DUNG MỚI 1 & 2: Bảng Thống kê Bản đồ & Tuyển thủ MVP -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div id="match-details" class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Bảng Thống kê Bản đồ (Map Score & Veto) -->
           <div
             class="md:col-span-2 bg-[#141418] border border-[#202028] rounded-xl p-4 flex flex-col justify-between"
@@ -731,7 +712,7 @@
           </div>
         </div>
         <!-- NỘI DUNG MỚI 3: LỊCH THI ĐẤU TIẾP THEO TRONG NGÀY -->
-        <div class="bg-[#141418] border border-[#202028] rounded-xl p-4">
+        <div id="upcoming-matches" class="bg-[#141418] border border-[#202028] rounded-xl p-4">
           <div
             class="flex items-center justify-between pb-3 border-b border-[#202026] mb-4"
           >
@@ -944,7 +925,7 @@
           </div>
           <!-- Leaderboard Rows -->
           <div class="space-y-3 font-sans">
-            <!-- Rank 1: 100 Thieves -->
+            <!-- Rankings match the order in xephangsucmanh.html. -->
             <div
               class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
             >
@@ -953,25 +934,6 @@
                   >1</span
                 >
                 <!-- Team Crest -->
-                <div
-                  class="w-8 h-8 rounded-full bg-black border border-[#2d2d38] flex items-center justify-center text-[#ff4655] font-black text-xs italic"
-                >
-                  100T
-                </div>
-                <span class="font-bold text-sm tracking-wide text-white"
-                  >100 Thieves (100T)</span
-                >
-              </div>
-            </div>
-            <!-- Rank 1 (Tied): Leviatán -->
-            <div
-              class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
-            >
-              <div class="flex items-center space-x-4">
-                <span class="text-xl font-black text-white w-4 text-center"
-                  >1</span
-                >
-                <!-- Team Crest (Dragon neon blue style) -->
                 <div
                   class="w-8 h-8 rounded-full bg-cyan-950 border border-cyan-400/40 flex items-center justify-center text-cyan-300 font-black text-xs"
                 >
@@ -982,7 +944,23 @@
                 >
               </div>
             </div>
-            <!-- Rank 3: Nongshim RedForce -->
+            <div
+              class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
+            >
+              <div class="flex items-center space-x-4">
+                <span class="text-xl font-black text-white w-4 text-center"
+                  >2</span
+                >
+                <div
+                  class="w-8 h-8 rounded-full bg-[#201d2d] border border-[#4f46e5] flex items-center justify-center text-[#818cf8] font-black text-[9px]"
+                >
+                  GE
+                </div>
+                <span class="font-bold text-sm tracking-wide text-white"
+                  >Global Esports (GE)</span
+                >
+              </div>
+            </div>
             <div
               class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
             >
@@ -990,18 +968,16 @@
                 <span class="text-xl font-black text-white w-4 text-center"
                   >3</span
                 >
-                <!-- Team Crest Red shield -->
                 <div
-                  class="w-8 h-8 rounded bg-[#b91c1c] border border-red-500/50 flex items-center justify-center text-white font-black text-xs"
+                  class="w-8 h-8 rounded-full bg-[#2a1315] border border-[#ef4444] flex items-center justify-center text-white font-black text-[9px] italic"
                 >
-                  NS
+                  100T
                 </div>
                 <span class="font-bold text-sm tracking-wide text-white"
-                  >Nongshim RedForce (NS)</span
+                  >100 Thieves (100T)</span
                 >
               </div>
             </div>
-            <!-- Rank 4: Paper Rex -->
             <div
               class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
             >
@@ -1019,7 +995,6 @@
                 >
               </div>
             </div>
-            <!-- Rank 5: Fnatic -->
             <div
               class="flex items-center justify-between py-2 border-b border-[#1c1c24] hover:bg-[#14141a] px-2 rounded transition-colors cursor-pointer"
             >
@@ -1028,12 +1003,12 @@
                   >5</span
                 >
                 <div
-                  class="w-8 h-8 rounded bg-[#2c1d12] border border-orange-500/40 flex items-center justify-center text-orange-400 font-black text-xs"
+                  class="w-8 h-8 rounded bg-[#b91c1c] border border-red-500/50 flex items-center justify-center text-white font-black text-xs"
                 >
-                  FNC
+                  NS
                 </div>
                 <span class="font-bold text-sm tracking-wide text-white"
-                  >Fnatic (FNC)</span
+                  >Nongshim RedForce (NS)</span
                 >
               </div>
             </div>
@@ -1208,7 +1183,10 @@
     let currentDayOffset = 0;
 
     const dateDisplay = document.getElementById('current-date-display');
+    const dateHeading = document.getElementById('match-date-heading');
     const matchesContainer = document.getElementById('matches-container');
+    const matchDetails = document.getElementById('match-details');
+    const upcomingMatches = document.getElementById('upcoming-matches');
     const btnPrev = document.getElementById('btn-prev-day');
     const btnNext = document.getElementById('btn-next-day');
 
@@ -1216,24 +1194,26 @@
     const matchHTMLTemplate = matchesContainer.innerHTML; 
 
     function updateDateText() {
-        if (currentDayOffset === 0) dateDisplay.textContent = "Hôm nay";
-        else if (currentDayOffset === -1) dateDisplay.textContent = "Hôm qua";
-        else if (currentDayOffset === 1) dateDisplay.textContent = "Ngày mai";
+        let label;
+        if (currentDayOffset === 0) label = "Hôm nay";
+        else if (currentDayOffset === -1) label = "Hôm qua";
+        else if (currentDayOffset === 1) label = "Ngày mai";
         else {
             const date = new Date();
             date.setDate(date.getDate() + currentDayOffset);
-            dateDisplay.textContent = date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
+            label = date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
         }
+        dateDisplay.textContent = label;
+        dateHeading.textContent = label;
     }
 
     function renderMatches() {
-        if (currentDayOffset === 0) {
-             // Trả lại giao diện trận đấu nếu là Hôm nay
-             matchesContainer.innerHTML = matchHTMLTemplate; 
-        } else {
-             // Hiện thông báo trống cho các ngày khác
-             matchesContainer.innerHTML = `<div class="flex items-center justify-center h-40 text-gray-500">Không có trận đấu nào trong ngày này.</div>`;
-        }
+        const hasMatches = currentDayOffset === 0;
+        matchesContainer.innerHTML = hasMatches
+            ? matchHTMLTemplate
+            : `<div class="flex items-center justify-center h-40 text-gray-500">Không có trận đấu nào trong ngày này.</div>`;
+        matchDetails.classList.toggle('hidden', !hasMatches);
+        upcomingMatches.classList.toggle('hidden', !hasMatches);
     }
 
     function changeDay(offset) {
