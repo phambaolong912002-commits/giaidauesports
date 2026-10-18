@@ -355,10 +355,12 @@
           </h1>
         </div>
         <!-- Gold/Amber Pill Incentive Badge -->
-        <a
-          class="inline-flex items-center space-x-2 text-xs font-semibold px-4 py-2 rounded-full border border-amber-500/50 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 hover:border-amber-400 transition-all duration-200 shadow-sm"
+        <!-- Gold/Amber Pill Incentive Badge -->
+        <button
+          id="btnPickRewardsTop"
+          type="button"
+          class="inline-flex items-center space-x-2 text-xs font-semibold px-4 py-2 rounded-full border border-amber-500/50 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 hover:border-amber-400 transition-all duration-200 shadow-sm cursor-pointer"
           data-purpose="rewards-callout"
-          href="tournament-register.html"
         >
           <span class="">Chọn đội thắng &amp; nhận phần thưởng!</span>
           <svg
@@ -371,12 +373,13 @@
               stroke-linejoin="round"
             ></path>
           </svg>
-        </a>
+        </button>
       </div>
       <!-- Events List Container -->
       <div class="space-y-4">
         <!-- Event 1: Champions Shanghai (Active / Đang Hoạt Động) -->
         <div
+          id="eventCardShanghai"
           class="relative group cursor-pointer overflow-hidden rounded-xl border border-[#ff4655] active-card-glow active-shanghai-pattern p-6 sm:p-7 transition-all duration-300 hover:border-red-400 hover:scale-[1.006]"
           data-purpose="event-card-active"
         >
@@ -397,17 +400,29 @@
             <!-- Left side: Status badge, Title & Dates -->
             <div class="space-y-4">
               <!-- Active Status Badge -->
-              <div
-                class="inline-flex items-center space-x-2 bg-[#ff4655]/15 border border-[#ff4655]/60 px-3 py-1 rounded-full"
-              >
-                <span
-                  class="w-2 h-2 rounded-full bg-[#ff4655] animate-ping"
-                ></span>
-                <span
-                  class="text-[11px] font-bold tracking-wider text-[#ff6370] uppercase font-gaming"
+              <div class="flex flex-wrap items-center gap-2">
+                <div
+                  class="inline-flex items-center space-x-2 bg-[#ff4655]/15 border border-[#ff4655]/60 px-3 py-1 rounded-full"
                 >
-                  🔴 ĐANG HOẠT ĐỘNG
-                </span>
+                  <span
+                    class="w-2 h-2 rounded-full bg-[#ff4655] animate-ping"
+                  ></span>
+                  <span
+                    class="text-[11px] font-bold tracking-wider text-[#ff6370] uppercase font-gaming"
+                  >
+                    🔴 ĐANG HOẠT ĐỘNG
+                  </span>
+                </div>
+                <!-- Dynamic Bet Placed Badge -->
+                <div
+                  id="shanghaiActiveBetBadge"
+                  class="hidden inline-flex items-center space-x-1.5 bg-emerald-500/15 border border-emerald-500/40 px-3 py-1 rounded-full text-emerald-400 text-[11px] font-bold"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span id="shanghaiActiveBetText">Đã đặt cược: Leviatán</span>
+                </div>
               </div>
               <div>
                 <h2
@@ -423,7 +438,10 @@
               </div>
             </div>
             <!-- Right side: Action Navigation Arrow Button -->
-            <div class="flex items-center self-end md:self-center">
+            <div class="flex items-center self-end md:self-center space-x-3">
+              <span class="hidden sm:inline-block text-xs font-bold uppercase tracking-wider text-zinc-400 group-hover:text-white transition-colors">
+                Bấm để chọn đội &amp; đặt cược
+              </span>
               <button
                 aria-label="Tham gia Champions Shanghai"
                 class="w-11 h-11 rounded-full bg-white/5 border border-white/10 group-hover:border-[#ff4655] group-hover:bg-[#ff4655] group-hover:text-white text-zinc-300 flex items-center justify-center transition-all duration-200 transform group-hover:translate-x-1"
@@ -444,6 +462,7 @@
         </div>
         <!-- Event 2: Masters Santiago (Finished / Đã Kết Thúc) -->
         <div
+          id="eventCardSantiago"
           class="relative group cursor-pointer overflow-hidden rounded-xl border border-purple-500/30 bg-[#0e111a] purple-lights-pattern p-6 sm:p-7 transition-all duration-300 hover:border-purple-500/60"
           data-purpose="event-card-finished"
         >
@@ -508,6 +527,7 @@
         </div>
         <!-- Event 3: Masters London (Finished / Đã Kết Thúc) -->
         <div
+          id="eventCardLondon"
           class="relative group cursor-pointer overflow-hidden rounded-xl border border-blue-500/30 bg-[#0c101b] blue-lights-pattern p-6 sm:p-7 transition-all duration-300 hover:border-blue-500/60"
           data-purpose="event-card-finished"
         >
@@ -609,7 +629,631 @@
       </div>
     </footer>
     <!-- END: MainFooter -->
-    <a href="dudoan.html" class="nav-link active">Dự đoán</a>
+
+    <!-- ======================================================== -->
+    <!-- MODAL 1: YÊU CẦU ĐĂNG NHẬP / ĐĂNG KÝ                     -->
+    <!-- ======================================================== -->
+    <div
+      id="authRequiredModal"
+      class="fixed inset-0 z-[99999] hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md transition-all duration-200"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div
+        class="relative w-full max-w-md rounded-2xl border border-white/15 bg-[#12151d] p-6 sm:p-8 shadow-2xl text-center transform transition-all"
+      >
+        <!-- Nút đóng -->
+        <button
+          id="btnCloseAuthModal"
+          type="button"
+          class="absolute top-4 right-4 text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition"
+          aria-label="Đóng"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+
+        <!-- Icon ổ khóa & VCT -->
+        <div class="mx-auto w-16 h-16 rounded-2xl bg-[#ff4655]/10 border border-[#ff4655]/30 flex items-center justify-center mb-4 shadow-lg shadow-[#ff4655]/20">
+          <svg class="w-8 h-8 text-[#ff4655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+          </svg>
+        </div>
+
+        <span class="text-[10px] font-black uppercase tracking-widest text-[#ff4655] bg-[#ff4655]/10 px-3 py-1 rounded-full border border-[#ff4655]/30 font-mono">
+          YÊU CẦU ĐĂNG NHẬP
+        </span>
+
+        <h3 class="mt-3 text-2xl font-black text-white font-brand">
+          Tham Gia Đặt Cược
+        </h3>
+        <p class="mt-2 text-sm text-gray-300 leading-relaxed">
+          Bạn chưa đăng nhập tài khoản! Để tham gia lựa chọn đội vô địch và nhận phần thưởng điểm cược giải đấu Champions Shanghai 2026, vui lòng đăng nhập hoặc tạo tài khoản mới.
+        </p>
+
+        <!-- Nút hành động: Chuyển qua Đăng nhập hoặc Đăng ký -->
+        <div class="mt-6 flex flex-col space-y-3">
+          <a
+            href="login.html"
+            class="w-full bg-[#ff4655] hover:bg-[#d63845] text-white font-extrabold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl shadow-lg shadow-[#ff4655]/30 transition duration-150 flex items-center justify-center space-x-2"
+          >
+            <span>ĐĂNG NHẬP NGAY</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </a>
+          <a
+            href="register.html"
+            class="w-full bg-white/5 hover:bg-white/10 text-white border border-white/20 font-extrabold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl transition duration-150 flex items-center justify-center"
+          >
+            TẠO TÀI KHOẢN MỚI
+          </a>
+          <button
+            id="btnCancelAuthModal"
+            type="button"
+            class="text-xs text-gray-400 hover:text-white py-2 transition"
+          >
+            Để sau, tôi muốn xem tiếp
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MODAL 2: LỰA CHỌN ĐỘI THẮNG & ĐẶT CƯỢC                   -->
+    <!-- ======================================================== -->
+    <div
+      id="pickEmsModal"
+      class="fixed inset-0 z-[99999] hidden items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md overflow-y-auto"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div
+        class="relative w-full max-w-4xl my-auto rounded-2xl border border-white/15 bg-[#0f131a] shadow-2xl overflow-hidden flex flex-col max-h-[92vh]"
+      >
+        <!-- Modal Top Bar -->
+        <div class="p-5 sm:p-6 border-b border-white/10 bg-[#141822] flex items-center justify-between shrink-0">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-[#ff4655]/15 border border-[#ff4655]/40 flex items-center justify-center">
+              <svg class="w-6 h-6 text-[#ff4655]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-[#ff4655] text-white font-mono">
+                  CHAMPIONS SHANGHAI 2026
+                </span>
+                <span id="modalUserBadge" class="text-[11px] text-zinc-400 font-medium hidden sm:inline">
+                  Tuyển thủ: <b class="text-white" id="modalUserName">Tài khoản</b>
+                </span>
+              </div>
+              <h2 class="text-lg sm:text-2xl font-black text-white font-brand mt-0.5 tracking-wide">
+                LỰA CHỌN ĐỘI VÔ ĐỊCH (PICK'EMS)
+              </h2>
+            </div>
+          </div>
+          <button
+            id="btnClosePickEmsModal"
+            type="button"
+            class="text-zinc-400 hover:text-white p-2 rounded-lg hover:bg-white/10 transition"
+            aria-label="Đóng"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- VIEW 1: Form chọn đội & đặt cược -->
+        <div id="bettingFormView" class="p-5 sm:p-6 overflow-y-auto flex-1 space-y-6">
+          <!-- Hướng dẫn & Điểm khả dụng -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/5">
+            <p class="text-xs text-zinc-300">
+              ⚡ Hãy chọn 1 đội tuyển bạn tin tưởng sẽ nâng cao chiếc cúp vô địch thế giới và nhập điểm cược dự đoán.
+            </p>
+            <div class="flex items-center space-x-2 text-xs shrink-0 font-bold bg-[#ff4655]/10 border border-[#ff4655]/30 px-3 py-1.5 rounded-lg text-[#ff4655]">
+              <span>Điểm khả dụng:</span>
+              <span id="userPointsDisplay" class="text-white text-sm font-black">1,000 pts</span>
+            </div>
+          </div>
+
+          <!-- Bộ lọc khu vực -->
+          <div class="flex items-center space-x-2 overflow-x-auto pb-1 text-xs font-bold scrollbar-none">
+            <span class="text-zinc-500 uppercase text-[10px] tracking-wider shrink-0 mr-1">Khu vực:</span>
+            <button type="button" data-region="all" class="filter-region-btn px-3 py-1.5 rounded-lg bg-[#ff4655] text-white transition">Tất cả (12)</button>
+            <button type="button" data-region="Americas" class="filter-region-btn px-3 py-1.5 rounded-lg bg-white/5 text-zinc-400 hover:text-white transition">Americas</button>
+            <button type="button" data-region="Pacific" class="filter-region-btn px-3 py-1.5 rounded-lg bg-white/5 text-zinc-400 hover:text-white transition">Pacific</button>
+            <button type="button" data-region="EMEA" class="filter-region-btn px-3 py-1.5 rounded-lg bg-white/5 text-zinc-400 hover:text-white transition">EMEA</button>
+            <button type="button" data-region="China" class="filter-region-btn px-3 py-1.5 rounded-lg bg-white/5 text-zinc-400 hover:text-white transition">China</button>
+          </div>
+
+          <!-- Lưới danh sách các đội tuyển -->
+          <div id="teamsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            <!-- Rendered dynamically by JS -->
+          </div>
+
+          <!-- Thanh cấu hình cược (chỉ hiện khi đã chọn đội) -->
+          <div id="betConfigBox" class="p-5 rounded-xl border border-white/10 bg-[#161a24] space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
+              <div class="flex items-center space-x-3">
+                <div id="selectedTeamBadge" class="w-10 h-10 rounded-lg flex items-center justify-center font-black text-sm text-white">
+                  -
+                </div>
+                <div>
+                  <span class="text-[10px] uppercase font-bold text-zinc-400">Đội bạn chọn dự đoán</span>
+                  <h4 id="selectedTeamName" class="text-base font-black text-white">Chưa chọn đội</h4>
+                </div>
+              </div>
+              <div class="text-left sm:text-right">
+                <span class="text-[10px] uppercase font-bold text-zinc-400">Tỉ lệ cược thưởng</span>
+                <p id="selectedTeamOdds" class="text-base font-black text-amber-400">x0.00</p>
+              </div>
+            </div>
+
+            <!-- Nhập số điểm cược -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <label for="betAmountInput" class="text-xs font-bold text-zinc-300 uppercase tracking-wider">
+                  Số điểm đặt cược (VCT Points)
+                </label>
+                <span class="text-xs text-zinc-400">Tối thiểu: 50 pts</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input
+                  id="betAmountInput"
+                  type="number"
+                  min="50"
+                  max="1000"
+                  step="50"
+                  value="250"
+                  class="flex-1 bg-black/40 border border-white/15 rounded-xl px-4 py-2.5 text-white font-bold text-sm focus:border-[#ff4655] focus:outline-none focus:ring-1 focus:ring-[#ff4655]"
+                />
+                <!-- Presets -->
+                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt="100">100</button>
+                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt="250">250</button>
+                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt="500">500</button>
+                <button type="button" class="btn-preset px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/10 transition" data-amt="1000">Tối đa</button>
+              </div>
+            </div>
+
+            <!-- Ước tính phần thưởng & Nút xác nhận -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+              <div>
+                <span class="text-[10px] uppercase font-bold text-zinc-400">Phần thưởng tiềm năng</span>
+                <p id="potentialPayout" class="text-xl font-black text-emerald-400">
+                  0 pts
+                </p>
+              </div>
+              <button
+                id="btnConfirmBet"
+                type="button"
+                class="bg-[#ff4655] hover:bg-[#d63845] text-white font-black text-xs uppercase tracking-widest px-8 py-3.5 rounded-xl shadow-lg shadow-[#ff4655]/30 transition duration-150 flex items-center justify-center space-x-2"
+              >
+                <span>XÁC NHẬN ĐẶT CƯỢC</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 2: MÀN HÌNH CHÚC MỪNG HOÀN THÀNH ĐẶT CƯỢC -->
+        <div id="betSuccessView" class="hidden p-6 sm:p-10 overflow-y-auto flex-1 flex flex-col items-center justify-center text-center">
+          <!-- Animated Trophy / Checkmark -->
+          <div class="relative w-20 h-20 rounded-full bg-emerald-500/15 border-2 border-emerald-400 flex items-center justify-center mb-5 shadow-2xl shadow-emerald-500/30">
+            <svg class="w-10 h-10 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+
+          <span class="text-[11px] font-black uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-3.5 py-1 rounded-full border border-emerald-500/30 font-mono mb-2">
+            ĐẶT CƯỢC THÀNH CÔNG
+          </span>
+
+          <!-- DÒNG CHÚC MỪNG ĐÚNG THEO YÊU CẦU CỦA USER -->
+          <h3 class="text-2xl sm:text-3xl md:text-4xl font-black text-white font-brand mt-1">
+            🎉 Chúc mừng bạn đã hoàn thành đặt cược!
+          </h3>
+
+          <p class="mt-2 text-sm text-zinc-300 max-w-lg leading-relaxed">
+            Hệ thống Đấu Trường Esports đã ghi nhận phiếu dự đoán của bạn cho giải đấu <b class="text-white">Champions Shanghai 2026</b>.
+          </p>
+
+          <!-- Phiếu cược chi tiết -->
+          <div class="mt-6 w-full max-w-md rounded-2xl border border-white/10 bg-[#161b26] p-5 text-left space-y-3 shadow-xl">
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+              <span class="text-xs text-zinc-400">Mã phiếu cược:</span>
+              <span id="receiptBetId" class="font-mono font-bold text-xs text-amber-400">#VCT-SH-892144</span>
+            </div>
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+              <span class="text-xs text-zinc-400">Đội tuyển dự đoán:</span>
+              <span id="receiptTeamName" class="font-black text-sm text-white">Leviatán</span>
+            </div>
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+              <span class="text-xs text-zinc-400">Số điểm đặt cược:</span>
+              <span id="receiptBetAmount" class="font-bold text-sm text-white">250 VCT Points</span>
+            </div>
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+              <span class="text-xs text-zinc-400">Tiền thưởng tiềm năng:</span>
+              <span id="receiptPayout" class="font-black text-base text-emerald-400">462.5 VCT Points</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-zinc-400">Thời gian ghi nhận:</span>
+              <span id="receiptTime" class="text-xs text-zinc-400">Vừa xong</span>
+            </div>
+          </div>
+
+          <!-- Nút điều hướng -->
+          <div class="mt-6 flex flex-wrap gap-3 justify-center">
+            <button
+              id="btnCloseSuccessModal"
+              type="button"
+              class="bg-[#ff4655] hover:bg-[#d63845] text-white font-extrabold text-xs uppercase tracking-wider py-3.5 px-7 rounded-xl transition duration-150 shadow-lg shadow-[#ff4655]/20"
+            >
+              Hoàn Tất &amp; Quay Lại
+            </button>
+            <button
+              id="btnChangeBet"
+              type="button"
+              class="bg-white/5 hover:bg-white/10 text-white border border-white/15 font-bold text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl transition duration-150"
+            >
+              Đổi Đội Khác
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div
+      id="toastNotification"
+      class="fixed bottom-6 right-6 z-[999999] hidden max-w-sm rounded-xl border border-white/20 bg-[#151922] p-4 text-white shadow-2xl transition-all duration-300"
+    >
+      <div class="flex items-start space-x-3">
+        <span id="toastIcon" class="text-lg">ℹ️</span>
+        <div class="flex-1 text-xs">
+          <p id="toastTitle" class="font-bold"></p>
+          <p id="toastBody" class="text-zinc-300 mt-0.5"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPT XỬ LÝ LỰA CHỌN ĐỘI THẮNG & ĐẶT CƯỢC -->
+    <script>
+      (function() {
+        // 1. Danh sách 12 đội tuyển phong phú
+        const VCT_TEAMS = [
+          { id: "lev", name: "Leviatán", tag: "LEV", region: "Americas", seed: "#1 Americas", color: "#38bdf8", bg: "#0c2738", border: "#0284c7", winRate: "78%", odds: 1.85, star: "aspas" },
+          { id: "prx", name: "Paper Rex", tag: "PRX", region: "Pacific", seed: "#1 Pacific", color: "#38bdf8", bg: "#1e1b4b", border: "#06b6d4", winRate: "75%", odds: 2.10, star: "f0rsakeN" },
+          { id: "fnc", name: "Fnatic", tag: "FNC", region: "EMEA", seed: "#1 EMEA", color: "#fb923c", bg: "#431407", border: "#ea580c", winRate: "72%", odds: 2.25, star: "Boaster" },
+          { id: "sen", name: "Sentinels", tag: "SEN", region: "Americas", seed: "#2 Americas", color: "#f87171", bg: "#450a0a", border: "#dc2626", winRate: "70%", odds: 2.40, star: "TenZ" },
+          { id: "geng", name: "Gen.G Esports", tag: "GEN", region: "Pacific", seed: "#2 Pacific", color: "#facc15", bg: "#422006", border: "#ca8a04", winRate: "68%", odds: 2.50, star: "t3xture" },
+          { id: "edg", name: "EDward Gaming", tag: "EDG", region: "China", seed: "#1 China", color: "#ef4444", bg: "#27272a", border: "#991b1b", winRate: "65%", odds: 2.65, star: "ZmjjKK" },
+          { id: "100t", name: "100 Thieves", tag: "100T", region: "Americas", seed: "#3 Americas", color: "#ef4444", bg: "#360c0f", border: "#b91c1c", winRate: "62%", odds: 3.10, star: "Cryocells" },
+          { id: "th", name: "Team Heretics", tag: "TH", region: "EMEA", seed: "#2 EMEA", color: "#fbbf24", bg: "#291804", border: "#d97706", winRate: "60%", odds: 3.25, star: "RieNs" },
+          { id: "ge", name: "Global Esports", tag: "GE", region: "Pacific", seed: "#3 Pacific", color: "#818cf8", bg: "#1e1b4b", border: "#4f46e5", winRate: "55%", odds: 3.80, star: "Lightningfast" },
+          { id: "t1", name: "T1", tag: "T1", region: "Pacific", seed: "#4 Pacific", color: "#f43f5e", bg: "#3b0716", border: "#e11d48", winRate: "58%", odds: 3.50, star: "Sayaplayer" },
+          { id: "ns", name: "Nongshim RedForce", tag: "NS", region: "Pacific", seed: "Challengers", color: "#f87171", bg: "#350909", border: "#b91c1c", winRate: "52%", odds: 4.20, star: "Dext" },
+          { id: "loud", name: "LOUD", tag: "LOUD", region: "Americas", seed: "#4 Americas", color: "#34d399", bg: "#064e3b", border: "#059669", winRate: "59%", odds: 3.40, star: "Less" }
+        ];
+
+        let currentSelectedTeam = null;
+        let currentActiveRegion = "all";
+
+        // Toast thông báo
+        function showToast(title, body, icon = "ℹ️") {
+          const toast = document.getElementById("toastNotification");
+          if (!toast) return;
+          document.getElementById("toastTitle").textContent = title;
+          document.getElementById("toastBody").textContent = body;
+          document.getElementById("toastIcon").textContent = icon;
+          toast.classList.remove("hidden");
+          setTimeout(() => {
+            toast.classList.add("hidden");
+          }, 3500);
+        }
+
+        // Kiểm tra trạng thái đăng nhập
+        function isUserLoggedIn() {
+          return localStorage.getItem("vctLoggedIn") === "true";
+        }
+
+        function getCurrentUser() {
+          try {
+            return JSON.parse(localStorage.getItem("vctCurrentUser") || "null") || { username: "Tuyển thủ" };
+          } catch (e) {
+            return { username: "Tuyển thủ" };
+          }
+        }
+
+        // Mở / Đóng Modal Đăng Nhập
+        function openAuthModal() {
+          const modal = document.getElementById("authRequiredModal");
+          if (modal) {
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+          }
+        }
+
+        function closeAuthModal() {
+          const modal = document.getElementById("authRequiredModal");
+          if (modal) {
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+          }
+        }
+
+        // Mở / Đóng Modal Chọn Đội Thắng & Đặt Cược
+        function openPickEmsModal() {
+          const modal = document.getElementById("pickEmsModal");
+          if (!modal) return;
+          modal.classList.remove("hidden");
+          modal.classList.add("flex");
+          document.body.style.overflow = "hidden";
+
+          // Cập nhật tên người dùng
+          const user = getCurrentUser();
+          const modalUserName = document.getElementById("modalUserName");
+          if (modalUserName) modalUserName.textContent = user.username || "Tài khoản";
+
+          // Khởi tạo đội mặc định nếu chưa chọn
+          const savedBet = getSavedBet();
+          if (savedBet && savedBet.teamId) {
+            selectTeam(savedBet.teamId, false);
+            const input = document.getElementById("betAmountInput");
+            if (input && savedBet.points) input.value = savedBet.points;
+            updatePayout();
+          } else {
+            if (!currentSelectedTeam) {
+              selectTeam(VCT_TEAMS[0].id, false);
+            }
+          }
+          renderTeamsGrid(currentActiveRegion);
+        }
+
+        function closePickEmsModal() {
+          const modal = document.getElementById("pickEmsModal");
+          if (!modal) return;
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+          document.body.style.overflow = "";
+        }
+
+        // Render Lưới Các Đội Tuyển
+        function renderTeamsGrid(region = "all") {
+          const grid = document.getElementById("teamsGrid");
+          if (!grid) return;
+          grid.innerHTML = "";
+
+          const filtered = region === "all"
+            ? VCT_TEAMS
+            : VCT_TEAMS.filter(t => t.region.toLowerCase() === region.toLowerCase());
+
+          filtered.forEach(team => {
+            const isSelected = currentSelectedTeam && currentSelectedTeam.id === team.id;
+            const card = document.createElement("div");
+            card.className = `relative cursor-pointer rounded-xl p-4 transition-all duration-200 border ${
+              isSelected
+                ? "border-[#ff4655] bg-[#ff4655]/15 shadow-[0_0_18px_rgba(255,70,85,0.4)] ring-1 ring-[#ff4655]"
+                : "border-white/10 bg-[#141822] hover:border-white/25 hover:bg-[#181d2a]"
+            }`;
+            card.onclick = () => selectTeam(team.id, true);
+
+            card.innerHTML = `
+              <div class="flex items-start justify-between">
+                <div class="flex items-center space-x-3">
+                  <div class="w-10 h-10 rounded-lg flex items-center justify-center font-black text-sm shrink-0 border"
+                       style="background-color: ${team.bg}; color: ${team.color}; border-color: ${team.border};">
+                    ${team.tag}
+                  </div>
+                  <div>
+                    <h4 class="font-extrabold text-sm text-white">${team.name}</h4>
+                    <p class="text-[10px] text-zinc-400 mt-0.5">${team.region} · Ngôi sao: <span class="text-zinc-200 font-semibold">${team.star}</span></p>
+                  </div>
+                </div>
+                <div class="flex items-center justify-center w-5 h-5 rounded-full border ${isSelected ? "border-[#ff4655] bg-[#ff4655] text-white" : "border-white/20 text-transparent"}">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-xs">
+                <span class="text-zinc-400 text-[11px]">Tỉ lệ thắng: <b class="text-zinc-200">${team.winRate}</b></span>
+                <span class="text-amber-400 font-black text-xs">x${team.odds.toFixed(2)}</span>
+              </div>
+            `;
+            grid.appendChild(card);
+          });
+        }
+
+        function selectTeam(teamId, reRender = true) {
+          const found = VCT_TEAMS.find(t => t.id === teamId);
+          if (!found) return;
+          currentSelectedTeam = found;
+
+          // Cập nhật thanh cấu hình bên dưới
+          const badge = document.getElementById("selectedTeamBadge");
+          const nameEl = document.getElementById("selectedTeamName");
+          const oddsEl = document.getElementById("selectedTeamOdds");
+
+          if (badge) {
+            badge.textContent = found.tag;
+            badge.style.backgroundColor = found.bg;
+            badge.style.color = found.color;
+            badge.style.border = `1px solid ${found.border}`;
+          }
+          if (nameEl) nameEl.textContent = `${found.name} (${found.tag}) - ${found.region}`;
+          if (oddsEl) oddsEl.textContent = `x${found.odds.toFixed(2)}`;
+
+          updatePayout();
+          if (reRender) renderTeamsGrid(currentActiveRegion);
+        }
+
+        function updatePayout() {
+          if (!currentSelectedTeam) return;
+          const input = document.getElementById("betAmountInput");
+          const payoutEl = document.getElementById("potentialPayout");
+          const amount = parseInt(input?.value || "250", 10) || 0;
+          const payout = Math.round(amount * currentSelectedTeam.odds);
+          if (payoutEl) {
+            payoutEl.textContent = `${payout.toLocaleString()} pts`;
+          }
+        }
+
+        // Lưu / Đọc phiếu cược từ localStorage
+        function getSavedBet() {
+          try {
+            return JSON.parse(localStorage.getItem("vct_bet_shanghai") || "null");
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function updateMainCardBetBadge() {
+          const bet = getSavedBet();
+          const badge = document.getElementById("shanghaiActiveBetBadge");
+          const text = document.getElementById("shanghaiActiveBetText");
+          if (!badge || !text) return;
+
+          if (bet && bet.teamName) {
+            text.textContent = `✓ Đã đặt cược: ${bet.teamName} (${bet.points} pts)`;
+            badge.classList.remove("hidden");
+          } else {
+            badge.classList.add("hidden");
+          }
+        }
+
+        // Xử lý khi xác nhận đặt cược
+        function handleConfirmBet() {
+          if (!currentSelectedTeam) {
+            showToast("Chưa chọn đội", "Vui lòng chọn 1 đội tuyển để tiếp tục!", "⚠️");
+            return;
+          }
+          const input = document.getElementById("betAmountInput");
+          const points = parseInt(input?.value || "250", 10);
+          if (isNaN(points) || points < 50) {
+            showToast("Điểm cược không hợp lệ", "Mức cược tối thiểu là 50 VCT Points!", "⚠️");
+            return;
+          }
+
+          const betId = "VCT-SH-" + Math.floor(100000 + Math.random() * 900000);
+          const payout = Math.round(points * currentSelectedTeam.odds);
+          const now = new Date();
+          const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")} - ${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
+
+          const betData = {
+            betId: betId,
+            teamId: currentSelectedTeam.id,
+            teamName: currentSelectedTeam.name,
+            teamTag: currentSelectedTeam.tag,
+            odds: currentSelectedTeam.odds,
+            points: points,
+            payout: payout,
+            createdAt: timeStr
+          };
+
+          localStorage.setItem("vct_bet_shanghai", JSON.stringify(betData));
+
+          // Cập nhật thông tin phiếu cược chi tiết
+          document.getElementById("receiptBetId").textContent = "#" + betId;
+          document.getElementById("receiptTeamName").textContent = `${currentSelectedTeam.name} (${currentSelectedTeam.tag})`;
+          document.getElementById("receiptBetAmount").textContent = `${points.toLocaleString()} VCT Points`;
+          document.getElementById("receiptPayout").textContent = `${payout.toLocaleString()} VCT Points`;
+          document.getElementById("receiptTime").textContent = timeStr;
+
+          // Chuyển view sang màn hình chúc mừng
+          document.getElementById("bettingFormView").classList.add("hidden");
+          document.getElementById("betSuccessView").classList.remove("hidden");
+
+          // Cập nhật badge trên card chính
+          updateMainCardBetBadge();
+        }
+
+        // Xử lý khi người dùng bấm vào card sự kiện hoặc nút chọn đội
+        function handleOpenEvent() {
+          if (!isUserLoggedIn()) {
+            openAuthModal();
+          } else {
+            document.getElementById("bettingFormView").classList.remove("hidden");
+            document.getElementById("betSuccessView").classList.add("hidden");
+            openPickEmsModal();
+          }
+        }
+
+        // Gắn sự kiện khi DOM tải xong
+        document.addEventListener("DOMContentLoaded", () => {
+          renderTeamsGrid("all");
+          updateMainCardBetBadge();
+
+          // Nút bấm mở sự kiện
+          const shanghaiCard = document.getElementById("eventCardShanghai");
+          const pickRewardsBtn = document.getElementById("btnPickRewardsTop");
+          if (shanghaiCard) shanghaiCard.addEventListener("click", handleOpenEvent);
+          if (pickRewardsBtn) pickRewardsBtn.addEventListener("click", handleOpenEvent);
+
+          // Sự kiện cho các thẻ đã kết thúc
+          const santiagoCard = document.getElementById("eventCardSantiago");
+          const londonCard = document.getElementById("eventCardLondon");
+          if (santiagoCard) {
+            santiagoCard.addEventListener("click", () => {
+              showToast("Sự kiện đã kết thúc", "Masters Santiago đã kết thúc! Hiện tại giải đấu Champions Shanghai 2026 đang mở đặt cược.", "🔒");
+            });
+          }
+          if (londonCard) {
+            londonCard.addEventListener("click", () => {
+              showToast("Sự kiện đã kết thúc", "Masters London đã kết thúc! Hiện tại giải đấu Champions Shanghai 2026 đang mở đặt cược.", "🔒");
+            });
+          }
+
+          // Điều khiển Modal Xác thực
+          document.getElementById("btnCloseAuthModal")?.addEventListener("click", closeAuthModal);
+          document.getElementById("btnCancelAuthModal")?.addEventListener("click", closeAuthModal);
+
+          // Điều khiển Modal PickEms
+          document.getElementById("btnClosePickEmsModal")?.addEventListener("click", closePickEmsModal);
+          document.getElementById("btnCloseSuccessModal")?.addEventListener("click", closePickEmsModal);
+
+          document.getElementById("btnChangeBet")?.addEventListener("click", () => {
+            document.getElementById("betSuccessView").classList.add("hidden");
+            document.getElementById("bettingFormView").classList.remove("hidden");
+          });
+
+          // Lọc khu vực
+          document.querySelectorAll(".filter-region-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+              document.querySelectorAll(".filter-region-btn").forEach(b => {
+                b.className = "filter-region-btn px-3 py-1.5 rounded-lg bg-white/5 text-zinc-400 hover:text-white transition";
+              });
+              btn.className = "filter-region-btn px-3 py-1.5 rounded-lg bg-[#ff4655] text-white transition";
+              currentActiveRegion = btn.getAttribute("data-region");
+              renderTeamsGrid(currentActiveRegion);
+            });
+          });
+
+          // Nút chọn nhanh điểm cược (Presets)
+          document.querySelectorAll(".btn-preset").forEach(btn => {
+            btn.addEventListener("click", () => {
+              const amt = btn.getAttribute("data-amt");
+              const input = document.getElementById("betAmountInput");
+              if (input) {
+                input.value = amt;
+                updatePayout();
+              }
+            });
+          });
+
+          // Thay đổi input điểm cược
+          document.getElementById("betAmountInput")?.addEventListener("input", updatePayout);
+
+          // Nút xác nhận đặt cược
+          document.getElementById("btnConfirmBet")?.addEventListener("click", handleConfirmBet);
+        });
+      })();
+    </script>
+
     <!-- ======================================================== -->
     <!-- CODE DUY TRÌ TRẠNG THÁI ĐĂNG NHẬP TRÊN TOÀN HỆ THỐNG     -->
     <!-- ======================================================== -->
