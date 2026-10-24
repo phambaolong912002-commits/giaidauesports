@@ -73,6 +73,17 @@
       .pulse-indicator {
         animation: pulse-dot 1.8s infinite ease-in-out;
       }
+      @keyframes bellRing {
+        0% { transform: rotate(0); }
+        20% { transform: rotate(18deg); }
+        40% { transform: rotate(-18deg); }
+        60% { transform: rotate(12deg); }
+        80% { transform: rotate(-12deg); }
+        100% { transform: rotate(0); }
+      }
+      .bell-ring {
+        animation: bellRing 0.5s ease-in-out;
+      }
       .hero-pattern {
         background: radial-gradient(
           circle at 50% 30%,
@@ -798,17 +809,18 @@
                       stroke-width="2"
                     ></polyline>
                   </svg>
-                  18:30 (còn ~45 phút)
+                  17:00 (GMT+7)
                 </span>
-             <button
-  class="btn-notify text-[11px] font-bold text-[#ff4655] hover:text-white bg-[#ff4655]/10 hover:bg-[#ff4655] px-2.5 py-1 rounded transition-colors flex items-center space-x-1"
-  data-match="PRX vs DRX"
->
-  <svg class="w-3 h-3 icon-bell" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-  </svg>
-  <span class="btn-text">Đặt Thông Báo</span>
-</button>
+                <button
+                  type="button"
+                  class="btn-notify text-gray-400 hover:text-amber-400 hover:bg-amber-400/10 p-1.5 rounded-lg transition-all flex items-center justify-center border border-transparent focus:outline-none"
+                  data-match="PRX vs DRX"
+                  title="Bật thông báo trận đấu"
+                >
+                  <svg class="w-4 h-4 icon-bell transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                  </svg>
+                </button>
               </div>
             </div>
             <!-- Upcoming Match 2 -->
@@ -823,7 +835,7 @@
                 <span
                   class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-zinc-700/40 text-gray-300 border border-zinc-600/40"
                 >
-                  CHỜ ĐẤU
+                  CHƯA ĐẤU
                 </span>
               </div>
               <div class="flex items-center justify-between my-2">
@@ -869,7 +881,7 @@
                   class="text-xs font-mono font-bold text-white flex items-center"
                 >
                   <svg
-                    class="w-3.5 h-3.5 mr-1 text-gray-400"
+                    class="w-3.5 h-3.5 mr-1 text-[#ff4655]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -880,17 +892,18 @@
                       stroke-width="2"
                     ></polyline>
                   </svg>
-                  21:00
+                  20:00 (GMT+7)
                 </span>
                 <button
-  class="btn-notify text-[11px] font-bold text-[#ff4655] hover:text-white bg-[#ff4655]/10 hover:bg-[#ff4655] px-2.5 py-1 rounded transition-colors flex items-center space-x-1"
-  data-match="T1 vs GEN"
->
-  <svg class="w-3 h-3 icon-bell" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-  </svg>
-  <span class="btn-text">Đặt Thông Báo</span>
-</button>
+                  type="button"
+                  class="btn-notify text-gray-400 hover:text-amber-400 hover:bg-amber-400/10 p-1.5 rounded-lg transition-all flex items-center justify-center border border-transparent focus:outline-none"
+                  data-match="T1 vs GEN"
+                  title="Bật thông báo trận đấu"
+                >
+                  <svg class="w-4 h-4 icon-bell transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -1250,52 +1263,114 @@ videoFrame.src = "https://www.youtube.com/embed/EqMONeks0o8?autoplay=1&mute=0&re
             }
         }
     });
-    // === CODE XỬ LÝ ĐẶT THÔNG BÁO ===
-document.addEventListener('DOMContentLoaded', () => {
-    const notifyBtns = document.querySelectorAll('.btn-notify');
-    
-    notifyBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            // Ngăn chặn sự kiện click lan ra ngoài
-            e.preventDefault(); 
-            
-            const matchName = this.getAttribute('data-match');
-            const isSet = this.classList.contains('is-set');
-            const textSpan = this.querySelector('.btn-text');
-            const iconSvg = this.querySelector('.icon-bell');
-            
-            if (!isSet) {
-                // ĐỔI SANG TRẠNG THÁI "ĐÃ ĐẶT"
-                this.classList.add('is-set');
-                
-                // Đổi màu nút (Thành màu xám đen)
-                this.classList.remove('text-[#ff4655]', 'bg-[#ff4655]/10', 'hover:bg-[#ff4655]', 'hover:text-white');
-                this.classList.add('text-gray-300', 'bg-zinc-700/50', 'hover:bg-zinc-700', 'border', 'border-zinc-600');
-                
-                // Đổi text và Icon (Thành icon Check)
-                textSpan.textContent = 'Đã Đặt';
-                iconSvg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>`;
-                
-                // Hiện thông báo Toast
-                showToast(`Đã bật thông báo cho trận: <strong class="text-white">${matchName}</strong>`, 'success');
-            } else {
-                // HỦY ĐẶT THÔNG BÁO (Trở về ban đầu)
-                this.classList.remove('is-set');
-                
-                // Đổi lại màu đỏ
-                this.classList.remove('text-gray-300', 'bg-zinc-700/50', 'hover:bg-zinc-700', 'border', 'border-zinc-600');
-                this.classList.add('text-[#ff4655]', 'bg-[#ff4655]/10', 'hover:bg-[#ff4655]', 'hover:text-white');
-                
-                // Đổi lại text và icon Chuông
-                textSpan.textContent = 'Đặt Thông Báo';
-                iconSvg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>`;
-                
-                // Hiện thông báo Toast
-                showToast(`Đã hủy thông báo trận: <strong class="text-white">${matchName}</strong>`, 'removed');
+    // === CODE XỬ LÝ ĐẶT THÔNG BÁO (PERSISTENT & DELEGATED) ===
+    function getNotifiedMatches() {
+        try {
+            const stored = localStorage.getItem('vct_notified_matches');
+            return stored ? JSON.parse(stored) : [];
+        } catch(e) {
+            return [];
+        }
+    }
+
+    function isMatchNotified(matchName) {
+        if (!matchName) return false;
+        const list = getNotifiedMatches();
+        return list.includes(matchName);
+    }
+
+    function toggleNotifiedMatch(matchName) {
+        if (!matchName) return false;
+        let list = getNotifiedMatches();
+        const idx = list.indexOf(matchName);
+        let isNowSet = false;
+        if (idx === -1) {
+            list.push(matchName);
+            isNowSet = true;
+        } else {
+            list.splice(idx, 1);
+            isNowSet = false;
+        }
+        try {
+            localStorage.setItem('vct_notified_matches', JSON.stringify(list));
+        } catch(e) {}
+        return isNowSet;
+    }
+
+    function updateNotifyButtonUI(btn, isSet, playAnimation = false) {
+        const textSpan = btn.querySelector('.btn-text');
+        const iconSvg = btn.querySelector('.icon-bell');
+
+        if (isSet) {
+            btn.classList.add('is-set');
+            btn.classList.remove('text-gray-400', 'hover:text-white', 'hover:bg-white/10', 'border-transparent', 'text-[#ff4655]', 'bg-[#ff4655]/10', 'hover:bg-[#ff4655]');
+            btn.classList.add('text-amber-400', 'bg-amber-400/20', 'hover:bg-amber-400/30', 'border', 'border-amber-400/40', 'shadow-[0_0_10px_rgba(251,191,36,0.25)]');
+            btn.setAttribute('title', 'Đang bật thông báo (Bấm để hủy)');
+
+            if (textSpan) textSpan.textContent = 'Đã Đặt';
+
+            if (iconSvg) {
+                iconSvg.setAttribute('fill', 'currentColor');
+                if (playAnimation) {
+                    iconSvg.classList.remove('bell-ring');
+                    void iconSvg.offsetWidth;
+                    iconSvg.classList.add('bell-ring');
+                    setTimeout(() => iconSvg.classList.remove('bell-ring'), 500);
+                }
+            }
+        } else {
+            btn.classList.remove('is-set', 'text-amber-400', 'bg-amber-400/20', 'hover:bg-amber-400/30', 'border-amber-400/40', 'shadow-[0_0_10px_rgba(251,191,36,0.25)]');
+            btn.classList.add('text-gray-400', 'hover:text-amber-400', 'hover:bg-amber-400/10', 'border', 'border-transparent');
+            btn.setAttribute('title', 'Bật thông báo trận đấu');
+
+            if (textSpan) textSpan.textContent = 'Đặt Thông Báo';
+
+            if (iconSvg) {
+                iconSvg.setAttribute('fill', 'none');
+            }
+        }
+    }
+
+    function syncAllNotifyButtons() {
+        const buttons = document.querySelectorAll('.btn-notify');
+        buttons.forEach(btn => {
+            const matchName = btn.getAttribute('data-match');
+            if (matchName) {
+                const isSet = isMatchNotified(matchName);
+                updateNotifyButtonUI(btn, isSet, false);
             }
         });
+    }
+
+    // Xử lý sự kiện click qua Event Delegation (hoạt động cho cả nút tĩnh và nút render động từ Admin)
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-notify');
+        if (!btn) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const matchName = btn.getAttribute('data-match') || 'Trận đấu';
+        const isNowSet = toggleNotifiedMatch(matchName);
+
+        const allMatchingBtns = document.querySelectorAll(`.btn-notify[data-match="${CSS.escape ? CSS.escape(matchName) : matchName}"]`);
+        if (allMatchingBtns.length > 0) {
+            allMatchingBtns.forEach(b => updateNotifyButtonUI(b, isNowSet, true));
+        } else {
+            updateNotifyButtonUI(btn, isNowSet, true);
+        }
+
+        if (isNowSet) {
+            showToast(`Đã bật thông báo cho trận: <strong class="text-white">${matchName}</strong>`, 'success');
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        } else {
+            showToast(`Đã hủy thông báo trận: <strong class="text-white">${matchName}</strong>`, 'removed');
+        }
     });
-});
+
+    document.addEventListener('DOMContentLoaded', syncAllNotifyButtons);
 
 // Hàm tạo hiệu ứng thông báo (Toast) góc dưới màn hình
 function showToast(message, type) {
@@ -1415,6 +1490,12 @@ function applyAdminHomeData() {
                     const t1Name = m.team1?.name || t1Tag;
                     const t2Tag = m.team2?.tag || 'T2';
                     const t2Name = m.team2?.name || t2Tag;
+                    const matchName = `${t1Tag} vs ${t2Tag}`;
+                    const isSubscribed = typeof isMatchNotified === 'function' ? isMatchNotified(matchName) : false;
+
+                    const btnClass = isSubscribed
+                        ? 'btn-notify is-set text-amber-400 bg-amber-400/20 hover:bg-amber-400/30 border border-amber-400/40 shadow-[0_0_10px_rgba(251,191,36,0.25)] p-1.5 rounded-lg transition-all flex items-center justify-center focus:outline-none'
+                        : 'btn-notify text-gray-400 hover:text-amber-400 hover:bg-amber-400/10 border border-transparent p-1.5 rounded-lg transition-all flex items-center justify-center focus:outline-none';
 
                     return `
                       <div class="bg-[#191920] hover:bg-[#1f1f28] border border-[#252532] rounded-lg p-3.5 flex flex-col justify-between transition-colors">
@@ -1456,13 +1537,23 @@ function applyAdminHomeData() {
                             </svg>
                             ${m.time || '17:00'} (GMT+7)
                           </span>
-                          <button class="text-gray-400 hover:text-white transition-colors p-1" title="Bật thông báo trận đấu">
-                            <svg class="w-4 h-4 fill-none stroke-current" stroke-width="1.8" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                          <button 
+                            type="button" 
+                            class="${btnClass}" 
+                            data-match="${matchName}" 
+                            title="${isSubscribed ? 'Đang bật thông báo (Bấm để hủy)' : 'Bật thông báo trận đấu'}"
+                          >
+                            <svg class="w-4 h-4 icon-bell transition-transform duration-200" fill="${isSubscribed ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
                           </button>
                         </div>
                       </div>
                     `;
                 }).join('');
+                if (typeof syncAllNotifyButtons === 'function') {
+                    syncAllNotifyButtons();
+                }
             }
         }
     } catch(e) {
