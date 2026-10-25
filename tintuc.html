@@ -80,15 +80,15 @@
     <!-- Watermark background letterings -->
     <div aria-hidden="true" class="watermark-vct">INT</div>
     <!-- BEGIN: MainHeader (Matched exactly to IMAGE_6) -->
-    <!-- BEGIN: MainNavbar -->
+        <!-- BEGIN: MainNavbar -->
     <header
-      class="relative h-[74px] bg-[#09090b] border-b border-[#1a1a20] flex items-center justify-between px-4 lg:px-7 sticky top-0 z-[9999]"
+      class="relative h-[66px] sm:h-[74px] bg-[#09090b] border-b border-[#1a1a20] flex items-center justify-between px-3 sm:px-6 lg:px-7 sticky top-0 z-[9999]"
     >
       <!-- Left: Logo Group -->
-      <div class="flex items-center space-x-4 shrink-0">
+      <div class="flex items-center space-x-2 sm:space-x-3 shrink-0">
         <a
           href="index.html"
-          class="flex items-center space-x-2 text-white hover:text-[#ff4655] transition-colors group"
+          class="flex items-center space-x-1.5 text-white hover:text-[#ff4655] transition-colors group"
         >
           <img
             class="w-5 h-5 shrink-0 transition-opacity group-hover:opacity-80"
@@ -96,12 +96,12 @@
             alt="Riot Games"
           />
           <span
-            class="font-display font-black tracking-wider text-sm uppercase text-white"
+            class="font-display font-black tracking-wider text-sm uppercase text-white hidden md:inline"
             >RIOT GAMES</span
           >
         </a>
-        <div class="h-5 w-[1px] bg-zinc-700"></div>
-        <a href="index.html" class="flex items-center space-x-2.5 group">
+        <div class="h-4 w-[1px] bg-zinc-700 hidden md:block"></div>
+        <a href="index.html" class="flex items-center space-x-1.5 sm:space-x-2 group">
           <img
             class="w-6 h-6 shrink-0 transition-transform duration-200 group-hover:scale-105"
             src="assets/dautruong-esports-mark.svg"
@@ -110,7 +110,7 @@
           <div class="flex flex-col justify-center">
             <div class="flex items-center space-x-1.5 leading-none">
               <span
-                class="text-sm font-black tracking-wider uppercase text-white font-display"
+                class="text-xs sm:text-sm font-black tracking-wider uppercase text-white font-display"
                 >DauTruongEsports</span
               >
               <span
@@ -119,77 +119,81 @@
               >
             </div>
             <span
-              class="text-[9px] font-extrabold tracking-[0.22em] text-gray-400 uppercase font-mono leading-none mt-1"
+              class="text-[8px] sm:text-[9px] font-extrabold tracking-[0.2em] text-gray-400 uppercase font-mono leading-none mt-0.5 sm:mt-1 hidden sm:block"
               >CHAMPIONS TOUR</span
             >
           </div>
         </a>
       </div>
 
-      <!-- Center: Main Navigation Menu (Được đưa ra giữa) -->
+      <!-- Center: Main Navigation Menu (Desktop) -->
       <nav
-        class="hidden md:flex items-center space-x-6 lg:space-x-8 text-[12px] font-bold tracking-wider uppercase h-full absolute left-1/2 -translate-x-1/2 pointer-events-auto"
+        class="hidden lg:flex items-center space-x-6 text-[12px] font-bold tracking-wider uppercase h-full absolute left-1/2 -translate-x-1/2 pointer-events-auto"
       >
         <a
-          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          class="relative text-gray-400 hover:text-white flex items-center h-full px-1.5 transition-colors"
           href="index.html"
-          >TRANG CHỦ</a
         >
+          <span>TRANG CHỦ</span>
+          
+        </a>
         <a
-          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          class="relative text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
           href="xephangsucmanh.html"
-          >XẾP HẠNG SỨC MẠNH</a
         >
+          <span>XẾP HẠNG SỨC MẠNH</span>
+          
+        </a>
         <a
-          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          class="relative text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
           href="dudoan.html"
-          >DỰ ĐOÁN</a
         >
+          <span>DỰ ĐOÁN</span>
+          
+        </a>
         <a
-          class="relative text-white font-extrabold flex items-center h-full px-1.5 transition-colors"
+          class="relative text-white font-extrabold h-full flex items-center px-1.5 transition-colors"
           href="tintuc.html"
         >
           <span>TIN TỨC</span>
-          <span
-            class="absolute bottom-0 left-0 w-full h-[2px] bg-[#ff4655]"
-          ></span>
+          <span class="absolute bottom-0 left-0 w-full h-[2px] bg-[#ff4655]"></span>
         </a>
       </nav>
 
       <!-- Right Controls -->
-      <div class="flex items-center space-x-3 shrink-0">
+      <div class="flex items-center space-x-2 sm:space-x-3 shrink-0">
         <a
           href="tournament-register.html"
-          class="hidden sm:inline-flex border border-[#ff4655] text-[#ff4655] hover:bg-[#ff4655] hover:text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-4 py-[9px] rounded transition-all duration-200"
-        >
-          ĐĂNG KÝ THI ĐẤU
-        </a>
+          class="hidden xl:inline-flex border border-[#ff4655] text-[#ff4655] hover:bg-[#ff4655] hover:text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-3.5 py-[7px] rounded transition-all duration-200"
+        >ĐĂNG KÝ THI ĐẤU</a>
+
+        <!-- NĂºt ÄÄƒng nháº­p -->
         <a
           id="loginLink"
           href="login.html"
-          class="bg-[#ff4655] hover:bg-[#c42636] border border-transparent text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-6 py-[9px] rounded transition-all duration-200 shadow-sm"
-        >
-          ĐĂNG NHẬP
-        </a>
+          class="bg-[#ff4655] hover:bg-[#c42636] border border-transparent text-white font-sans font-extrabold text-[10px] sm:text-[11px] tracking-widest uppercase px-3 sm:px-5 py-2 rounded transition-all duration-200 shadow-sm"
+        >ĐĂNG NHẬP</a>
+
+        <!-- Menu Account -->
         <div id="accountMenu" class="relative hidden">
           <button
             id="accountButton"
             type="button"
             aria-expanded="false"
             aria-controls="accountDropdown"
-            class="flex items-center gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-3 py-2 text-xs font-bold text-white transition-colors"
+            class="flex items-center gap-1.5 sm:gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-2 sm:px-3 py-1.5 text-xs font-bold text-white transition-colors"
           >
             <span
               id="userAvatarIcon"
-              class="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff4655] text-white font-black text-xs uppercase"
+              class="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff4655] text-white font-black text-xs uppercase shadow"
               aria-hidden="true"
             >
               U
             </span>
-            <span id="accountName" class="hidden sm:inline font-sans">TÀI KHOẢN</span>
-            <span id="adminBadge" class="hidden bg-[#ff4655] text-[10px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>
+            <span id="accountName" class="hidden md:inline font-sans">TÀI KHOẢN</span>
+            <span id="adminBadge" class="hidden sm:inline-block bg-[#ff4655] text-[10px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>
             <svg
-              class="h-3 w-3 text-gray-400"
+              class="h-3 w-3 text-gray-400 hidden sm:block"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -207,7 +211,7 @@
             class="absolute right-0 mt-2 hidden w-52 rounded-lg border border-white/10 bg-[#151518] p-1.5 shadow-2xl z-50 text-left font-sans"
           >
             <div id="dropdownUserInfo" class="px-3 py-2 border-b border-white/10 mb-1 text-xs">
-              <p id="dropdownUserName" class="font-bold text-white truncate">Tài khoản</p>
+              <p id="dropdownUserName" class="font-bold text-white truncate">TÀI KHOẢN</p>
               <p id="dropdownUserEmail" class="text-[11px] text-gray-400 truncate"></p>
             </div>
             <a
@@ -230,13 +234,80 @@
               id="logoutButton"
               type="button"
               class="block w-full rounded px-3 py-2 text-left text-xs font-bold text-[#ff4655] hover:bg-[#ff4655]/10 transition"
-            >
-              ĐĂNG XUẤT
-            </button>
+            >ĐĂNG XUẤT</button>
           </div>
         </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button
+          id="mobileMenuToggle"
+          type="button"
+          class="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.08] border border-white/15 hover:bg-white/15 text-white transition-all active:scale-95 shrink-0"
+          aria-label="Menu điều hướng"
+          aria-expanded="false"
+        >
+          <span id="mobileMenuOpenIcon">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </span>
+          <span id="mobileMenuCloseIcon" class="hidden">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </span>
+        </button>
       </div>
     </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div
+      id="mobileNavDrawer"
+      class="hidden lg:hidden fixed top-[66px] sm:top-[74px] inset-x-0 bottom-0 z-[9998] bg-[#09090b]/[0.98] backdrop-blur-xl overflow-y-auto border-t border-white/10 transition-all"
+    >
+      <div class="p-4 sm:p-5 space-y-4 max-w-md mx-auto font-sans">
+        <div class="text-[11px] font-black uppercase tracking-widest text-[#ff4655]">ĐIỀU HƯỚNG</div>
+        <nav class="space-y-1.5 border-b border-white/10 pb-4">
+          <a
+            href="index.html"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-sm uppercase tracking-wider transition text-gray-300 hover:text-white hover:bg-white/10"
+          >
+            <span>TRANG CHỦ</span>
+            <span class="text-xs">→</span>
+          </a>
+          <a
+            href="xephangsucmanh.html"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-sm uppercase tracking-wider transition text-gray-300 hover:text-white hover:bg-white/10"
+          >
+            <span>XẾP HẠNG SỨC MẠNH</span>
+            <span class="text-xs">→</span>
+          </a>
+          <a
+            href="dudoan.html"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-sm uppercase tracking-wider transition text-gray-300 hover:text-white hover:bg-white/10"
+          >
+            <span>DỰ ĐOÁN Pick'Ems</span>
+            <span class="text-xs">→</span>
+          </a>
+          <a
+            href="tintuc.html"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-sm uppercase tracking-wider transition text-[#ff4655] bg-[#ff4655]/15 border border-[#ff4655]/30 font-black"
+          >
+            <span>TIN TỨC VCT</span>
+            <span class="text-xs">→</span>
+          </a>
+          <a
+            href="tournament-register.html"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-wider text-white bg-[#ff4655] hover:bg-[#e03e4c] shadow-lg shadow-[#ff4655]/30 mt-2 transition"
+          >
+            <span>ĐĂNG KÝ THI ĐẤU</span>
+            <span class="text-[10px] bg-black/30 px-2 py-0.5 rounded font-mono">HOT</span>
+          </a>
+        </nav>
+
+        <div id="mobileUserSection" class="pt-2"></div>
+      </div>
+    </div>
     <!-- END: MainNavbar -->
     <!-- BEGIN: MainContent -->
     <main
@@ -256,14 +327,14 @@
         >
           <div>
             <h1
-              class="text-6xl md:text-7xl lg:text-[5.5rem] font-black font-esports tracking-normal text-white uppercase leading-none"
+              class="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-black font-esports tracking-normal text-white uppercase leading-none"
             >
               TIN TỨC
             </h1>
           </div>
           <!-- Category Filter Tags -->
           <div
-            class="flex flex-wrap items-center gap-2 text-xs font-bold uppercase font-esports"
+            class="flex overflow-x-auto pb-2 sm:pb-0 flex-nowrap sm:flex-wrap items-center gap-2 text-xs font-bold uppercase font-esports touch-scroll"
           >
             <button
               class="bg-white text-black px-4 py-1.5 rounded-full shadow hover:bg-neutral-200 transition-colors"
@@ -444,7 +515,7 @@
         card.href = detailUrl;
         card.className = 'news-card bg-white text-gray-900 rounded-[2px] overflow-hidden flex flex-col group shadow-lg';
         card.style.cssText = 'cursor:pointer; text-decoration:none; display:flex;';
-        card.setAttribute('aria-label', 'Đọc bài: ' + (article.title || 'Tin tức'));
+        card.setAttribute('aria-label', 'Đọc bài: ' + (article.title || 'TIN TỨC'));
 
         // ─── Phần ảnh ───
         const imageArea = document.createElement('div');
@@ -460,7 +531,7 @@
         // Ảnh thumbnail
         const img = document.createElement('img');
         img.src = safeImageSrc(article.thumbnail);
-        img.alt = article.title || 'Tin tức';
+        img.alt = article.title || 'TIN TỨC';
         img.className = 'w-full h-full object-cover transition-transform duration-300';
         img.style.display = 'block';
         img.onerror = () => { img.src = FALLBACK_IMAGE; };
@@ -547,7 +618,7 @@
         container.innerHTML = `
           <div class="col-span-full flex flex-col items-center justify-center py-20">
             <div class="w-10 h-10 border-4 border-neutral-800 border-t-[#FF4655] rounded-full animate-spin mb-4"></div>
-            <p style="font-family:'Oswald',sans-serif;color:#9ca3af;text-transform:uppercase;letter-spacing:.15em">Đang tải tin tức...</p>
+            <p style="font-family:'Oswald',sans-serif;color:#9ca3af;text-transform:uppercase;letter-spacing:.15em">Đang tải TIN TỨC...</p>
           </div>`;
 
         // Chờ Supabase sẵn sàng
@@ -573,10 +644,10 @@
           if (error) throw error;
           articles = Array.isArray(data) ? data : [];
         } catch (err) {
-          console.error('Lỗi tải tin tức:', err);
+          console.error('Lỗi tải TIN TỨC:', err);
           container.innerHTML = `
             <div class="col-span-full text-center py-16">
-              <p class="text-red-400 font-bold mb-2">⚠ Không tải được tin tức</p>
+              <p class="text-red-400 font-bold mb-2">⚠ Không tải được TIN TỨC</p>
               <p class="text-neutral-400 text-sm">${err.message || ''}</p>
               <button onclick="loadNews()" class="mt-4 px-5 py-2 bg-[#FF4655] text-white text-sm font-bold rounded">Thử lại</button>
             </div>`;
@@ -624,10 +695,10 @@ Các điểm nhấn đáng chú ý:
 Nguyên tắc cốt lõi:
 1. Giao tiếp tích cực và tôn trọng đồng đội cũng như đối thủ.
 2. Tuyệt đối không gian lận, sử dụng phần mềm can thiệp hoặc khai thác lỗi game.
-3. Bảo đảm an toàn thông tin cá nhân và tài khoản thi đấu.
+3. Bảo đảm an toàn thông tin cá nhân và TÀI KHOẢN thi đấu.
 4. Tôn vinh tinh thần thể thao công bằng trong mọi giải đấu phong trào lẫn chuyên nghiệp.
 
-Mọi hành vi vi phạm sẽ bị xử lý nghiêm khắc từ cảnh cáo, khóa tài khoản đến cấm thi đấu theo khung hình phạt của Riot Games.`
+Mọi hành vi vi phạm sẽ bị xử lý nghiêm khắc từ cảnh cáo, khóa TÀI KHOẢN đến cấm thi đấu theo khung hình phạt của Riot Games.`
         },
         {
           slot: 3, label: 'MỞ BÁN VÉ', color: '#22D3EE',

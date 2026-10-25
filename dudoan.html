@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Dự Đoán VCT 2026 - Pick'Ems | VALORANT Champions Tour</title>
+    <title>DỰ ĐOÁN VCT 2026 - Pick'Ems | VALORANT Champions Tour</title>
     <!-- Tailwind CSS CDN with Forms & Container Queries -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <!-- Tailwind Configuration -->
@@ -111,15 +111,15 @@
   <body
     class="bg-[#090a0d] text-white min-h-screen font-sans selection:bg-[#ff4655] selection:text-white flex flex-col justify-between"
   >
-    <!-- BEGIN: MainNavbar -->
+        <!-- BEGIN: MainNavbar -->
     <header
-      class="relative h-[74px] bg-[#09090b] border-b border-[#1a1a20] flex items-center justify-between px-4 lg:px-7 sticky top-0 z-[9999]"
+      class="relative h-[66px] sm:h-[74px] bg-[#09090b] border-b border-[#1a1a20] flex items-center justify-between px-3 sm:px-6 lg:px-7 sticky top-0 z-[9999]"
     >
       <!-- Left: Logo Group -->
-      <div class="flex items-center space-x-4 shrink-0">
+      <div class="flex items-center space-x-2 sm:space-x-3 shrink-0">
         <a
           href="index.html"
-          class="flex items-center space-x-2 text-white hover:text-[#ff4655] transition-colors group"
+          class="flex items-center space-x-1.5 text-white hover:text-[#ff4655] transition-colors group"
         >
           <img
             class="w-5 h-5 shrink-0 transition-opacity group-hover:opacity-80"
@@ -127,12 +127,12 @@
             alt="Riot Games"
           />
           <span
-            class="font-display font-black tracking-wider text-sm uppercase text-white"
+            class="font-display font-black tracking-wider text-sm uppercase text-white hidden md:inline"
             >RIOT GAMES</span
           >
         </a>
-        <div class="h-5 w-[1px] bg-zinc-700"></div>
-        <a href="index.html" class="flex items-center space-x-2.5 group">
+        <div class="h-4 w-[1px] bg-zinc-700 hidden md:block"></div>
+        <a href="index.html" class="flex items-center space-x-1.5 sm:space-x-2 group">
           <img
             class="w-6 h-6 shrink-0 transition-transform duration-200 group-hover:scale-105"
             src="assets/dautruong-esports-mark.svg"
@@ -141,7 +141,7 @@
           <div class="flex flex-col justify-center">
             <div class="flex items-center space-x-1.5 leading-none">
               <span
-                class="text-sm font-black tracking-wider uppercase text-white font-display"
+                class="text-xs sm:text-sm font-black tracking-wider uppercase text-white font-display"
                 >DauTruongEsports</span
               >
               <span
@@ -150,77 +150,81 @@
               >
             </div>
             <span
-              class="text-[9px] font-extrabold tracking-[0.22em] text-gray-400 uppercase font-mono leading-none mt-1"
+              class="text-[8px] sm:text-[9px] font-extrabold tracking-[0.2em] text-gray-400 uppercase font-mono leading-none mt-0.5 sm:mt-1 hidden sm:block"
               >CHAMPIONS TOUR</span
             >
           </div>
         </a>
       </div>
 
-      <!-- Center: Main Navigation Menu (Được đưa ra giữa) -->
+      <!-- Center: Main Navigation Menu (Desktop) -->
       <nav
-        class="hidden md:flex items-center space-x-6 lg:space-x-8 text-[12px] font-bold tracking-wider uppercase h-full absolute left-1/2 -translate-x-1/2 pointer-events-auto"
+        class="hidden lg:flex items-center space-x-6 text-[12px] font-bold tracking-wider uppercase h-full absolute left-1/2 -translate-x-1/2 pointer-events-auto"
       >
         <a
-          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          class="relative text-gray-400 hover:text-white flex items-center h-full px-1.5 transition-colors"
           href="index.html"
-          >TRANG CHỦ</a
         >
+          <span>TRANG CHỦ</span>
+          
+        </a>
         <a
-          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          class="relative text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
           href="xephangsucmanh.html"
-          >XẾP HẠNG SỨC MẠNH</a
         >
+          <span>XẾP HẠNG SỨC MẠNH</span>
+          
+        </a>
         <a
-          class="relative text-white font-extrabold flex items-center h-full px-1.5 transition-colors"
+          class="relative text-white font-extrabold h-full flex items-center px-1.5 transition-colors"
           href="dudoan.html"
         >
           <span>DỰ ĐOÁN</span>
-          <span
-            class="absolute bottom-0 left-0 w-full h-[2px] bg-[#ff4655]"
-          ></span>
+          <span class="absolute bottom-0 left-0 w-full h-[2px] bg-[#ff4655]"></span>
         </a>
         <a
-          class="text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
+          class="relative text-gray-400 hover:text-white h-full flex items-center px-1.5 transition-colors"
           href="tintuc.html"
-          >TIN TỨC</a
         >
+          <span>TIN TỨC</span>
+          
+        </a>
       </nav>
 
       <!-- Right Controls -->
-      <div class="flex items-center space-x-3 shrink-0">
+      <div class="flex items-center space-x-2 sm:space-x-3 shrink-0">
         <a
           href="tournament-register.html"
-          class="hidden sm:inline-flex border border-[#ff4655] text-[#ff4655] hover:bg-[#ff4655] hover:text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-4 py-[9px] rounded transition-all duration-200"
-        >
-          ĐĂNG KÝ THI ĐẤU
-        </a>
+          class="hidden xl:inline-flex border border-[#ff4655] text-[#ff4655] hover:bg-[#ff4655] hover:text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-3.5 py-[7px] rounded transition-all duration-200"
+        >ĐĂNG KÝ THI ĐẤU</a>
+
+        <!-- NĂºt ÄÄƒng nháº­p -->
         <a
           id="loginLink"
           href="login.html"
-          class="bg-[#ff4655] hover:bg-[#c42636] border border-transparent text-white font-sans font-extrabold text-[11px] tracking-widest uppercase px-6 py-[9px] rounded transition-all duration-200 shadow-sm"
-        >
-          ĐĂNG NHẬP
-        </a>
+          class="bg-[#ff4655] hover:bg-[#c42636] border border-transparent text-white font-sans font-extrabold text-[10px] sm:text-[11px] tracking-widest uppercase px-3 sm:px-5 py-2 rounded transition-all duration-200 shadow-sm"
+        >ĐĂNG NHẬP</a>
+
+        <!-- Menu Account -->
         <div id="accountMenu" class="relative hidden">
           <button
             id="accountButton"
             type="button"
             aria-expanded="false"
             aria-controls="accountDropdown"
-            class="flex items-center gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-3 py-2 text-xs font-bold text-white transition-colors"
+            class="flex items-center gap-1.5 sm:gap-2 border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] rounded px-2 sm:px-3 py-1.5 text-xs font-bold text-white transition-colors"
           >
             <span
               id="userAvatarIcon"
-              class="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff4655] text-white font-black text-xs uppercase"
+              class="flex h-7 w-7 items-center justify-center rounded-full bg-[#ff4655] text-white font-black text-xs uppercase shadow"
               aria-hidden="true"
             >
               U
             </span>
-            <span id="accountName" class="hidden sm:inline font-sans">TÀI KHOẢN</span>
-            <span id="adminBadge" class="hidden bg-[#ff4655] text-[10px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>
+            <span id="accountName" class="hidden md:inline font-sans">TÀI KHOẢN</span>
+            <span id="adminBadge" class="hidden sm:inline-block bg-[#ff4655] text-[10px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>
             <svg
-              class="h-3 w-3 text-gray-400"
+              class="h-3 w-3 text-gray-400 hidden sm:block"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -238,7 +242,7 @@
             class="absolute right-0 mt-2 hidden w-52 rounded-lg border border-white/10 bg-[#151518] p-1.5 shadow-2xl z-50 text-left font-sans"
           >
             <div id="dropdownUserInfo" class="px-3 py-2 border-b border-white/10 mb-1 text-xs">
-              <p id="dropdownUserName" class="font-bold text-white truncate">Tài khoản</p>
+              <p id="dropdownUserName" class="font-bold text-white truncate">TÀI KHOẢN</p>
               <p id="dropdownUserEmail" class="text-[11px] text-gray-400 truncate"></p>
             </div>
             <a
@@ -261,13 +265,80 @@
               id="logoutButton"
               type="button"
               class="block w-full rounded px-3 py-2 text-left text-xs font-bold text-[#ff4655] hover:bg-[#ff4655]/10 transition"
-            >
-              ĐĂNG XUẤT
-            </button>
+            >ĐĂNG XUẤT</button>
           </div>
         </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button
+          id="mobileMenuToggle"
+          type="button"
+          class="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.08] border border-white/15 hover:bg-white/15 text-white transition-all active:scale-95 shrink-0"
+          aria-label="Menu điều hướng"
+          aria-expanded="false"
+        >
+          <span id="mobileMenuOpenIcon">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </span>
+          <span id="mobileMenuCloseIcon" class="hidden">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </span>
+        </button>
       </div>
     </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div
+      id="mobileNavDrawer"
+      class="hidden lg:hidden fixed top-[66px] sm:top-[74px] inset-x-0 bottom-0 z-[9998] bg-[#09090b]/[0.98] backdrop-blur-xl overflow-y-auto border-t border-white/10 transition-all"
+    >
+      <div class="p-4 sm:p-5 space-y-4 max-w-md mx-auto font-sans">
+        <div class="text-[11px] font-black uppercase tracking-widest text-[#ff4655]">ĐIỀU HƯỚNG</div>
+        <nav class="space-y-1.5 border-b border-white/10 pb-4">
+          <a
+            href="index.html"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-sm uppercase tracking-wider transition text-gray-300 hover:text-white hover:bg-white/10"
+          >
+            <span>TRANG CHỦ</span>
+            <span class="text-xs">→</span>
+          </a>
+          <a
+            href="xephangsucmanh.html"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-sm uppercase tracking-wider transition text-gray-300 hover:text-white hover:bg-white/10"
+          >
+            <span>XẾP HẠNG SỨC MẠNH</span>
+            <span class="text-xs">→</span>
+          </a>
+          <a
+            href="dudoan.html"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-sm uppercase tracking-wider transition text-[#ff4655] bg-[#ff4655]/15 border border-[#ff4655]/30 font-black"
+          >
+            <span>DỰ ĐOÁN Pick'Ems</span>
+            <span class="text-xs">→</span>
+          </a>
+          <a
+            href="tintuc.html"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-sm uppercase tracking-wider transition text-gray-300 hover:text-white hover:bg-white/10"
+          >
+            <span>TIN TỨC VCT</span>
+            <span class="text-xs">→</span>
+          </a>
+          <a
+            href="tournament-register.html"
+            class="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-wider text-white bg-[#ff4655] hover:bg-[#e03e4c] shadow-lg shadow-[#ff4655]/30 mt-2 transition"
+          >
+            <span>ĐĂNG KÝ THI ĐẤU</span>
+            <span class="text-[10px] bg-black/30 px-2 py-0.5 rounded font-mono">HOT</span>
+          </a>
+        </nav>
+
+        <div id="mobileUserSection" class="pt-2"></div>
+      </div>
+    </div>
     <!-- END: MainNavbar -->
     <!-- BEGIN: HeroPickEmsBanner -->
     <!-- Pick'Ems Hero Section with Glowing Sova Eye & Crosshair Aesthetic -->
@@ -661,15 +732,13 @@
           </svg>
         </div>
 
-        <span class="text-[10px] font-black uppercase tracking-widest text-[#ff4655] bg-[#ff4655]/10 px-3 py-1 rounded-full border border-[#ff4655]/30 font-mono">
-          YÊU CẦU ĐĂNG NHẬP
-        </span>
+        <span class="text-[10px] font-black uppercase tracking-widest text-[#ff4655] bg-[#ff4655]/10 px-3 py-1 rounded-full border border-[#ff4655]/30 font-mono">ĐĂNG NHẬP</span>
 
         <h3 class="mt-3 text-2xl font-black text-white font-brand">
           Tham Gia Đặt Cược
         </h3>
         <p class="mt-2 text-sm text-gray-300 leading-relaxed">
-          Bạn chưa đăng nhập tài khoản! Để tham gia lựa chọn đội vô địch và nhận phần thưởng điểm cược giải đấu Champions Shanghai 2026, vui lòng đăng nhập hoặc tạo tài khoản mới.
+          Bạn chưa đăng nhập TÀI KHOẢN! Để tham gia lựa chọn đội vô địch và nhận phần thưởng điểm cược giải đấu Champions Shanghai 2026, vui lòng đăng nhập hoặc tạo TÀI KHOẢN mới.
         </p>
 
         <!-- Nút hành động: Chuyển qua Đăng nhập hoặc Đăng ký -->
@@ -726,7 +795,7 @@
                   CHAMPIONS SHANGHAI 2026
                 </span>
                 <span id="modalUserBadge" class="text-[11px] text-zinc-400 font-medium hidden sm:inline">
-                  Tuyển thủ: <b class="text-white" id="modalUserName">Tài khoản</b>
+                  Tuyển thủ: <b class="text-white" id="modalUserName">TÀI KHOẢN</b>
                 </span>
               </div>
               <h2 class="text-lg sm:text-2xl font-black text-white font-brand mt-0.5 tracking-wide">
@@ -751,7 +820,7 @@
           <!-- Hướng dẫn & Số dư khả dụng -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/5">
             <p class="text-xs text-zinc-300">
-              ⚡ Hãy chọn 1 đội tuyển bạn tin tưởng sẽ nâng cao chiếc cúp vô địch thế giới và nhập số tiền cược dự đoán.
+              ⚡ Hãy chọn 1 đội tuyển bạn tin tưởng sẽ nâng cao chiếc cúp vô địch thế giới và nhập số tiền cược DỰ ĐOÁN.
             </p>
             <div class="flex items-center space-x-2 text-xs shrink-0 font-bold bg-[#ff4655]/10 border border-[#ff4655]/30 px-3 py-1.5 rounded-lg text-[#ff4655]">
               <span>Số dư khả dụng:</span>
@@ -782,7 +851,7 @@
                   -
                 </div>
                 <div>
-                  <span class="text-[10px] uppercase font-bold text-zinc-400">Đội bạn chọn dự đoán</span>
+                  <span class="text-[10px] uppercase font-bold text-zinc-400">Đội bạn chọn DỰ ĐOÁN</span>
                   <h4 id="selectedTeamName" class="text-base font-black text-white">Chưa chọn đội</h4>
                 </div>
               </div>
@@ -869,7 +938,7 @@
           </h3>
 
           <p class="mt-2 text-sm text-zinc-300 max-w-lg leading-relaxed">
-            Hệ thống Đấu Trường Esports đã ghi nhận phiếu dự đoán của bạn cho giải đấu <b class="text-white">Champions Shanghai 2026</b>.
+            Hệ thống Đấu Trường Esports đã ghi nhận phiếu DỰ ĐOÁN của bạn cho giải đấu <b class="text-white">Champions Shanghai 2026</b>.
           </p>
 
           <!-- Phiếu cược chi tiết -->
@@ -879,7 +948,7 @@
               <span id="receiptBetId" class="font-mono font-bold text-xs text-amber-400">#VCT-SH-892144</span>
             </div>
             <div class="flex items-center justify-between pb-3 border-b border-white/10">
-              <span class="text-xs text-zinc-400">Đội tuyển dự đoán:</span>
+              <span class="text-xs text-zinc-400">Đội tuyển DỰ ĐOÁN:</span>
               <span id="receiptTeamName" class="font-black text-sm text-white">Leviatán</span>
             </div>
             <div class="flex items-center justify-between pb-3 border-b border-white/10">
@@ -896,7 +965,7 @@
             </div>
           </div>
 
-          <!-- Nút điều hướng -->
+          <!-- Nút ĐIỀU HƯỚNG -->
           <div class="mt-6 flex flex-wrap gap-3 justify-center">
             <button
               id="btnCloseSuccessModal"
@@ -1021,7 +1090,7 @@
           // Cập nhật tên người dùng
           const user = getCurrentUser();
           const modalUserName = document.getElementById("modalUserName");
-          if (modalUserName) modalUserName.textContent = user.username || "Tài khoản";
+          if (modalUserName) modalUserName.textContent = user.username || "TÀI KHOẢN";
 
           // Khởi tạo đội mặc định nếu chưa chọn
           const savedBet = getSavedBet();

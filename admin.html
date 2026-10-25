@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -39,7 +39,11 @@
     </div>
 
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-[#080809] border-r border-vct-borderDark flex flex-col hidden md:flex">
+        <!-- BACKDROP CHO MOBILE SIDEBAR -->
+    <div id="adminSidebarBackdrop" class="fixed inset-0 bg-black/70 z-40 hidden md:hidden transition-opacity"></div>
+
+    <!-- SIDEBAR (Responsive Drawer trĂªn Mobile, Static trĂªn Desktop) -->
+    <aside id="adminSidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-[#080809] border-r border-vct-borderDark flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-300 md:static md:z-auto">
         <div class="h-16 flex items-center justify-center border-b border-vct-borderDark">
             <span class="text-vct-red font-black tracking-widest uppercase text-xl">ADMIN PANEL</span>
         </div>
@@ -86,10 +90,14 @@
     <!-- MAIN CONTENT -->
     <main class="flex-1 flex flex-col h-screen overflow-hidden">
         <!-- TOP NAV -->
-        <header class="h-16 bg-[#111113] border-b border-vct-borderDark flex items-center justify-between px-6">
-            <h1 class="font-black text-xl tracking-wider">QUẢN LÝ BÀI VIẾT</h1>
+                <header class="h-16 bg-[#111113] border-b border-vct-borderDark flex items-center justify-between px-4 sm:px-6">
+            <div class="flex items-center space-x-3">
+                <button id="adminMobileToggle" type="button" class="md:hidden flex items-center justify-center w-9 h-9 rounded bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-colors" aria-label="Menu quáº£n trá»‹">
+                    <i class="fas fa-bars"></i>
+                </button>
+            <h1 class="font-black text-base sm:text-xl tracking-wider truncate">QUẢN LÝ BÀI VIẾT</h1></div>
             <div class="flex items-center space-x-4">
-                <span id="admin-email" class="text-sm font-bold text-gray-300">admin@email.com</span>
+                <span id="admin-email" class="text-xs sm:text-sm font-bold text-gray-300 hidden sm:inline truncate max-w-[150px]">admin@email.com</span>
                 <button id="btn-logout" class="bg-vct-cardBg border border-vct-borderDark hover:border-vct-red px-4 py-2 rounded text-sm font-bold text-vct-red transition">
                     Đăng xuất
                 </button>
@@ -108,8 +116,8 @@
                     </button>
                 </div>
 
-                <div class="bg-vct-cardBg border border-vct-borderDark rounded-lg overflow-hidden">
-                    <table class="w-full text-left border-collapse">
+                <div class="bg-vct-cardBg border border-vct-borderDark rounded-lg overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse min-w-[620px]">
                         <thead>
                             <tr class="bg-[#1c1c22] border-b border-vct-borderDark text-gray-400 text-sm uppercase tracking-wider">
                                 <th class="p-4 w-12 text-center">ID</th>
@@ -2986,6 +2994,54 @@ Lưu ý: Vé là vé điện tử có mã QR định danh, khán giả vui lòng
         } else {
             startDashboard();
         }
+    </script>
+    <script>
+        // Xử lý toggle Mobile Sidebar trong Admin Panel
+        document.addEventListener("DOMContentLoaded", () => {
+            const toggleBtn = document.getElementById("adminMobileToggle");
+            const sidebar = document.getElementById("adminSidebar");
+            const backdrop = document.getElementById("adminSidebarBackdrop");
+
+            if (!toggleBtn || !sidebar || !backdrop) return;
+
+            function openSidebar() {
+                sidebar.classList.remove("-translate-x-full");
+                backdrop.classList.remove("hidden");
+                document.body.classList.add("overflow-y-hidden");
+            }
+
+            function closeSidebar() {
+                sidebar.classList.add("-translate-x-full");
+                backdrop.classList.add("hidden");
+                document.body.classList.remove("overflow-y-hidden");
+            }
+
+            toggleBtn.onclick = (e) => {
+                e.stopPropagation();
+                if (sidebar.classList.contains("-translate-x-full")) {
+                    openSidebar();
+                } else {
+                    closeSidebar();
+                }
+            };
+
+            backdrop.onclick = closeSidebar;
+
+            // Bấm vào bất kỳ link tab nào trong sidebar trên mobile thì tự đóng sidebar
+            const navLinks = sidebar.querySelectorAll("nav a");
+            navLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                    if (window.innerWidth < 768) {
+                        closeSidebar();
+                    }
+                });
+            });
+
+            // ESC đóng sidebar
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") closeSidebar();
+            });
+        });
     </script>
 </body>
 </html>

@@ -235,3 +235,47 @@
     color: #ff4655;
     font-weight: bold;
 }
+/* === Responsive Enhancements === */
+@media (max-width: 640px) {
+  .score-section .score {
+    font-size: 26px;
+  }
+}
+
+/* Mobile drawer animation */
+#mobileNavDrawer {
+  animation: mobileSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes mobileSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth touch scrolling for tables and badges */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar helper */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #0d0e12;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #232733;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #ff4655;
+}

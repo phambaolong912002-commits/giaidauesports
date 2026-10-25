@@ -1,5 +1,5 @@
 /**
- * auth-nav.js - Quản lý đồng bộ trạng thái đăng nhập, Avatar, Tên người dùng và Phân quyền trên toàn bộ các trang.
+ * auth-nav.js - Quản lý đồng bộ trạng thái đăng nhập, Avatar, Tên người dùng, Phân quyền và Mobile Navigation trên toàn bộ các trang.
  */
 
 // Lấy thông tin user hiện tại từ localStorage hoặc Supabase
@@ -63,6 +63,107 @@ async function getStoredAuthUser() {
   return { isLoggedIn: false, user: null, role: null };
 }
 
+// Hàm cài đặt và điều khiển thanh Mobile Drawer Navigation
+function setupMobileMenu(isLoggedIn, user, role) {
+  const toggleBtn = document.getElementById("mobileMenuToggle");
+  const drawer = document.getElementById("mobileNavDrawer");
+  const openIcon = document.getElementById("mobileMenuOpenIcon");
+  const closeIcon = document.getElementById("mobileMenuCloseIcon");
+  const mobileUserSection = document.getElementById("mobileUserSection");
+
+  if (!toggleBtn || !drawer) return;
+
+  function toggleDrawer(open) {
+    const shouldOpen = open !== undefined ? open : drawer.classList.contains("hidden");
+    if (shouldOpen) {
+      drawer.classList.remove("hidden");
+      toggleBtn.setAttribute("aria-expanded", "true");
+      if (openIcon) openIcon.classList.add("hidden");
+      if (closeIcon) closeIcon.classList.remove("hidden");
+      document.body.classList.add("overflow-y-hidden");
+    } else {
+      drawer.classList.add("hidden");
+      toggleBtn.setAttribute("aria-expanded", "false");
+      if (openIcon) openIcon.classList.remove("hidden");
+      if (closeIcon) closeIcon.classList.add("hidden");
+      document.body.classList.remove("overflow-y-hidden");
+    }
+  }
+
+  toggleBtn.onclick = (e) => {
+    e.stopPropagation();
+    toggleDrawer();
+  };
+
+  // Đóng khi click ngoài drawer hoặc click vào link trong drawer
+  drawer.addEventListener("click", (e) => {
+    if (e.target.closest("a") || e.target.closest("button:not(#mobileMenuToggle)")) {
+      toggleDrawer(false);
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!drawer.contains(e.target) && !toggleBtn.contains(e.target) && !drawer.classList.contains("hidden")) {
+      toggleDrawer(false);
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !drawer.classList.contains("hidden")) {
+      toggleDrawer(false);
+    }
+  });
+
+  // Đồng bộ giao diện Mobile User Section
+  if (mobileUserSection) {
+    if (isLoggedIn && user) {
+      const displayName = user.username || (user.email ? user.email.split("@")[0] : "Tài khoản");
+      const initial = displayName.charAt(0).toUpperCase();
+      const isAdmin = role === "admin";
+      mobileUserSection.innerHTML = `
+        <div class="flex items-center gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/10 mb-3">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#ff4655] ${isAdmin ? 'ring-2 ring-yellow-400' : ''} text-white font-black text-sm uppercase shadow">
+            ${initial}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-black text-white truncate">${displayName.toUpperCase()}</span>
+              ${isAdmin ? '<span class="bg-[#ff4655] text-[9px] font-black px-1.5 py-0.5 rounded text-white tracking-wider">ADMIN</span>' : ''}
+            </div>
+            <div class="text-[11px] text-gray-400 truncate">${user.email || ''}</div>
+          </div>
+        </div>
+        <div class="space-y-1 font-sans text-xs font-bold uppercase">
+          ${isAdmin ? '<a href="admin.html" class="flex items-center gap-2 p-2.5 rounded-lg text-[#ff4655] bg-[#ff4655]/10 hover:bg-[#ff4655]/20 font-black">⚡ ADMIN DASHBOARD</a>' : ''}
+          <a href="profile.html" class="flex items-center gap-2 p-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/10">👤 HỒ SƠ NGƯỜI DÙNG</a>
+          <a href="settings.html" class="flex items-center gap-2 p-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/10">⚙️ CÀI ĐẶT</a>
+          <button id="mobileLogoutBtn" type="button" class="w-full flex items-center gap-2 p-2.5 rounded-lg text-left text-[#ff4655] hover:bg-[#ff4655]/10">🚪 ĐĂNG XUẤT</button>
+        </div>
+      `;
+      const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
+      if (mobileLogoutBtn) {
+        mobileLogoutBtn.onclick = () => {
+          const mainLogout = document.getElementById("logoutButton");
+          if (mainLogout) {
+            mainLogout.click();
+          } else {
+            localStorage.removeItem("vctLoggedIn");
+            localStorage.removeItem("vctUserRole");
+            localStorage.removeItem("vctCurrentUser");
+            window.location.reload();
+          }
+        };
+      }
+    } else {
+      mobileUserSection.innerHTML = `
+        <a href="login.html" class="flex items-center justify-center w-full py-3 bg-[#ff4655] hover:bg-[#e03e4c] text-white text-xs font-black tracking-widest uppercase rounded-lg shadow-md transition">
+          ĐĂNG NHẬP / ĐĂNG KÝ
+        </a>
+      `;
+    }
+  }
+}
+
 // Hàm khởi tạo và đồng bộ thanh điều hướng (Navbar)
 async function initAuthNavbar() {
   const loginLink = document.getElementById("loginLink");
@@ -77,9 +178,12 @@ async function initAuthNavbar() {
   const dropdownUserName = document.getElementById("dropdownUserName");
   const dropdownUserEmail = document.getElementById("dropdownUserEmail");
 
-  if (!loginLink && !accountMenu) return;
-
   const { isLoggedIn, user, role } = await getStoredAuthUser();
+
+  // Khởi tạo Mobile Menu với trạng thái auth hiện tại
+  setupMobileMenu(isLoggedIn, user, role);
+
+  if (!loginLink && !accountMenu) return;
 
   if (isLoggedIn && user) {
     // Ẩn nút Đăng nhập, hiện Menu tài khoản
@@ -87,7 +191,7 @@ async function initAuthNavbar() {
     if (accountMenu) accountMenu.classList.remove("hidden");
 
     // Hiển thị tên tài khoản
-    const displayName = user.username || user.email.split("@")[0] || "Tài khoản";
+    const displayName = user.username || (user.email ? user.email.split("@")[0] : "Tài khoản");
     if (accountName) {
       accountName.textContent = displayName.toUpperCase();
     }
